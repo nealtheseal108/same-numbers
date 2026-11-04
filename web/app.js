@@ -21,15 +21,15 @@ const ev = (key, text) => `<button class="num" data-ev="${esc(key)}">${esc(text)
 const ORGANS = { brain: 'Brain', liver: 'Liver', lung: 'Lung', breast: 'Breast', colon: 'Colon' };
 
 const METHODS = [
-  { id: 'abmil', name: 'ABMIL', says: 'Scores each patch of a slide by how much it matters.', paper: 'Ilse, Tomczak and Welling, 2018',
+  { id: 'abmil', published: { source: "Shao and others, TransMIL paper, NeurIPS 2021, Table 1", rows: [["CAMELYON16", "Find cancer that spread to lymph nodes", "0.868", "0.876"], ["TCGA-NSCLC", "Tell two lung cancer types apart", "0.772", "0.866"], ["TCGA-RCC", "Tell three kidney cancer types apart", "0.893", "0.970"]] },  name: 'ABMIL', says: 'Scores each patch of a slide by how much it matters.', paper: 'Ilse, Tomczak and Welling, 2018',
     does: 'It looks at every patch of a slide, gives each one a score for how much it matters, and makes one call for the whole slide from the high-scoring patches.',
     why: 'The scores double as a map, so a pathologist can see which parts of the slide drove the call. It is small and fast, which is why new methods are usually compared against it.',
     instead: 'Pick TransMIL when the answer depends on how regions of the slide relate to each other. Pick DTFD-MIL when the lab has only a few slides to learn from.' },
-  { id: 'transmil', name: 'TransMIL', says: 'Reads a slide’s patches together, like words in a sentence.', paper: 'Shao and others, 2021',
+  { id: 'transmil', published: { source: "Shao and others, TransMIL paper, NeurIPS 2021, Table 1", rows: [["CAMELYON16", "Find cancer that spread to lymph nodes", "0.884", "0.931"], ["TCGA-NSCLC", "Tell two lung cancer types apart", "0.884", "0.960"], ["TCGA-RCC", "Tell three kidney cancer types apart", "0.947", "0.988"]] },  name: 'TransMIL', says: 'Reads a slide’s patches together, like words in a sentence.', paper: 'Shao and others, 2021',
     does: 'It reads all of a slide’s patches together, so each patch is judged in the context of the others, the way a word is read in a sentence.',
     why: 'It helps when the answer depends on patterns spread across the slide, not on one spot. That is the case ABMIL handles worst, because it scores each patch on its own.',
     instead: 'Pick ABMIL when the lab needs a fast baseline or a clear map of which regions mattered. TransMIL is heavier to train, and its map is less direct.' },
-  { id: 'dtfd-mil', name: 'DTFD-MIL', says: 'Splits a slide into smaller groups of patches and learns in two tiers.', paper: 'Zhang and others, 2022',
+  { id: 'dtfd-mil', published: { source: "Zhang and others, DTFD-MIL paper, arXiv 2203.12081, Tables 1 and 2 (AFS version)", rows: [["CAMELYON16", "Find cancer that spread to lymph nodes", "0.908", "0.946"], ["TCGA lung", "Tell two lung cancer types apart", "0.891", "0.951"]] },  name: 'DTFD-MIL', says: 'Splits a slide into smaller groups of patches and learns in two tiers.', paper: 'Zhang and others, 2022',
     does: 'It splits each slide into smaller groups of patches, learns from each group, then combines what it learned in a second tier.',
     why: 'Each slide becomes several training examples instead of one. That helps most when a lab has only a few hundred slides, which is common for rare cancers.',
     instead: 'Pick ABMIL when the lab has plenty of slides and wants the simplest method. DTFD-MIL has more settings to get right.' },
@@ -748,6 +748,11 @@ function renderSignoff() {
     ${signed === 'accept' ? `<section class="adds next" aria-label="What happens next">
       <h3>Next: ${esc(d.name)} runs on the lab’s slides</h3>
       <p class="adds-lede">In the real tool, a lab member merges these changes. From then on, ${esc(d.name)} runs on the lab’s slides like any other method, and its results sit next to theirs.</p>
+      <h4 class="pub-h">What ${esc(d.name)} found on real slides, in published work</h4>
+      <table class="pub"><thead><tr><th>Slide set</th><th>Task</th><th>Accuracy</th><th>AUC</th></tr></thead><tbody>
+        ${curMethod().published.rows.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td class="n">${r[2]}</td><td class="n"><span class="aucbar" style="--v:${Math.max(0, (Number(r[3]) - 0.5) * 2)}"></span>${r[3]}</td></tr>`).join('')}
+      </tbody></table>
+      <p class="adds-foot">Source: ${esc(curMethod().published.source)}. These are the authors' results on held-out slides. AUC is 1.0 for a perfect split and 0.5 for a guess. The lab's copy has not been tested on these slide sets yet. That benchmark is the next step.</p>
       <div class="actions"><button class="btn" id="seeRun">See ${esc(d.name)} on a real slide</button></div>
       <p class="adds-foot">The slides are real cancer slides from TCGA, a public archive. The model in this demo is barely trained, so its map shows the code runs. It is not a diagnosis.</p>
     </section>` : ''}
