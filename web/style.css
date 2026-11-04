@@ -321,3 +321,9 @@ pre.code.tall { max-height: none; }
 .stage small.does { display: block; margin-top: .15rem; color: var(--graphite); font-size: 1.1rem; line-height: 1.25; max-width: 26em; }
 #panel4 table.pub td small { display: block; color: var(--graphite); font-size: 1.05rem; line-height: 1.25; margin-top: .1rem; }
 #panel4 table.pub td { vertical-align: top; }
+
+/* Step 1: how I decided, what I used, and the impact. */
+.story { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; margin: 1.3rem 0 .4rem; padding: 1rem 1.1rem; background: var(--glass); }
+.story b { display: block; font: 700 1.45rem/1.2 var(--display); margin-bottom: .3rem; }
+.story p { font-size: 1.25rem; line-height: 1.32; }
+@media (max-width: 760px) { .story { grid-template-columns: minmax(0, 1fr); } }

@@ -243,6 +243,11 @@ function renderPick() {
       <figure><img src="data/slides/breast/tile-1.jpg" alt="A patch of stained breast tissue, pink and purple">
         <figcaption>A patch of a real tissue slide. These methods read hundreds or thousands of patches at a time.</figcaption></figure>
     </div>
+    <section class="story" aria-label="How I decided, what I used, and the impact">
+      <div><b>How I decided</b><p>My lab compares cancer-slide AI models side by side. Each new one had to be rebuilt by hand, and one small slip quietly changes results. So I built for the hard part: trusting AI-written code.</p></div>
+      <div><b>What I used</b><p>Claude agents in seven roles write the code. Plain Python and PyTorch checks, with no AI in them, prove it. The lab’s own software, WSIP, runs it.</p></div>
+      <div><b>The impact</b><p>3 new models matched their originals exactly, for $1.48 to $2.25 each. ABMIL’s check compared 1,547 sets of numbers: biggest gap 0. Researchers get new models to compare on the same slides.</p></div>
+    </section>
     <fieldset class="pick"><legend><span class="stepn">1</span>Pick a method to add</legend>${rows}</fieldset>
     <div class="actions"><button class="btn" id="watch"></button>
       <button class="link" data-explain>Explain this step</button>
