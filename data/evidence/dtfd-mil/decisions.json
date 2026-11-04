@@ -1,0 +1,214 @@
+{
+ "method": "DTFD-MIL",
+ "count": 26,
+ "decisions": [
+  {
+   "id": "reference_output_configuration",
+   "step": "Before any code was written",
+   "question": "Which distillation type and prediction head define the reference?",
+   "choice": "AFS distillation, tier-2 softmax as slide prediction",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:09Z"
+  },
+  {
+   "id": "two_tier_update",
+   "step": "Before any code was written",
+   "question": "How should WSIP support the two separately optimized tiers?",
+   "choice": "Extend the session with ordered multi-optimizer update phases",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:09Z"
+  },
+  {
+   "id": "gradient_clipping",
+   "step": "Before any code was written",
+   "question": "Keep the per-module norm clipping at 5.0?",
+   "choice": "Add per-module norm clipping to the session",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:09Z"
+  },
+  {
+   "id": "lr_schedule",
+   "step": "Before any code was written",
+   "question": "Keep the per-epoch MultiStepLR (x0.2 at epoch 100)?",
+   "choice": "Add per-epoch schedulers stepped after validation",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "feature_format",
+   "step": "Before any code was written",
+   "question": "How should DTFD's pickle features enter WSIP?",
+   "choice": "Convert pickles offline to per-slide FP32 .pt with a manifest",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "feature_dimension",
+   "step": "Before any code was written",
+   "question": "Which encoder and dimension will the lab's precomputed features have?",
+   "choice": "1024-d ImageNet ResNet-50 layer3, as original",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "evaluation_randomness",
+   "step": "Before any code was written",
+   "question": "How should the random evaluation pseudo-bag splits be handled?",
+   "choice": "Keep one random split drawn from the shared Python stream",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "bag_order",
+   "step": "Before any code was written",
+   "question": "Must the training bag order be identical to the original?",
+   "choice": "Add a python random.shuffle sampler option",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "test_evaluation_coupling",
+   "step": "Before any code was written",
+   "question": "The original evaluates test every epoch from the global RNG, which shifts later training draws. What is the reference?",
+   "choice": "Patch the reference to skip per-epoch test evaluation",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "selection_window",
+   "step": "Before any code was written",
+   "question": "Which checkpoint selection rule should the port use?",
+   "choice": "Best tier-2 val AUC, only epochs > int(0.8*EPOCH)",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "threshold_location",
+   "step": "Before any code was written",
+   "question": "Where should the decision threshold for labels and threshold-based metrics come from?",
+   "choice": "Argmax (0.5) and record the difference",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "patient_level_folds",
+   "step": "Before any code was written",
+   "question": "Are patient-level splits required for the target dataset?",
+   "choice": "Supply patient_id and require patient-disjoint splits",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "cpu_vs_gpu",
+   "step": "Before any code was written",
+   "question": "Is a CPU reference run (--device cpu) acceptable, or is GPU parity required?",
+   "choice": "Run the reference on CPU with --device cpu",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "reference_environment",
+   "step": "Before any code was written",
+   "question": "Which environment runs the oracle, given that the retain_graph pattern breaks on newer PyTorch?",
+   "choice": "WSIP torch with a recorded detach patch before tier 2",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "hyperparameters",
+   "step": "Before any code was written",
+   "question": "Keep the original defaults (200 epochs, Adam 1e-4/1e-4, milestone 100 gamma 0.2, numGroup 4, clip 5)?",
+   "choice": "Keep the argparse defaults",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:07:10Z"
+  },
+  {
+   "id": "extension_building_contract_suite_named_optimizers",
+   "step": "During the build",
+   "question": "The adapter contract suite assumes one OptimizationRecipe.optimizer and a single training_step objective, so an adapter that uses named optimizers and sequential update phases (DTFD-MIL) cannot pass it unchanged. How should the contract treat such adapters?",
+   "choice": "Extend the contract suite to named/phase mode",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:45:16Z"
+  },
+  {
+   "id": "extension_no_selected_epoch_behavior",
+   "step": "During the build",
+   "question": "With strict '>' against an initial best of 0 inside the late-epoch window, the original can finish with no selected epoch (best_epoch -1, no saved model). What should a WSIP run do then?",
+   "choice": "Fail the run loudly",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:18Z"
+  },
+  {
+   "id": "extension_final_validation_predictions_policy",
+   "step": "During the build",
+   "question": "Evaluation draws random pseudo-bag splits from the shared Python stream, so re-evaluating the selected weights after training gives different predictions from those used for selection. Which validation predictions should the run export?",
+   "choice": "Export the selected epoch's stored predictions",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:18Z"
+  },
+  {
+   "id": "extension_named_optimizers",
+   "step": "During the build",
+   "question": "Approve WSIP extension proposal `named_optimizers`: Optional named optimizers over disjoint parameter sets (setting `optimizers`, default `single`; closes optim.count=2, optim.param_groups=by_module). Details: extension/proposals/named_optimizers.md",
+   "choice": "Approve as proposed",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:18Z"
+  },
+  {
+   "id": "extension_ordered_update_phases",
+   "step": "During the build",
+   "question": "Approve WSIP extension proposal `ordered_update_phases`: Optional ordered update phases, each with its own objective and named optimizer (setting `update_phases`, default `single`; closes optim.update_order=sequential, pseudo_bag.tier_coupling=separate_optimizers, training.phases=custom_update). Details: extension/proposals/ordered_update_phases.md",
+   "choice": "Approve as proposed",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:18Z"
+  },
+  {
+   "id": "extension_gradient_clipping_groups",
+   "step": "During the build",
+   "question": "Approve WSIP extension proposal `gradient_clipping_groups`: Optional per-parameter-group gradient norm clipping between backward and step (setting `gradient_clipping_mode`, default `none`; closes optim.gradient_clipping=norm). Details: extension/proposals/gradient_clipping_groups.md",
+   "choice": "Approve as proposed",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:18Z"
+  },
+  {
+   "id": "extension_zero_grad_timing",
+   "step": "During the build",
+   "question": "Approve WSIP extension proposal `zero_grad_timing`: Optional gradient zeroing right before backward (setting `zero_grad_timing`, default `after_step`; closes batching.zero_grad=before_backward). Details: extension/proposals/zero_grad_timing.md",
+   "choice": "Approve as proposed",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:18Z"
+  },
+  {
+   "id": "extension_epoch_lr_schedule",
+   "step": "During the build",
+   "question": "Approve WSIP extension proposal `epoch_lr_schedule`: Optional per-epoch learning-rate schedulers stepped after validation and selection (setting `lr_schedule_step`, default `none`; closes lr_schedule.type=step, lr_schedule.step_unit=per_epoch). Details: extension/proposals/epoch_lr_schedule.md",
+   "choice": "Approve as proposed",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:19Z"
+  },
+  {
+   "id": "extension_validation_metric_selection",
+   "step": "During the build",
+   "question": "Approve WSIP extension proposal `validation_metric_selection`: Optional checkpoint selection on a named validation metric with an eligibility window (setting `selection_metric`, default `validation_loss`; closes selection.checkpoint=best_val_metric). Details: extension/proposals/validation_metric_selection.md",
+   "choice": "Approve as proposed",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:19Z"
+  },
+  {
+   "id": "extension_python_shuffle_sampler",
+   "step": "During the build",
+   "question": "Approve WSIP extension proposal `python_shuffle_sampler`: Optional bag-order sampler drawn from the seeded Python random stream (setting `loader_sampling`, default `random`; closes sampling.bag_order=shuffled_custom). Details: extension/proposals/python_shuffle_sampler.md",
+   "choice": "Approve as proposed",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:19Z"
+  },
+  {
+   "id": "extension_selected_epoch_validation_predictions",
+   "step": "During the build",
+   "question": "Approve WSIP extension proposal `selected_epoch_validation_predictions`: Optional export of the selected epoch's validation predictions instead of a redrawn re-evaluation (setting `final_validation_predictions`, default `reevaluate`; closes sampling.eval_randomness=random). Details: extension/proposals/selected_epoch_validation_predictions.md",
+   "choice": "Approve as proposed",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:20:19Z"
+  }
+ ]
+}

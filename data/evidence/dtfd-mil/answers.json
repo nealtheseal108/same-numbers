@@ -1,0 +1,464 @@
+{
+  "schema": "wsip.integration.answers/v1",
+  "instructions": "For each decision set 'choice' to an option id (or \"other\" with 'other_text'), or run `python -m wsip.integration answer 20261026-dtfd-mil-binary-01 --interactive`; then run `python -m wsip.integration resume 20261026-dtfd-mil-binary-01`. Required decisions must be answered before the report can be final.",
+  "decisions": {
+    "reference_output_configuration": {
+      "question": "Which distillation type and prediction head define the reference?",
+      "required": true,
+      "options": [
+        {
+          "id": "afs_tier2",
+          "label": "AFS distillation, tier-2 softmax as slide prediction",
+          "consequence": "Matches the argparse default; tier 2 sees 4 attention-pooled vectors per slide."
+        },
+        {
+          "id": "maxmins_tier2",
+          "label": "MaxMinS distillation, tier-2 prediction",
+          "consequence": "Needs CAM top/bottom selection and total_instance handling in the port; not the default run."
+        },
+        {
+          "id": "maxs_tier2",
+          "label": "MaxS distillation, tier-2 prediction",
+          "consequence": "Uses top-CAM instances only; also a non-default reference."
+        }
+      ],
+      "recommended": {
+        "option": "afs_tier2",
+        "reason": "AFS is the argparse default, and tier 2's auc_1 drives selection."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:50",
+        "D:Main_DTFD_MIL.py:339-344",
+        "D:Main_DTFD_MIL.py:269"
+      ],
+      "choice": "afs_tier2",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:09Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "two_tier_update": {
+      "question": "How should WSIP support the two separately optimized tiers?",
+      "required": true,
+      "options": [
+        {
+          "id": "extend_session_phases",
+          "label": "Extend the session with ordered multi-optimizer update phases",
+          "consequence": "Faithful port; needs contract, session, checkpoint and parity work before DTFD runs."
+        },
+        {
+          "id": "summed_single_optimizer",
+          "label": "Sum loss0 + loss1 under one Adam",
+          "consequence": "Runs with today's session but is a different method; parity with the original is impossible."
+        },
+        {
+          "id": "defer_integration",
+          "label": "Reject DTFD until the extension exists",
+          "consequence": "No port now; avoids a scientifically altered variant."
+        }
+      ],
+      "recommended": {
+        "option": "extend_session_phases",
+        "reason": "The method is defined by its separate per-tier updates."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:348-365",
+        "W:wsip/training/session.py:81-87",
+        "W:docs/integrating-methods.md:43-46"
+      ],
+      "choice": "extend_session_phases",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:09Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "gradient_clipping": {
+      "question": "Keep the per-module norm clipping at 5.0?",
+      "required": true,
+      "options": [
+        {
+          "id": "extend_clipping",
+          "label": "Add per-module norm clipping to the session",
+          "consequence": "Faithful; needs a recipe extension and a test."
+        },
+        {
+          "id": "drop_clipping_record",
+          "label": "Train without clipping and record the difference",
+          "consequence": "Runs sooner but updates diverge whenever a module's gradient norm exceeds 5."
+        }
+      ],
+      "recommended": {
+        "option": "extend_clipping",
+        "reason": "Clipping is part of the default update, and parity cannot hold without it."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:354-356",
+        "W:wsip/training/session.py:50-52"
+      ],
+      "choice": "extend_clipping",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:09Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "lr_schedule": {
+      "question": "Keep the per-epoch MultiStepLR (x0.2 at epoch 100)?",
+      "required": true,
+      "options": [
+        {
+          "id": "extend_epoch_scheduler",
+          "label": "Add per-epoch schedulers stepped after validation",
+          "consequence": "Faithful LR trajectory; scheduler state must be resumable."
+        },
+        {
+          "id": "constant_lr_record",
+          "label": "Constant 1e-4 and record the difference",
+          "consequence": "Runs on the current session; epochs 100-199, including the whole selection window, use a 5x larger LR than the original."
+        }
+      ],
+      "recommended": {
+        "option": "extend_epoch_scheduler",
+        "reason": "The selection window (epochs 161-199) lies entirely after the decay."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:107-108",
+        "D:Main_DTFD_MIL.py:147-148",
+        "W:wsip/training/session.py:50-52"
+      ],
+      "choice": "extend_epoch_scheduler",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "feature_format": {
+      "question": "How should DTFD's pickle features enter WSIP?",
+      "required": true,
+      "options": [
+        {
+          "id": "offline_pt_converter",
+          "label": "Convert pickles offline to per-slide FP32 .pt with a manifest",
+          "consequence": "No reader change; the worker never unpickles untrusted data."
+        },
+        {
+          "id": "extract_with_wsip_pipeline",
+          "label": "Re-extract features into H5/PT with the lab's pipeline",
+          "consequence": "Clean provenance, but the features are no longer the original's shared pickles."
+        }
+      ],
+      "recommended": {
+        "option": "offline_pt_converter",
+        "reason": "WSIP reads only FP32 PT/HDF5, and converting keeps the original features bit-identical."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:86-91",
+        "W:wsip/data/features.py:74-90"
+      ],
+      "choice": "offline_pt_converter",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "feature_dimension": {
+      "question": "Which encoder and dimension will the lab's precomputed features have?",
+      "required": true,
+      "options": [
+        {
+          "id": "resnet50_layer3_1024",
+          "label": "1024-d ImageNet ResNet-50 layer3, as original",
+          "consequence": "Matches the hard-coded in_chn; fixtures must use embed_dim 1024."
+        },
+        {
+          "id": "lab_encoder_dim",
+          "label": "Lab encoder's dimension passed as embed_dim",
+          "consequence": "in_chn becomes configurable, a recorded input-adapter patch; results are not comparable with the paper's features."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "D:Main_DTFD_MIL.py:62",
+        "W:wsip/fidelity/contracts.py:13"
+      ],
+      "choice": "resnet50_layer3_1024",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "evaluation_randomness": {
+      "question": "How should the random evaluation pseudo-bag splits be handled?",
+      "required": true,
+      "options": [
+        {
+          "id": "shared_stream_single_split",
+          "label": "Keep one random split drawn from the shared Python stream",
+          "consequence": "Reproduces the original exactly; repeated evaluations of the same weights differ."
+        },
+        {
+          "id": "seeded_split_per_evaluation",
+          "label": "Seed a dedicated generator per slide per evaluation",
+          "consequence": "Deterministic metrics; training RNG no longer depends on evaluation, so the trajectory differs from the original."
+        },
+        {
+          "id": "average_k_splits",
+          "label": "Average over num_MeanInference > 1 splits",
+          "consequence": "Lower-variance scores; a non-default configuration that changes the selected epoch."
+        }
+      ],
+      "recommended": {
+        "option": "shared_stream_single_split",
+        "reason": "This is the reference behavior (num_MeanInference=1); any other choice should be a recorded variant."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:192-197",
+        "W:wsip/evaluation/evaluator.py:18-25"
+      ],
+      "choice": "shared_stream_single_split",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "bag_order": {
+      "question": "Must the training bag order be identical to the original?",
+      "required": false,
+      "options": [
+        {
+          "id": "python_shuffle_sampler",
+          "label": "Add a python random.shuffle sampler option",
+          "consequence": "Same draws in the same order as the reference; small loader extension."
+        },
+        {
+          "id": "torch_random_sampler_record",
+          "label": "Use WSIP's RandomSampler and record the difference",
+          "consequence": "Same distribution, but exact trajectory parity is impossible."
+        }
+      ],
+      "recommended": {
+        "option": "python_shuffle_sampler",
+        "reason": "WSIP's parity gate compares sample order exactly."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:290-291",
+        "W:wsip/training/session.py:61-63",
+        "W:tests/training/test_parity.py:71"
+      ],
+      "choice": "python_shuffle_sampler",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "test_evaluation_coupling": {
+      "question": "The original evaluates test every epoch from the global RNG, which shifts later training draws. What is the reference?",
+      "required": true,
+      "options": [
+        {
+          "id": "patch_reference_no_test_eval",
+          "label": "Patch the reference to skip per-epoch test evaluation",
+          "consequence": "Test stays out of training, as WSIP requires; recorded patch; reference trajectory differs from the published run."
+        },
+        {
+          "id": "emulate_test_draws",
+          "label": "Candidate consumes the same RNG draws as test evaluation",
+          "consequence": "Bitwise trajectory parity with the unpatched original, but test data sizes then influence training."
+        }
+      ],
+      "recommended": {
+        "option": "patch_reference_no_test_eval",
+        "reason": "WSIP's session excludes test data from fit."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:126-128",
+        "W:wsip/training/session.py:20-21"
+      ],
+      "choice": "patch_reference_no_test_eval",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "selection_window": {
+      "question": "Which checkpoint selection rule should the port use?",
+      "required": true,
+      "options": [
+        {
+          "id": "original_auc_window",
+          "label": "Best tier-2 val AUC, only epochs > int(0.8*EPOCH)",
+          "consequence": "Faithful; needs a maximize-metric policy with an eligibility window."
+        },
+        {
+          "id": "wsip_val_loss",
+          "label": "WSIP minimum validation loss",
+          "consequence": "No policy change, but a different epoch is selected; the original's val loss is NLL on probabilities, not CE."
+        },
+        {
+          "id": "last_epoch",
+          "label": "Last epoch (no early stopping)",
+          "consequence": "Supported today; ignores validation for selection."
+        }
+      ],
+      "recommended": {
+        "option": "original_auc_window",
+        "reason": "It defines which weights the reported test AUC came from."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:131-135",
+        "W:wsip/training/policies.py:15-27"
+      ],
+      "choice": "original_auc_window",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "threshold_location": {
+      "question": "Where should the decision threshold for labels and threshold-based metrics come from?",
+      "required": true,
+      "options": [
+        {
+          "id": "argmax_record",
+          "label": "Argmax (0.5) and record the difference",
+          "consequence": "Works today; accuracy/F1 differ from the original's optimistic Youden-on-test values; AUC is unaffected."
+        },
+        {
+          "id": "fit_on_validation",
+          "label": "Fit Youden on validation, apply unchanged to test",
+          "consequence": "Leak-free thresholded metrics; needs a stored-threshold extension."
+        },
+        {
+          "id": "replicate_fit_on_scored",
+          "label": "Replicate fitting on the scored set, for comparison only",
+          "consequence": "Matches the original numbers but leaks test labels; cannot be a WSIP result."
+        }
+      ],
+      "recommended": {
+        "option": "argmax_record",
+        "reason": "Selection and the headline metric are AUC, which is threshold-free."
+      },
+      "evidence": [
+        "D:utils.py:21-25",
+        "W:wsip/evaluation/evaluator.py:28"
+      ],
+      "choice": "argmax_record",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "patient_level_folds": {
+      "question": "Are patient-level splits required for the target dataset?",
+      "required": true,
+      "options": [
+        {
+          "id": "group_by_patient",
+          "label": "Supply patient_id and require patient-disjoint splits",
+          "consequence": "The manifest enforces no leakage; may differ from the original's slide-level files."
+        },
+        {
+          "id": "slide_level",
+          "label": "Slide-level splits as in the original",
+          "consequence": "Matches the provided pickles; leakage is unverified when patients have several slides."
+        }
+      ],
+      "recommended": {
+        "option": "group_by_patient",
+        "reason": "WSIP checks leakage only when patient_id is given; the original validation carve-out is unknown."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:86-95",
+        "W:wsip/data/manifest.py:59-62"
+      ],
+      "choice": "group_by_patient",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "cpu_vs_gpu": {
+      "question": "Is a CPU reference run (--device cpu) acceptable, or is GPU parity required?",
+      "required": true,
+      "options": [
+        {
+          "id": "cpu_reference",
+          "label": "Run the reference on CPU with --device cpu",
+          "consequence": "Deterministic, exact parity with WSIP's CPU session; not the original's CUDA numerics."
+        },
+        {
+          "id": "gpu_parity",
+          "label": "Require GPU parity",
+          "consequence": "Needs GPU workers (later work) and tolerance-based comparison."
+        }
+      ],
+      "recommended": {
+        "option": "cpu_reference",
+        "reason": "No hard .cuda() calls, and WSIP is CPU-only today."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:23",
+        "W:wsip/training/session.py:41-48"
+      ],
+      "choice": "cpu_reference",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "reference_environment": {
+      "question": "Which environment runs the oracle, given that the retain_graph pattern breaks on newer PyTorch?",
+      "required": true,
+      "options": [
+        {
+          "id": "original_torch14",
+          "label": "Pinned PyTorch 1.4 / Python 3.6 oracle",
+          "consequence": "Unpatched original; old wheels and float behavior differ from the candidate's torch 2.11."
+        },
+        {
+          "id": "patched_modern_torch",
+          "label": "WSIP torch with a recorded detach patch before tier 2",
+          "consequence": "Same torch as the candidate; numerically equivalent because the tier-1 gradients from loss1 are discarded."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "D:Main_DTFD_MIL.py:353-363",
+        "W:environments/clam-baseline.txt:3"
+      ],
+      "choice": "patched_modern_torch",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "hyperparameters": {
+      "question": "Keep the original defaults (200 epochs, Adam 1e-4/1e-4, milestone 100 gamma 0.2, numGroup 4, clip 5)?",
+      "required": false,
+      "options": [
+        {
+          "id": "keep_defaults",
+          "label": "Keep the argparse defaults",
+          "consequence": "The reference profile equals the original; overrides are recorded as diffs."
+        },
+        {
+          "id": "lab_values",
+          "label": "Lab-specific values via overrides",
+          "consequence": "Recorded in reference_diff; no longer the published configuration."
+        }
+      ],
+      "recommended": {
+        "option": "keep_defaults",
+        "reason": "WSIP preserves pinned defaults unless they are explicitly overridden."
+      },
+      "evidence": [
+        "D:Main_DTFD_MIL.py:20-50",
+        "W:wsip/orchestration/config.py:81-85"
+      ],
+      "choice": "keep_defaults",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:07:10Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    }
+  }
+}

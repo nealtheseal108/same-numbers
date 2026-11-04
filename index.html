@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Same Numbers</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="web/style.css">
+</head>
+<body>
+<main>
+  <ol class="flow" id="flow" aria-label="The four steps of the job">
+    <li class="step s1" data-step="1">
+      <button class="spine" data-open="1">
+        <span class="n">1</span>
+        <span class="t" id="spine1title">ABMIL</span>
+        <span class="l">You picked this method.</span>
+      </button>
+      <div class="state" id="state1"></div>
+      <section class="panel" id="panel1" tabindex="-1" aria-label="Step 1, pick a method"></section>
+    </li>
+    <li class="step s2" data-step="2">
+      <button class="spine" data-open="2">
+        <span class="n">2</span>
+        <span class="t">AI <br>adds it</span>
+        <span class="l">AI agents read the method and write the code.</span>
+      </button>
+      <div class="state" id="state2"></div>
+      <section class="panel" id="panel2" tabindex="-1" aria-label="Step 2, AI adds it"></section>
+    </li>
+    <li class="step s3" data-step="3">
+      <button class="spine" data-open="3">
+        <span class="n">3</span>
+        <span class="t">Code <br>proves it</span>
+        <span class="l">A program compares the numbers with the original.</span>
+      </button>
+      <div class="state" id="state3"></div>
+      <section class="panel" id="panel3" tabindex="-1" aria-label="Step 3, code proves it"></section>
+    </li>
+    <li class="step s4" data-step="4">
+      <button class="spine" data-open="4">
+        <span class="n">4</span>
+        <span class="t">You <br>approve</span>
+        <span class="l">A person signs off on anything that touches shared code.</span>
+      </button>
+      <div class="state" id="state4"></div>
+      <section class="panel" id="panel4" tabindex="-1" aria-label="Step 4, you approve"></section>
+    </li>
+  </ol>
+</main>
+
+<dialog id="sheet" aria-labelledby="sheetTitle">
+  <div class="sheet-top">
+    <button class="link" id="sheetBack" hidden>Back</button>
+    <h2 id="sheetTitle" tabindex="-1"></h2>
+    <button class="link" id="sheetClose">Close</button>
+  </div>
+  <div class="sheet-body" id="sheetBody"></div>
+</dialog>
+
+<script src="web/app.js"></script>
+</body>
+</html>

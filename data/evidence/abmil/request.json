@@ -1,0 +1,52 @@
+{
+  "record_version": 1,
+  "run_id": "20261026-abmil-binary-01",
+  "created_utc": "2026-10-26T16:53:40Z",
+  "repo": "/Users/nealt1/Downloads/wsip-heldout/abmil",
+  "commit": "eb0434ba2795711a45d693d60120ae53532b1b93",
+  "task": "binary classification with precomputed features",
+  "method": "ABMIL",
+  "wsip": "/Users/nealt1/Downloads/a-wsip-generalize",
+  "wsip_commit": "HEAD",
+  "provider": "claude-code",
+  "model": "claude-opus-5-5",
+  "notes": [],
+  "evaluation_role": "heldout",
+  "frozen_prompts": {
+    "tag": "v2",
+    "prompts": {
+      "analyst": {
+        "version": "0.4.0",
+        "template_sha256": "78506094a4a9075d6e7d4af1bf86b73b5718670a2eeacf784b3252fdec38a020"
+      },
+      "reviewer": {
+        "version": "0.4.0",
+        "template_sha256": "ad23e4450315e887a5745e7df1eeef88746ef496f22d57a439af2bb0ebaf71a2"
+      },
+      "pipeline": {
+        "reference_runner": {
+          "version": "0.3.0",
+          "template_sha256": "28d33c70db4110495da8842d02ba6a75a857ef311aa0cc6b387d7ae07d48be99"
+        },
+        "extension_planner": {
+          "version": "0.3.0",
+          "template_sha256": "443c4da2f07c5466bc05b78031be281e7c6e39f0ee2832d28b2ca5daed2ecfe9"
+        },
+        "extension_builder": {
+          "version": "0.2.0",
+          "template_sha256": "7c536205c86349ec89dd2d6f7441a1a2a39461732f31e8eedd6fc2d4f309ccdb"
+        },
+        "adapter_author": {
+          "version": "0.3.0",
+          "template_sha256": "caa0bd7f8162d0a691c2b83725727be02573845a5a140dd381cdcdece760dcc1"
+        },
+        "parity_checker": {
+          "version": "0.4.0",
+          "template_sha256": "830c85eab2df6153b42876dc4cd84321db588294ef519010cc8a96f290e68ca5"
+        }
+      },
+      "pipeline_inputs_sha256": "eb7a19a1953ff70eb00353acf2a5bbe28c9c170a042285643e709df991043cfb",
+      "render_inputs_sha256": "fc3b30085445b737446b87a7b55dd10eb64a0a7b4ff7221e2403ca637b5191a5"
+    }
+  }
+}

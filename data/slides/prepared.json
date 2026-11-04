@@ -1,0 +1,201 @@
+{
+ "created": "2026-10-31T16:02:53-04:00",
+ "script": "tools/prepare_slides.py",
+ "device": "mps",
+ "torch": "2.11.0",
+ "torchvision": "0.26.0",
+ "openslide": "4.0.1",
+ "encoder": "ResNet-50 ImageNet (IMAGENET1K_V1), truncated after layer3, average-pooled",
+ "encoder_weights_url": "https://download.pytorch.org/models/resnet50-0676ba61.pth",
+ "encoder_weights_sha256": "0676ba61b6795bbe1773cffd859882e5e297624d384b6993f7c9e683e722fb8a",
+ "feature_dim": 1024,
+ "patch_px": 256,
+ "tissue_min": 0.5,
+ "slides": [
+  {
+   "organ": "brain",
+   "file_id": "f28f9596-07bf-4f51-8959-1ee9e0a0b424",
+   "file_name": "TCGA-12-0620-01Z-00-DX1.5d4cc50f-9b78-4b8b-8e8e-1c20ae415d71.svs",
+   "file_size": 6464167,
+   "md5sum": "4ce18bd60bb81318262d9b40d17cd402",
+   "case_id": "1dbfbff7-d048-4770-ae02-e6a287256210",
+   "case_submitter_id": "TCGA-12-0620",
+   "project": "TCGA-GBM",
+   "primary_site": "Brain",
+   "sample_type": "Primary Tumor",
+   "access": "open",
+   "dimensions": [
+    34011,
+    14939
+   ],
+   "level_count": 3,
+   "app_mag": "20",
+   "mpp": "0.49930000000000002",
+   "thumb_size": [
+    1600,
+    702
+   ],
+   "chroma_threshold": 32.373046875,
+   "tiles": 653,
+   "grid_total": 7656,
+   "features_shape": [
+    653,
+    1024
+   ],
+   "features_sha256": "1bdeb5f8455b6c860936a468df14568462115dce1f42d11a1c1b5312548e9396",
+   "seconds": {
+    "tissue_and_grid": 0.55,
+    "read_tiles": 2.27,
+    "encode": 3.51
+   }
+  },
+  {
+   "organ": "liver",
+   "file_id": "7fe08fdc-f28b-4306-a99e-651f3af76638",
+   "file_name": "TCGA-MR-A520-01Z-00-DX1.2F323BAC-56C9-4A0C-9C1B-2B4F776056B4.svs",
+   "file_size": 83649153,
+   "md5sum": "10d6eec5251d55f062fe81d0a1b08ed0",
+   "case_id": "25e893ad-a0fd-45ae-9aa9-9bcd7c2ec8e5",
+   "case_submitter_id": "TCGA-MR-A520",
+   "project": "TCGA-LIHC",
+   "primary_site": "Liver and intrahepatic bile ducts",
+   "sample_type": "Primary Tumor",
+   "access": "open",
+   "dimensions": [
+    22000,
+    26046
+   ],
+   "level_count": 3,
+   "app_mag": "20",
+   "mpp": "0.499",
+   "thumb_size": [
+    1352,
+    1600
+   ],
+   "chroma_threshold": 37.353515625,
+   "tiles": 2392,
+   "grid_total": 8585,
+   "features_shape": [
+    2392,
+    1024
+   ],
+   "features_sha256": "60bbd1b64ace4cc0a9118cfc7506d24feb2542d9dfb4e19842411bb8937aeb90",
+   "seconds": {
+    "tissue_and_grid": 0.88,
+    "read_tiles": 4.94,
+    "encode": 9.88
+   }
+  },
+  {
+   "organ": "lung",
+   "file_id": "5965ab59-8a43-4a84-a07a-fd0b0c3fab7a",
+   "file_name": "TCGA-05-4425-01Z-00-DX1.82B093EE-49BC-4FD9-91AC-4CC89944309D.svs",
+   "file_size": 6382442,
+   "md5sum": "7a54cb0d7765ca46a94314ac009088ca",
+   "case_id": "69b23036-add9-42c9-941f-02fb74d9b08c",
+   "case_submitter_id": "TCGA-05-4425",
+   "project": "TCGA-LUAD",
+   "primary_site": "Bronchus and lung",
+   "sample_type": "Primary Tumor",
+   "access": "open",
+   "dimensions": [
+    10000,
+    4617
+   ],
+   "level_count": 2,
+   "app_mag": null,
+   "mpp": null,
+   "thumb_size": [
+    1600,
+    739
+   ],
+   "chroma_threshold": 11.455078125,
+   "tiles": 166,
+   "grid_total": 702,
+   "features_shape": [
+    166,
+    1024
+   ],
+   "features_sha256": "6f359e560785443d6e7f96ed8c10c7cfcd7f4f36acf753ad34ad8c51d90d30e9",
+   "seconds": {
+    "tissue_and_grid": 0.29,
+    "read_tiles": 0.83,
+    "encode": 0.73
+   }
+  },
+  {
+   "organ": "breast",
+   "file_id": "f2d5aa37-d9ce-4264-a447-fc69dd0d7d85",
+   "file_name": "TCGA-OL-A5RW-01Z-00-DX1.E16DE8EE-31AF-4EAF-A85F-DB3E3E2C3BFF.svs",
+   "file_size": 25565706,
+   "md5sum": "1a169f76fc7d21e767a93225968b9531",
+   "case_id": "a82d0a57-4383-473d-b334-d13b278404b1",
+   "case_submitter_id": "TCGA-OL-A5RW",
+   "project": "TCGA-BRCA",
+   "primary_site": "Breast",
+   "sample_type": "Primary Tumor",
+   "access": "open",
+   "dimensions": [
+    12879,
+    13618
+   ],
+   "level_count": 3,
+   "app_mag": null,
+   "mpp": null,
+   "thumb_size": [
+    1513,
+    1600
+   ],
+   "chroma_threshold": 45.322265625,
+   "tiles": 1379,
+   "grid_total": 2650,
+   "features_shape": [
+    1379,
+    1024
+   ],
+   "features_sha256": "9a025258000e8eadd4ce9a13952e01d8147b4ba2fccfa8a5dca2232cee3bca23",
+   "seconds": {
+    "tissue_and_grid": 0.67,
+    "read_tiles": 6.41,
+    "encode": 5.31
+   }
+  },
+  {
+   "organ": "colon",
+   "file_id": "35c1e23c-8adb-4a7f-865f-be1d6e10b3ef",
+   "file_name": "TCGA-AA-3489-01Z-00-DX1.AE299B70-B14C-4FFE-B1F9-38B2EB267FA9.svs",
+   "file_size": 7610002,
+   "md5sum": "4d0517059a282253dd048d176eb40e32",
+   "case_id": "b95720b1-aa00-4c6a-b202-3350d035829f",
+   "case_submitter_id": "TCGA-AA-3489",
+   "project": "TCGA-COAD",
+   "primary_site": "Colon",
+   "sample_type": "Primary Tumor",
+   "access": "open",
+   "dimensions": [
+    8711,
+    10000
+   ],
+   "level_count": 2,
+   "app_mag": null,
+   "mpp": null,
+   "thumb_size": [
+    1393,
+    1600
+   ],
+   "chroma_threshold": 28.388671875,
+   "tiles": 228,
+   "grid_total": 1326,
+   "features_shape": [
+    228,
+    1024
+   ],
+   "features_sha256": "bcba31b16e11d1b9193c954dc9365342cb876a0fbc9303dd926a131b925f513f",
+   "seconds": {
+    "tissue_and_grid": 0.47,
+    "read_tiles": 1.09,
+    "encode": 0.98
+   }
+  }
+ ]
+}

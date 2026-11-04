@@ -1,0 +1,53 @@
+{
+ "_about": "One plain line for each shared-framework file, reworded by hand on Oct 31 from deliverables/2026-10-31/census-notes.json. The original note stays in files.json and on each file's sheet.",
+ "abmil": {
+  "pyproject.toml": "Tells the installer to include the ABMIL files.",
+  "wsip/core/jobs.py": "Job setup now looks a method up in a table, not just CLAM.",
+  "wsip/methods/base.py": "Adds a setting for random numbers during validation.",
+  "wsip/methods/registry.py": "Adds ABMIL to the shared method list, rewrites its lookup.",
+  "wsip/orchestration/config.py": "Adds ABMIL's settings here, repeating existing task checks.",
+  "wsip/training/session.py": "Training loop: can protect random numbers in validation.",
+  "wsip/worker/run.py": "The worker now picks a method by name, not always CLAM."
+ },
+ "transmil": {
+  "docs/shared-engine.md": "Updates the shared docs for a new optional training mode.",
+  "pyproject.toml": "Tells the installer to include the TransMIL files.",
+  "tests/training/conftest.py": "Lets the shared test setup use methods other than CLAM.",
+  "tests/training/test_accumulation.py": "New shared tests for the optional training mode.",
+  "wsip/core/jobs.py": "Job setup now looks a method up in a table, not just CLAM.",
+  "wsip/methods/registry.py": "Adds TransMIL to the shared method list, rewrites its lookup.",
+  "wsip/orchestration/config.py": "Moves CLAM's task checks, then adds TransMIL's settings.",
+  "wsip/orchestration/control.py": "Can now refuse a slide list that has no patient IDs.",
+  "wsip/training/policies.py": "Adds options for when training stops, to match TransMIL.",
+  "wsip/training/session.py": "Training loop: adds a mode that updates every few slides.",
+  "wsip/worker/run.py": "The worker picks a method by name, can check patient IDs."
+ },
+ "dtfd-mil": {
+  "CHANGELOG.md": "Adds a changelog entry for this draft method.",
+  "docs/shared-engine.md": "Adds a docs section on the new optional training steps.",
+  "pyproject.toml": "Tells the installer to include the DTFD-MIL files.",
+  "tests/contract/test_adapter_contract.py": "Widens the test every method must pass, for two-tier training.",
+  "tests/contract/test_contract_catches_bugs.py": "Adds checks that the shared test really fails on known bugs.",
+  "tests/training/conftest.py": "Lets the shared test setup use methods other than CLAM.",
+  "tests/training/lifecycle_toy.py": "New test helper: a small two-tier example.",
+  "tests/training/test_epoch_schedule.py": "New shared tests: learning-rate schedules and resuming.",
+  "tests/training/test_final_validation.py": "New shared tests: final predictions match the chosen round.",
+  "tests/training/test_gradient_clipping.py": "New shared tests: limits on gradient size, per group.",
+  "tests/training/test_lifecycle_defaults.py": "New shared tests: defaults keep the existing training steps.",
+  "tests/training/test_metric_selection.py": "New shared tests: choosing the best round by a metric.",
+  "tests/training/test_named_optimizers.py": "New shared tests: several optimizers survive a resume.",
+  "tests/training/test_python_shuffle.py": "New shared tests: a second way to shuffle slides.",
+  "tests/training/test_update_phases.py": "New shared tests: training steps run in the declared order.",
+  "tests/training/test_zero_grad_timing.py": "New shared tests: when gradients are reset.",
+  "wsip/core/jobs.py": "Job setup now looks a method up in a table, not just CLAM.",
+  "wsip/data/manifest.py": "Adds an optional check that every slide has a patient ID.",
+  "wsip/methods/base.py": "Adds options for every method: two tiers, clipping, schedules.",
+  "wsip/methods/registry.py": "Adds DTFD-MIL to the shared method list, rewrites its lookup.",
+  "wsip/orchestration/config.py": "Moves CLAM's task checks, then adds DTFD-MIL's settings.",
+  "wsip/orchestration/control.py": "Checks patient IDs when a method requires them.",
+  "wsip/tasks/classification.py": "Lists which metrics may choose the best training round.",
+  "wsip/training/policies.py": "Adds a rule: pick the best round by a named metric.",
+  "wsip/training/session.py": "Training loop: fixed steps replaced with configurable ones.",
+  "wsip/worker/run.py": "Final predictions now come from training, or it refuses."
+ }
+}

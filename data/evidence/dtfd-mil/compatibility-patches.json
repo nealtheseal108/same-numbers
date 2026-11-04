@@ -1,0 +1,14 @@
+{"patches": [
+  {"id": "dtfd-cli-argv-v1", "kind": "input_adapter",
+   "targets": ["sys.argv"],
+   "reason": "Main_DTFD_MIL.main() reads its settings only from argparse on sys.argv; the runner sets sys.argv to the original command line (pickle paths inside the output folder, --EPOCH from the case, --device cpu, --log_dir inside the output folder, case params as flags) before calling main()."},
+  {"id": "dtfd-test-mask-dir-v1", "kind": "input_adapter",
+   "targets": ["Main_DTFD_MIL.testMask_dir"],
+   "reason": "testMask_dir is a module constant hard-coded to '' (to be edited by the user). The runner points it to a folder inside the output with one placeholder file per positive test slide, so reOrganize_mDATA_test labels the synthetic test bags as the original would."},
+  {"id": "dtfd-skip-test-eval-v1", "kind": "runtime_shim",
+   "targets": ["Main_DTFD_MIL.test_attention_DTFD_preFeat_MultipleMean"],
+   "reason": "Lab decision test_evaluation_coupling=patch_reference_no_test_eval: the per-epoch test evaluation (Main_DTFD_MIL.py:127-128) is skipped so it neither uses test data nor draws from the shared Python random stream. Validation calls are passed unchanged to the original function; the skipped test call returns nan, which only reaches the log line at Main_DTFD_MIL.py:145."},
+  {"id": "dtfd-detach-tier2-input-v1", "kind": "runtime_shim",
+   "targets": ["Model.Attention.Attention_with_Classifier.forward"],
+   "reason": "Lab decision reference_environment=patched_modern_torch: on torch 2.x, loss1.backward() through the retained tier-1 graph after optimizer0.step() raises an in-place modification error. The tier-2 forward is called on x.detach(); tier-2 values and gradients are unchanged, and the tier-1 gradients of loss1 that are cut were never applied (optimizer0.zero_grad() clears them before the next tier-1 step). Under torch.no_grad (evaluation) detach is a no-op."}
+]}

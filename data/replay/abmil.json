@@ -1,0 +1,1450 @@
+{
+ "id": "abmil",
+ "name": "ABMIL",
+ "family": "single-stage attention MIL",
+ "license": "MIT",
+ "repo": "AMLab-Amsterdam/AttentionDeepMIL",
+ "commit": "eb0434ba2795711a45d693d60120ae53532b1b93",
+ "run_id": "20261026-abmil-binary-01",
+ "date": "2026-10-26",
+ "provider": "claude-code",
+ "model": "claude-opus-5-5",
+ "wall_seconds": 2006.0,
+ "cost": 6.18,
+ "started_at": "2026-10-26T16:53:40Z",
+ "heldout_role": "heldout",
+ "stages": [
+  {
+   "id": "s12",
+   "n": "1-2",
+   "title": "Investigate",
+   "blurb": "Read the code, cite it, map it onto WSIP, ask the lab's decisions",
+   "attempts": [
+    {
+     "role": "analyst",
+     "label": "Analyst",
+     "attempt": 1,
+     "turns": 9,
+     "seconds": 194.97,
+     "cost": 0.61,
+     "passed": true,
+     "checks": null,
+     "citations": {
+      "total": 166,
+      "broken": 0,
+      "symbol_found": 159,
+      "symbol_missing": 1
+     },
+     "src": "analyst/attempt-1/meta.json"
+    },
+    {
+     "role": "reviewer",
+     "label": "Reviewer",
+     "attempt": 1,
+     "turns": 30,
+     "seconds": 233.42,
+     "cost": 1.01,
+     "passed": true,
+     "checks": null,
+     "citations": {
+      "total": 154,
+      "broken": 0,
+      "symbol_found": 119,
+      "symbol_missing": 20
+     },
+     "src": "reviewer/attempt-1/meta.json"
+    }
+   ],
+   "cost": "1.62",
+   "start": 0.0,
+   "end": 429.0,
+   "skipped": null
+  },
+  {
+   "id": "s3",
+   "n": "3",
+   "title": "Run the original",
+   "blurb": "Run the original code in a sandbox on synthetic bags, store evidence",
+   "attempts": [
+    {
+     "role": "reference_runner",
+     "label": "Reference runner",
+     "attempt": 1,
+     "turns": 16,
+     "seconds": 277.7,
+     "cost": 0.94,
+     "passed": true,
+     "checks": [
+      23,
+      23
+     ],
+     "citations": null,
+     "src": "stage3/attempt-1/meta.json"
+    }
+   ],
+   "cost": "0.94",
+   "start": 477.0,
+   "end": 767.0,
+   "skipped": null
+  },
+  {
+   "id": "sx",
+   "n": "X",
+   "title": "Extend WSIP",
+   "blurb": "Propose and build opt-in framework extensions for gaps",
+   "attempts": [
+    {
+     "role": "extension_planner",
+     "label": "Extension planner",
+     "attempt": 1,
+     "turns": 8,
+     "seconds": 39.03,
+     "cost": 0.21,
+     "passed": true,
+     "checks": [
+      3,
+      3
+     ],
+     "citations": null,
+     "src": "extension/planner/attempt-1/meta.json"
+    }
+   ],
+   "cost": "0.21",
+   "start": 767.0,
+   "end": 806.0,
+   "skipped": "extension builder skipped: no proposal approved"
+  },
+  {
+   "id": "s4",
+   "n": "4",
+   "title": "Write the adapter",
+   "blurb": "Write the method's WSIP adapter",
+   "attempts": [
+    {
+     "role": "adapter_author",
+     "label": "Adapter author",
+     "attempt": 1,
+     "turns": 68,
+     "seconds": 539.36,
+     "cost": 1.9,
+     "passed": true,
+     "checks": [
+      16,
+      16
+     ],
+     "citations": null,
+     "src": "stage4/attempt-1/meta.json"
+    }
+   ],
+   "cost": "1.90",
+   "start": 808.0,
+   "end": 1410.0,
+   "skipped": null
+  },
+  {
+   "id": "s5",
+   "n": "5",
+   "title": "Prove parity",
+   "blurb": "Reproduce the stored evidence, detect mutations, check resume",
+   "attempts": [
+    {
+     "role": "parity_checker",
+     "label": "Parity checker",
+     "attempt": 1,
+     "turns": 43,
+     "seconds": 477.65,
+     "cost": 1.52,
+     "passed": true,
+     "checks": [
+      14,
+      14
+     ],
+     "citations": null,
+     "src": "stage5/attempt-1/meta.json"
+    }
+   ],
+   "cost": "1.52",
+   "start": 1411.0,
+   "end": 2006.0,
+   "skipped": null
+  }
+ ],
+ "events": [
+  {
+   "stage": null,
+   "role": null,
+   "type": "note",
+   "tag": "start",
+   "text": "Run 20261026-abmil-binary-01 requested",
+   "src": "state.json",
+   "t": 0.0
+  },
+  {
+   "stage": "s12",
+   "role": "analyst",
+   "type": "agent",
+   "tag": "agent",
+   "text": "Analyst attempt 1 started",
+   "detail": "claude-opus-5-5, tools Read, Grep, Glob",
+   "src": "analyst/attempt-1/meta.json",
+   "t": 0.0
+  },
+  {
+   "stage": "s12",
+   "role": "analyst",
+   "type": "check",
+   "tag": "checks",
+   "passed": true,
+   "text": "Citation check passed: 166 citations, 0 broken",
+   "src": "analyst/attempt-1/checks.json",
+   "attempt": 1,
+   "t": 194.5
+  },
+  {
+   "stage": "s12",
+   "role": "analyst",
+   "type": "finish",
+   "tag": "agent",
+   "text": "Analyst attempt 1 replied",
+   "detail": "9 turns, 195.0 s, USD 0.61",
+   "src": "analyst/attempt-1/meta.json",
+   "t": 195.0,
+   "cost_so_far": 0.6068
+  },
+  {
+   "stage": "s12",
+   "role": "analyst",
+   "type": "accept",
+   "tag": "accepted",
+   "attempt": 1,
+   "text": "Analyst accepted",
+   "src": "state.json",
+   "t": 195.0
+  },
+  {
+   "stage": "s12",
+   "role": "reviewer",
+   "type": "agent",
+   "tag": "agent",
+   "text": "Reviewer attempt 1 started",
+   "detail": "claude-opus-5-5, tools Read, Grep, Glob",
+   "src": "reviewer/attempt-1/meta.json",
+   "t": 196.0
+  },
+  {
+   "stage": "s12",
+   "role": "reviewer",
+   "type": "check",
+   "tag": "checks",
+   "passed": true,
+   "text": "Citation check passed: 154 citations, 0 broken",
+   "src": "reviewer/attempt-1/checks.json",
+   "attempt": 1,
+   "t": 428.5
+  },
+  {
+   "stage": "s12",
+   "role": "reviewer",
+   "type": "finish",
+   "tag": "agent",
+   "text": "Reviewer attempt 1 replied",
+   "detail": "30 turns, 233.4 s, USD 1.01",
+   "src": "reviewer/attempt-1/meta.json",
+   "t": 429.0,
+   "cost_so_far": 1.6172
+  },
+  {
+   "stage": "s12",
+   "role": "reviewer",
+   "type": "accept",
+   "tag": "accepted",
+   "attempt": 1,
+   "text": "Reviewer accepted",
+   "src": "state.json",
+   "t": 429.0
+  },
+  {
+   "stage": "s12",
+   "role": null,
+   "type": "gate",
+   "tag": "gate",
+   "text": "Decisions gate: 12 decisions answered by the agent, marked PROVISIONAL",
+   "src": "answers.json",
+   "t": 429.0
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "agent",
+   "tag": "agent",
+   "text": "Reference runner attempt 1 started",
+   "detail": "claude-opus-5-5, tools Read, Grep, Glob, Edit, Write, Bash, sandbox-exec",
+   "src": "stage3/attempt-1/meta.json",
+   "t": 477.0
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "finish",
+   "tag": "agent",
+   "text": "Reference runner attempt 1 replied",
+   "detail": "16 turns, 277.7 s, USD 0.94",
+   "src": "stage3/attempt-1/meta.json",
+   "t": 755.0,
+   "cost_so_far": 2.555
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "denied",
+   "tag": "refused",
+   "text": "Allow-list refused Bash",
+   "detail": "cd .pipeline/context && python3 -c \"\\nimport json\\nd=json.load(open(\\'decisions.json\\'));print(\u2026",
+   "src": "stage3/attempt-1/meta.json",
+   "t": 755.1
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -I -B stage3/harness/reference_runner.py --source stage3/upstream --source-commit eb0434ba279571\u2026",
+   "detail": "OMP: Warning #179: Function Can't set size of /tmp file failed:",
+   "src": "stage3/attempt-1/logs/defaults_short-first.log",
+   "attempt": 1,
+   "t": 757.4
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -I -B stage3/harness/reference_runner.py --source stage3/upstream --source-commit eb0434ba279571\u2026",
+   "detail": "OMP: Warning #179: Function Can't set size of /tmp file failed:",
+   "src": "stage3/attempt-1/logs/defaults_short-second.log",
+   "attempt": 1,
+   "t": 759.3
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -I -B stage3/harness/reference_runner.py --source stage3/upstream --source-commit eb0434ba279571\u2026",
+   "detail": "OMP: Warning #179: Function Can't set size of /tmp file failed:",
+   "src": "stage3/attempt-1/logs/defaults_short-plain.log",
+   "attempt": 1,
+   "t": 761.1
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -I -B stage3/harness/reference_runner.py --source stage3/upstream --source-commit eb0434ba279571\u2026",
+   "detail": "OMP: Warning #179: Function Can't set size of /tmp file failed:",
+   "src": "stage3/attempt-1/logs/tiny_bags_wider_embed-first.log",
+   "attempt": 1,
+   "t": 763.2
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -I -B stage3/harness/reference_runner.py --source stage3/upstream --source-commit eb0434ba279571\u2026",
+   "detail": "OMP: Warning #179: Function Can't set size of /tmp file failed:",
+   "src": "stage3/attempt-1/logs/tiny_bags_wider_embed-second.log",
+   "attempt": 1,
+   "t": 765.1
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -I -B stage3/harness/reference_runner.py --source stage3/upstream --source-commit eb0434ba279571\u2026",
+   "detail": "OMP: Warning #179: Function Can't set size of /tmp file failed:",
+   "src": "stage3/attempt-1/logs/tiny_bags_wider_embed-plain.log",
+   "attempt": 1,
+   "t": 766.5
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "check",
+   "tag": "checks",
+   "passed": true,
+   "text": "Tool checks 23/23",
+   "detail": null,
+   "checks": [
+    {
+     "name": "reply_json",
+     "passed": true
+    },
+    {
+     "name": "runner_present",
+     "passed": true
+    },
+    {
+     "name": "cases_valid",
+     "passed": true
+    },
+    {
+     "name": "patches_valid",
+     "passed": true
+    },
+    {
+     "name": "no_candidate_imports",
+     "passed": true
+    },
+    {
+     "name": "patches_declared",
+     "passed": true
+    },
+    {
+     "name": "defaults_short:first_run",
+     "passed": true
+    },
+    {
+     "name": "defaults_short:second_run",
+     "passed": true
+    },
+    {
+     "name": "defaults_short:plain_run",
+     "passed": true
+    },
+    {
+     "name": "defaults_short:first_manifest",
+     "passed": true
+    },
+    {
+     "name": "defaults_short:plain_manifest",
+     "passed": true
+    },
+    {
+     "name": "defaults_short:primitives",
+     "passed": true
+    },
+    {
+     "name": "defaults_short:deterministic",
+     "passed": true
+    },
+    {
+     "name": "defaults_short:instrumentation_neutral",
+     "passed": true
+    },
+    {
+     "name": "tiny_bags_wider_embed:first_run",
+     "passed": true
+    },
+    {
+     "name": "tiny_bags_wider_embed:second_run",
+     "passed": true
+    },
+    {
+     "name": "tiny_bags_wider_embed:plain_run",
+     "passed": true
+    },
+    {
+     "name": "tiny_bags_wider_embed:first_manifest",
+     "passed": true
+    },
+    {
+     "name": "tiny_bags_wider_embed:plain_manifest",
+     "passed": true
+    },
+    {
+     "name": "tiny_bags_wider_embed:primitives",
+     "passed": true
+    },
+    {
+     "name": "tiny_bags_wider_embed:deterministic",
+     "passed": true
+    },
+    {
+     "name": "tiny_bags_wider_embed:instrumentation_neutral",
+     "passed": true
+    },
+    {
+     "name": "upstream_unchanged",
+     "passed": true
+    }
+   ],
+   "src": "stage3/attempt-1/checks.json",
+   "attempt": 1,
+   "t": 766.6
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "reply",
+   "tag": "reply",
+   "text": "The runner executes the original `main.py` unchanged as `__main__` through `runpy`. That covers its argparse settings, the seeded DataLoaders (train shuffled, test fixed\u2026",
+   "src": "stage3/attempt-1/response.txt",
+   "attempt": 1,
+   "t": 766.8
+  },
+  {
+   "stage": "s3",
+   "role": "reference_runner",
+   "type": "accept",
+   "tag": "accepted",
+   "attempt": 1,
+   "text": "Reference runner accepted",
+   "src": "pipeline/state.json",
+   "t": 767.0
+  },
+  {
+   "stage": "sx",
+   "role": "extension_planner",
+   "type": "agent",
+   "tag": "agent",
+   "text": "Extension planner attempt 1 started",
+   "detail": "claude-opus-5-5, tools Read, Grep, Glob, sandbox-exec",
+   "src": "extension/planner/attempt-1/meta.json",
+   "t": 767.0
+  },
+  {
+   "stage": "sx",
+   "role": "extension_planner",
+   "type": "check",
+   "tag": "checks",
+   "passed": true,
+   "text": "Tool checks 3/3",
+   "detail": null,
+   "checks": [
+    {
+     "name": "reply_json",
+     "passed": true
+    },
+    {
+     "name": "shape",
+     "passed": true
+    },
+    {
+     "name": "coverage",
+     "passed": true
+    }
+   ],
+   "src": "extension/planner/attempt-1/checks.json",
+   "attempt": 1,
+   "t": 805.5
+  },
+  {
+   "stage": "sx",
+   "role": "extension_planner",
+   "type": "plan",
+   "tag": "plan",
+   "attempt": 1,
+   "text": "Extension planner: 0 proposals, 9 gaps not needed",
+   "detail": "None of the nine gaps needs a change to shared WSIP code, so no proposals are made. The lab's provisional answers already cover them: the LeNet encod\u2026",
+   "src": "extension/planner/accepted.json",
+   "t": 805.6
+  },
+  {
+   "stage": "sx",
+   "role": "extension_planner",
+   "type": "reply",
+   "tag": "reply",
+   "text": "None of the nine gaps needs a change to shared WSIP code, so no proposals are made. The lab's provisional answers already cover them: the LeNet encoder becomes Linear(D,\u2026",
+   "src": "extension/planner/attempt-1/response.txt",
+   "attempt": 1,
+   "t": 805.8
+  },
+  {
+   "stage": "sx",
+   "role": "extension_planner",
+   "type": "finish",
+   "tag": "agent",
+   "text": "Extension planner attempt 1 replied",
+   "detail": "8 turns, 39.0 s, USD 0.21",
+   "src": "extension/planner/attempt-1/meta.json",
+   "t": 806.0,
+   "cost_so_far": 2.7618
+  },
+  {
+   "stage": "sx",
+   "role": "extension_planner",
+   "type": "accept",
+   "tag": "accepted",
+   "attempt": 1,
+   "text": "Extension planner accepted",
+   "src": "pipeline/state.json",
+   "t": 806.0
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "agent",
+   "tag": "agent",
+   "text": "Adapter author attempt 1 started",
+   "detail": "claude-opus-5-5, tools Read, Grep, Glob, Edit, Write, Bash, sandbox-exec",
+   "src": "stage4/attempt-1/meta.json",
+   "t": 808.0
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "finish",
+   "tag": "agent",
+   "text": "Adapter author attempt 1 replied",
+   "detail": "68 turns, 539.4 s, USD 1.90",
+   "src": "stage4/attempt-1/meta.json",
+   "t": 1347.0,
+   "cost_so_far": 4.6609
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "denied",
+   "tag": "refused",
+   "text": "Allow-list refused Grep",
+   "detail": "_base_seed = |random_\\\\(",
+   "src": "stage4/attempt-1/meta.json",
+   "t": 1347.1
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -c import json, sys",
+   "detail": null,
+   "src": "stage4/attempt-1/logs/descriptor.log",
+   "attempt": 1,
+   "t": 1347.8
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -m pytest -q tests/contract -p no:cacheprovider",
+   "detail": "71 passed in 2.09s",
+   "src": "stage4/attempt-1/logs/contract.log",
+   "attempt": 1,
+   "t": 1351.1
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -m pytest -q -m not worker and not reference and not container and not gpu and not service and n\u2026",
+   "detail": "102 passed, 104 deselected in 0.58s",
+   "src": "stage4/attempt-1/logs/regression-0.log",
+   "attempt": 1,
+   "t": 1352.1
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -m pytest -q tests/training/test_parity.py -p no:cacheprovider",
+   "detail": "10 passed in 56.16s",
+   "src": "stage4/attempt-1/logs/regression-1.log",
+   "attempt": 1,
+   "t": 1409.5
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "check",
+   "tag": "checks",
+   "passed": true,
+   "text": "Tool checks 16/16",
+   "detail": null,
+   "checks": [
+    {
+     "name": "reply_json",
+     "passed": true
+    },
+    {
+     "name": "method_package",
+     "passed": true
+    },
+    {
+     "name": "provenance",
+     "passed": true
+    },
+    {
+     "name": "descriptor",
+     "passed": true
+    },
+    {
+     "name": "descriptor_commit",
+     "passed": true
+    },
+    {
+     "name": "descriptor_uncertified",
+     "passed": true
+    },
+    {
+     "name": "contract_suite",
+     "passed": true
+    },
+    {
+     "name": "contract_method_cases",
+     "passed": true
+    },
+    {
+     "name": "unsupported_fail_loudly",
+     "passed": true
+    },
+    {
+     "name": "regression_0",
+     "passed": true
+    },
+    {
+     "name": "regression_1",
+     "passed": true
+    },
+    {
+     "name": "import_boundary",
+     "passed": true
+    },
+    {
+     "name": "tests_not_weakened",
+     "passed": true
+    },
+    {
+     "name": "allowed_paths",
+     "passed": true
+    },
+    {
+     "name": "no_stray_files",
+     "passed": true
+    },
+    {
+     "name": "reference_runner_unchanged",
+     "passed": true
+    }
+   ],
+   "src": "stage4/attempt-1/checks.json",
+   "attempt": 1,
+   "t": 1409.6
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "reply",
+   "tag": "reply",
+   "text": "I added ABMIL as a draft WSIP integration in `wsip/methods/abmil/`. `integration.py` holds the model, loss and decision rule ported from upstream `model.py` (MIT license\u2026",
+   "src": "stage4/attempt-1/response.txt",
+   "attempt": 1,
+   "t": 1409.8
+  },
+  {
+   "stage": "s4",
+   "role": "adapter_author",
+   "type": "accept",
+   "tag": "accepted",
+   "attempt": 1,
+   "text": "Adapter author accepted",
+   "src": "pipeline/state.json",
+   "t": 1410.0
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "agent",
+   "tag": "agent",
+   "text": "Parity checker attempt 1 started",
+   "detail": "claude-opus-5-5, tools Read, Grep, Glob, Edit, Write, Bash, sandbox-exec",
+   "src": "stage5/attempt-1/meta.json",
+   "t": 1411.0
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "finish",
+   "tag": "agent",
+   "text": "Parity checker attempt 1 replied",
+   "detail": "43 turns, 477.6 s, USD 1.52",
+   "src": "stage5/attempt-1/meta.json",
+   "t": 1888.0,
+   "cost_so_far": 6.1769
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "denied",
+   "tag": "refused",
+   "text": "Allow-list refused Bash",
+   "detail": "E=evidence; ls -R $E | head -40; cat $E/defaults_short/fixture/fixture.json | head -60; cat wsi\u2026",
+   "src": "stage5/attempt-1/meta.json",
+   "t": 1888.1
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "denied",
+   "tag": "refused",
+   "text": "Allow-list refused Read",
+   "detail": "tmp/agent-parity-report.json",
+   "src": "stage5/attempt-1/meta.json",
+   "t": 1888.1
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -m pytest -q tests/parity -p no:cacheprovider",
+   "detail": "12 passed, 33 warnings in 7.24s",
+   "src": "stage5/attempt-1/logs/parity.log",
+   "attempt": 1,
+   "t": 1897.6
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "tamper",
+   "text": "Tamper run: tool altered initial/attention.0.bias, parity test caught it",
+   "detail": "1 failed, 9 skipped in 4.02s",
+   "src": "stage5/attempt-1/logs/tamper-initial.log",
+   "attempt": 1,
+   "t": 1903.2
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "tamper",
+   "text": "Tamper run: tool altered step/0001/y_prob, parity test caught it",
+   "detail": "1 failed, 9 skipped in 3.66s",
+   "src": "stage5/attempt-1/logs/tamper-forward.log",
+   "attempt": 1,
+   "t": 1908.7
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "tamper",
+   "text": "Tamper run: tool altered step/0001/loss, parity test caught it",
+   "detail": "1 failed, 9 skipped in 3.69s",
+   "src": "stage5/attempt-1/logs/tamper-loss.log",
+   "attempt": 1,
+   "t": 1914.1
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "tamper",
+   "text": "Tamper run: tool altered step/0001/gradients/attention.0.bias, parity test caught it",
+   "detail": "1 failed, 9 skipped in 3.65s",
+   "src": "stage5/attempt-1/logs/tamper-gradients.log",
+   "attempt": 1,
+   "t": 1919.5
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "tamper",
+   "text": "Tamper run: tool altered step/0001/updated/attention.0.bias, parity test caught it",
+   "detail": "1 failed, 9 skipped in 3.66s",
+   "src": "stage5/attempt-1/logs/tamper-update.log",
+   "attempt": 1,
+   "t": 1924.8
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "tamper",
+   "text": "Tamper run: tool altered epoch/0001/lr_start, parity test caught it",
+   "detail": "1 failed, 9 skipped in 4.02s",
+   "src": "stage5/attempt-1/logs/tamper-lr.log",
+   "attempt": 1,
+   "t": 1930.4
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "tamper",
+   "text": "Tamper run: tool altered exact.sample_trace, parity test caught it",
+   "detail": "1 failed, 9 skipped in 3.97s",
+   "src": "stage5/attempt-1/logs/tamper-sample_order.log",
+   "attempt": 1,
+   "t": 1936.1
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "tamper",
+   "text": "Tamper run: tool altered exact.selection, parity test caught it",
+   "detail": "1 failed, 9 skipped in 3.67s",
+   "src": "stage5/attempt-1/logs/tamper-selection.log",
+   "attempt": 1,
+   "t": 1941.5
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "tamper",
+   "text": "Tamper run: tool altered final/params/attention.0.bias, parity test caught it",
+   "detail": "1 failed, 9 skipped in 3.68s",
+   "src": "stage5/attempt-1/logs/tamper-final.log",
+   "attempt": 1,
+   "t": 1946.9
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -m pytest -q -m not worker and not reference and not container and not gpu and not service and n\u2026",
+   "detail": "102 passed, 114 deselected in 0.76s",
+   "src": "stage5/attempt-1/logs/regression-0.log",
+   "attempt": 1,
+   "t": 1948.3
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "tool",
+   "tag": "run",
+   "text": "python -m pytest -q tests/training/test_parity.py -p no:cacheprovider",
+   "detail": "10 passed in 56.35s",
+   "src": "stage5/attempt-1/logs/regression-1.log",
+   "attempt": 1,
+   "t": 2005.5
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "check",
+   "tag": "checks",
+   "passed": true,
+   "text": "Tool checks 14/14",
+   "detail": null,
+   "checks": [
+    {
+     "name": "reply_json",
+     "passed": true
+    },
+    {
+     "name": "files_present",
+     "passed": true
+    },
+    {
+     "name": "declaration_valid",
+     "passed": true
+    },
+    {
+     "name": "compares_stored_evidence",
+     "passed": true
+    },
+    {
+     "name": "parity_tests_pass",
+     "passed": true
+    },
+    {
+     "name": "report_valid",
+     "passed": true
+    },
+    {
+     "name": "tamper_detected",
+     "passed": true
+    },
+    {
+     "name": "regression_0",
+     "passed": true
+    },
+    {
+     "name": "regression_1",
+     "passed": true
+    },
+    {
+     "name": "import_boundary",
+     "passed": true
+    },
+    {
+     "name": "tests_not_weakened",
+     "passed": true
+    },
+    {
+     "name": "allowed_paths",
+     "passed": true
+    },
+    {
+     "name": "no_stray_files",
+     "passed": true
+    },
+    {
+     "name": "reference_runner_unchanged",
+     "passed": true
+    }
+   ],
+   "src": "stage5/attempt-1/checks.json",
+   "attempt": 1,
+   "t": 2005.5
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "result",
+   "tag": "parity",
+   "attempt": 1,
+   "text": "defaults_short: 923 tensors, max abs 0.0, atol 0.0, rtol 0.0",
+   "src": "stage5/parity-report.json",
+   "t": 2005.6
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "result",
+   "tag": "parity",
+   "attempt": 1,
+   "text": "tiny_bags_wider_embed: 624 tensors, max abs 0.0, atol 0.0, rtol 0.0",
+   "src": "stage5/parity-report.json",
+   "t": 2005.6
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "mutation",
+   "tag": "mutation",
+   "attempt": 1,
+   "text": "Mutation loss_weight: detected",
+   "detail": "first divergence: defaults_short: forward (step/*/y_prob): step/0002/y_prob: first divergent te\u2026",
+   "src": "stage5/parity-report.json",
+   "t": 2005.6
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "mutation",
+   "tag": "mutation",
+   "attempt": 1,
+   "text": "Mutation optimizer_lr: detected",
+   "detail": "first divergence: defaults_short: forward (step/*/y_prob): step/0002/y_prob: first divergent te\u2026",
+   "src": "stage5/parity-report.json",
+   "t": 2005.7
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "mutation",
+   "tag": "mutation",
+   "attempt": 1,
+   "text": "Mutation weight_decay: detected",
+   "detail": "first divergence: defaults_short: forward (step/*/y_prob): step/0002/y_prob: first divergent te\u2026",
+   "src": "stage5/parity-report.json",
+   "t": 2005.7
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "mutation",
+   "tag": "mutation",
+   "attempt": 1,
+   "text": "Mutation initialization: detected",
+   "detail": "first divergence: defaults_short: forward (step/*/y_prob): step/0001/y_prob: first divergent te\u2026",
+   "src": "stage5/parity-report.json",
+   "t": 2005.7
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "mutation",
+   "tag": "mutation",
+   "attempt": 1,
+   "text": "Mutation sample_order: detected",
+   "detail": "first divergence: defaults_short: sample_order: exact.sample_trace[0]: 'bag_007' in the referen\u2026",
+   "src": "stage5/parity-report.json",
+   "t": 2005.7
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "mutation",
+   "tag": "mutation",
+   "attempt": 1,
+   "text": "Mutation selection_rule: detected",
+   "detail": "first divergence: defaults_short: selection: exact.selection[0].selected: False in the referenc\u2026",
+   "src": "stage5/parity-report.json",
+   "t": 2005.8
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "mutation",
+   "tag": "mutation",
+   "attempt": 1,
+   "text": "Mutation threshold: detected",
+   "detail": "first divergence: defaults_short: forward (step/*/y_hat): step/0001/y_hat: first divergent tens\u2026",
+   "src": "stage5/parity-report.json",
+   "t": 2005.8
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "mutation",
+   "tag": "mutation",
+   "attempt": 1,
+   "text": "Mutation label_mapping: detected",
+   "detail": "first divergence: defaults_short: forward (step/*/y_prob): step/0002/y_prob: first divergent te\u2026",
+   "src": "stage5/parity-report.json",
+   "t": 2005.8
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "reply",
+   "tag": "reply",
+   "text": "For both evidence cases (defaults_short, tiny_bags_wider_embed), the WSIP ABMIL candidate trains through ExperimentSession on the case's fixture with the reference's set\u2026",
+   "src": "stage5/attempt-1/response.txt",
+   "attempt": 1,
+   "t": 2005.9
+  },
+  {
+   "stage": "s5",
+   "role": "parity_checker",
+   "type": "accept",
+   "tag": "accepted",
+   "attempt": 1,
+   "text": "Parity checker accepted",
+   "src": "pipeline/state.json",
+   "t": 2006.0
+  },
+  {
+   "stage": null,
+   "role": null,
+   "type": "final",
+   "tag": "final",
+   "text": "Pipeline state: final",
+   "src": "pipeline/state.json",
+   "t": 2006.0
+  }
+ ],
+ "files": [
+  {
+   "stage": "s4",
+   "path": "pyproject.toml",
+   "status": "modified",
+   "category": "B",
+   "reason": "edits an existing framework file",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "tests/contract/cases/abmil.py",
+   "status": "added",
+   "category": "A",
+   "reason": "inside the abmil adapter area",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "tests/methods/test_abmil.py",
+   "status": "added",
+   "category": "A",
+   "reason": "inside the abmil adapter area",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/core/jobs.py",
+   "status": "modified",
+   "category": "B",
+   "reason": "edits an existing framework file",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/methods/abmil/LICENSE",
+   "status": "added",
+   "category": "A",
+   "reason": "inside the abmil adapter area",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/methods/abmil/__init__.py",
+   "status": "added",
+   "category": "A",
+   "reason": "inside the abmil adapter area",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/methods/abmil/defaults/upstream_cli.json",
+   "status": "added",
+   "category": "A",
+   "reason": "inside the abmil adapter area",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/methods/abmil/integration.py",
+   "status": "added",
+   "category": "A",
+   "reason": "inside the abmil adapter area",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/methods/abmil/provenance.json",
+   "status": "added",
+   "category": "A",
+   "reason": "inside the abmil adapter area",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/methods/base.py",
+   "status": "modified",
+   "category": "B",
+   "reason": "edits an existing framework file",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/methods/registry.py",
+   "status": "modified",
+   "category": "B",
+   "reason": "edits the registration point beyond adding entries: line 6: adds a ClassDef statement (registration adds entries only, no code); line 16: rebinds the existing name 'CLAM'; line 29: a new top-level name may only hold a MethodDescriptor(...) call",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/orchestration/config.py",
+   "status": "modified",
+   "category": "B",
+   "reason": "edits an existing framework file",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/training/session.py",
+   "status": "modified",
+   "category": "B",
+   "reason": "edits an existing framework file",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s4",
+   "path": "wsip/worker/run.py",
+   "status": "modified",
+   "category": "B",
+   "reason": "edits an existing framework file",
+   "src": "stage4/accepted.patch"
+  },
+  {
+   "stage": "s5",
+   "path": "tests/parity/abmil_parity.json",
+   "status": "added",
+   "category": "A",
+   "reason": "inside the abmil adapter area",
+   "src": "stage5/accepted.patch"
+  },
+  {
+   "stage": "s5",
+   "path": "tests/parity/test_abmil_parity.py",
+   "status": "added",
+   "category": "A",
+   "reason": "inside the abmil adapter area",
+   "src": "stage5/accepted.patch"
+  }
+ ],
+ "parity": {
+  "cases": [
+   {
+    "name": "defaults_short",
+    "status": "passed",
+    "tensors_compared": 923,
+    "compared_categories": [
+     "initial",
+     "sample_order",
+     "forward",
+     "loss",
+     "gradients",
+     "update",
+     "lr",
+     "selection",
+     "final"
+    ],
+    "max_abs": 0.0,
+    "atol": 0.0,
+    "rtol": 0.0,
+    "sample_order_exact": true,
+    "selection_exact": true
+   },
+   {
+    "name": "tiny_bags_wider_embed",
+    "status": "passed",
+    "tensors_compared": 624,
+    "compared_categories": [
+     "initial",
+     "sample_order",
+     "forward",
+     "loss",
+     "gradients",
+     "update",
+     "lr",
+     "selection",
+     "final"
+    ],
+    "max_abs": 0.0,
+    "atol": 0.0,
+    "rtol": 0.0,
+    "sample_order_exact": true,
+    "selection_exact": true
+   }
+  ],
+  "mutations": [
+   {
+    "id": "loss_weight",
+    "detected": true
+   },
+   {
+    "id": "optimizer_lr",
+    "detected": true
+   },
+   {
+    "id": "weight_decay",
+    "detected": true
+   },
+   {
+    "id": "initialization",
+    "detected": true
+   },
+   {
+    "id": "sample_order",
+    "detected": true
+   },
+   {
+    "id": "selection_rule",
+    "detected": true
+   },
+   {
+    "id": "threshold",
+    "detected": true
+   },
+   {
+    "id": "label_mapping",
+    "detected": true
+   }
+  ],
+  "resume_equal": true,
+  "resume_detail": "defaults_short: interrupted after epoch 1/3, restored in a new session; 900 trajectory tensors, 32 final model/optimizer tensors, sample trace, selection and history identical (max_abs 0.0); resumed run matches the evidence; tiny_bags_wider_embed: interrupted after epoch 1/2, restored in a new session; 607 trajectory tensors, 32 final model/optimizer tensors, sample trace, selection and history identical (max_abs 0.0); resumed run matches the evidence",
+  "tolerance": {
+   "atol": 0.0,
+   "rtol": 0.0,
+   "reason": "CPU, one thread, deterministic algorithms, same operations in the same order as the patched original"
+  },
+  "recorded_differences": [],
+  "tensors": 1547,
+  "max_abs": 0.0,
+  "mutations_detected": "8/8",
+  "limit_line": "Limits: synthetic inputs, CPU only, compared with the compatibility-patched original as recorded in stage 3. Not a certification.",
+  "src": "stage5/parity-report.json"
+ },
+ "patches": [
+  {
+   "id": "abmil-feature-input-linear-v1",
+   "kind": "runtime_shim"
+  },
+  {
+   "id": "abmil-fixture-bags-v1",
+   "kind": "input_adapter"
+  },
+  {
+   "id": "abmil-cli-argv-v1",
+   "kind": "environment"
+  }
+ ],
+ "cases": [
+  {
+   "name": "defaults_short",
+   "seed": 1,
+   "epochs": 3,
+   "fixture": {
+    "bags": 10,
+    "embed_dim": 8,
+    "min_instances": 6,
+    "max_instances": 12,
+    "classes": 2
+   },
+   "params": {
+    "model": "attention",
+    "lr": 0.0005,
+    "reg": 0.0001
+   }
+  },
+  {
+   "name": "tiny_bags_wider_embed",
+   "seed": 7,
+   "epochs": 2,
+   "fixture": {
+    "bags": 8,
+    "embed_dim": 16,
+    "min_instances": 1,
+    "max_instances": 4,
+    "classes": 2
+   },
+   "params": {
+    "model": "attention",
+    "lr": 0.0005,
+    "reg": 0.0001
+   }
+  }
+ ],
+ "caveats": [
+  {
+   "text": "Compared with the original code after 3 declared compatibility patches, not with its published GPU runs.",
+   "src": "stage3/attempt-1/files/patches.json"
+  },
+  {
+   "text": "Two synthetic CPU cases of 8 and 10 bags, 1 to 12 instances each, 8 and 16-dimensional. No real tissue was in this comparison.",
+   "src": "stage3/attempt-1/files/cases.json"
+  },
+  {
+   "text": "The CNN was replaced on both sides by a provisional decision, so the original image path was never compared.",
+   "src": "stage3/accepted.json, limitations"
+  },
+  {
+   "text": "12 decisions along the way were answered by the agent and marked provisional. No lab member has confirmed them.",
+   "src": "answers.json"
+  },
+  {
+   "text": "An agent wrote the comparison tests and the tool checked them with tamper runs. The independent verifier built on Oct 27 lists only clam, so it has not judged this method.",
+   "src": "a-wsip-verification references/comparison-specs/registry.json"
+  }
+ ],
+ "parity_max_instances": 12,
+ "parity_dims": [
+  8,
+  16
+ ],
+ "decisions": 12,
+ "limitations": {
+  "stage3": [
+   "Only the plain `attention` variant is patched and exercised, per reference_output_configuration. GatedAttention is not covered.",
+   "The original has no validation set or model selection. The fixture's `val` bags are written to `bag_lists/val_unused.csv` but never seen by the original code. exact.selection holds per-epoch train loss and train error, with the last epoch marked as selected.",
+   "The epochs are shortened (3 and 2) instead of the repository default of 20, to keep the per-step arrays well under 50 MB. lr 5e-4 and reg 1e-4 are the repository defaults.",
+   "The LeNet image encoder and the MNIST/torchvision bag construction in `dataloader._create_bags` (including `np.int`) never run. The reference only covers the feature-input path the lab chose and makes no claim about MNIST accuracy.",
+   "Fixture bags have no instance labels. The adapter passes -1, which the original only prints during `test()`.",
+   "The positive class is `class_order[1]` (fixture label 1 becomes bag label True). The class_order mapping in the WSIP adapter is not exercised here.",
+   "The fixtures are too small to drive p outside [1e-5, 1-1e-5], so the clamp's zero-gradient regime is not exercised.",
+   "CPU only, one thread, deterministic algorithms, on the modern pinned torch/numpy in the WSIP reference venv, not the README's PyTorch 0.3.1 / Python 2.7."
+  ],
+  "stage5": [
+   "Parity is shown only on tiny synthetic CPU feature bags (8-12 dimensions, 6-10 bags, 2-3 epochs) with one thread and deterministic algorithms. It says nothing about GPU or multi-threaded numerics, real pathology feature sizes, or the full 20-epoch default schedule.",
+   "The reference is the patched original (feature-input Linear+ReLU in place of LeNet, fixture bags in place of MNIST-bags), so parity does not validate those lab decisions themselves, all still PROVISIONAL. The gated_attention variant has no evidence and is not covered.",
+   "Two aggregates are rebuilt in the test from the candidate's own per-step values using main.py's formulas: epoch train loss and test mean loss, which main.py accumulates in float32. WSIP's session history keeps a float64 mean, which is not compared against the evidence.",
+   "Test splits have only 2 bags per case, so the final decision and threshold behaviour is exercised on very few predictions; the threshold mutation is detected through the exported threshold value, not necessarily through a changed prediction.",
+   "WSIP's per-epoch validation pass (with isolated RNG) has no counterpart in the original and is checked only indirectly: the sample order and every later step still match exactly."
+  ]
+ }
+}

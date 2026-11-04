@@ -1,0 +1,532 @@
+{
+  "checks": {
+    "passed": true,
+    "problems": [],
+    "warnings": [],
+    "checks": [
+      {
+        "name": "reply_json",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "files_present",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "declaration_valid",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "compares_stored_evidence",
+        "passed": true,
+        "detail": []
+      },
+      {
+        "name": "parity_tests_pass",
+        "passed": true,
+        "detail": {
+          "passed": 12,
+          "failed": 0,
+          "error": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "name": "report_valid",
+        "passed": true,
+        "detail": []
+      },
+      {
+        "name": "tamper_detected",
+        "passed": true,
+        "detail": {
+          "initial": {
+            "changed": "initial/attCls.attention.attention_U.0.bias",
+            "caught": true
+          },
+          "forward": {
+            "changed": "step/0000/logits/tier1_pseudo_bags",
+            "caught": true
+          },
+          "loss": {
+            "changed": "step/0000/loss/loss0_tier1",
+            "caught": true
+          },
+          "gradients": {
+            "changed": "step/0000/gradients/attCls.attention.attention_U.0.bias",
+            "caught": true
+          },
+          "update": {
+            "changed": "step/0000/updated/attCls.attention.attention_U.0.bias",
+            "caught": true
+          },
+          "lr": {
+            "changed": "epoch/000/lr/optimizer_adam0/after",
+            "caught": true
+          },
+          "sample_order": {
+            "changed": "exact.sample_trace",
+            "caught": true
+          },
+          "selection": {
+            "changed": "exact.selection",
+            "caught": true
+          },
+          "final": {
+            "changed": "final/best_val_auc_tier2",
+            "caught": true
+          },
+          "instance_selection": {
+            "changed": "exact.instance_selection",
+            "caught": true
+          },
+          "phase": {
+            "changed": "exact.phases",
+            "caught": true
+          }
+        }
+      },
+      {
+        "name": "regression_0",
+        "passed": true,
+        "detail": {
+          "counts": {
+            "passed": 103,
+            "failed": 0,
+            "error": 0,
+            "skipped": 0
+          },
+          "command": [
+            "-q",
+            "-m",
+            "not worker and not reference and not container and not gpu and not service and not research"
+          ]
+        }
+      },
+      {
+        "name": "regression_1",
+        "passed": true,
+        "detail": {
+          "counts": {
+            "passed": 10,
+            "failed": 0,
+            "error": 0,
+            "skipped": 0
+          },
+          "command": [
+            "-q",
+            "tests/training/test_parity.py"
+          ]
+        }
+      },
+      {
+        "name": "import_boundary",
+        "passed": true,
+        "detail": []
+      },
+      {
+        "name": "tests_not_weakened",
+        "passed": true,
+        "detail": []
+      },
+      {
+        "name": "allowed_paths",
+        "passed": true,
+        "detail": []
+      },
+      {
+        "name": "no_stray_files",
+        "passed": true,
+        "detail": []
+      },
+      {
+        "name": "reference_runner_unchanged",
+        "passed": true,
+        "detail": null
+      }
+    ],
+    "extra": {
+      "report": {
+        "schema": "wsip.parity/v1",
+        "method": "dtfd_mil",
+        "cases": [
+          {
+            "name": "defaults_short",
+            "status": "passed",
+            "tensors_compared": 11965,
+            "compared_categories": [
+              "initial",
+              "forward",
+              "loss",
+              "gradients",
+              "update",
+              "lr",
+              "sample_order",
+              "selection",
+              "final",
+              "instance_selection",
+              "phase"
+            ],
+            "max_abs": 0.0,
+            "atol": 0.0,
+            "rtol": 0.0,
+            "sample_order_exact": true,
+            "selection_exact": true,
+            "exact_keys_compared": [
+              "epoch_order",
+              "instance_selection",
+              "phases",
+              "sample_trace",
+              "selected_epoch",
+              "selection",
+              "slide_names",
+              "splits",
+              "val_metrics",
+              "val_pseudo_bags",
+              "val_thresholds"
+            ]
+          },
+          {
+            "name": "milestone_selection",
+            "status": "passed",
+            "tensors_compared": 15953,
+            "compared_categories": [
+              "initial",
+              "forward",
+              "loss",
+              "gradients",
+              "update",
+              "lr",
+              "sample_order",
+              "selection",
+              "final",
+              "instance_selection",
+              "phase"
+            ],
+            "max_abs": 0.0,
+            "atol": 0.0,
+            "rtol": 0.0,
+            "sample_order_exact": true,
+            "selection_exact": true,
+            "exact_keys_compared": [
+              "epoch_order",
+              "instance_selection",
+              "phases",
+              "sample_trace",
+              "selected_epoch",
+              "selection",
+              "slide_names",
+              "splits",
+              "val_metrics",
+              "val_pseudo_bags",
+              "val_thresholds"
+            ]
+          }
+        ],
+        "mutations": [
+          {
+            "id": "loss_weight",
+            "case": "defaults_short",
+            "detected": true,
+            "message": "first divergence: forward: step/0000/clip/attention/norm_after: first divergent tensor; max_abs=0.03774897754192352, max_rel=0.5, index=()"
+          },
+          {
+            "id": "tier2_weight_decay",
+            "case": "defaults_short",
+            "detected": true,
+            "message": "first divergence: forward: step/0001/logits/tier2_slide: first divergent tensor; max_abs=2.956390380859375e-05, max_rel=0.00020073401468231718, index=(np.int64(0), np.int64(0))"
+          },
+          {
+            "id": "tier_update_order",
+            "case": "defaults_short",
+            "detected": true,
+            "message": "first divergence: phase: exact.phases[0].phase: expected 'tier1', candidate 'tier2'"
+          },
+          {
+            "id": "initialization",
+            "case": "defaults_short",
+            "detected": true,
+            "message": "first divergence: initial: initial/attCls.classifier.fc.bias: first divergent tensor; max_abs=0.010000001639127731, max_rel=1.0890890247185285, index=(np.int64(1),)"
+          },
+          {
+            "id": "sample_order",
+            "case": "defaults_short",
+            "detected": true,
+            "message": "first divergence: sample_order: exact.sample_trace[0]: expected 'bag_016', candidate 'bag_012'"
+          },
+          {
+            "id": "selection_window",
+            "case": "defaults_short",
+            "detected": true,
+            "message": "first divergence: selection: exact.selection[0].eligible: expected False, candidate True"
+          },
+          {
+            "id": "label_mapping",
+            "case": "defaults_short",
+            "detected": true,
+            "message": "first divergence: sample_order: exact.slide_names.bag_000: expected 'normal_bag_000', candidate 'tumor_bag_000'"
+          },
+          {
+            "id": "pseudo_bag_groups",
+            "case": "defaults_short",
+            "detected": true,
+            "message": "first divergence: instance_selection: exact.instance_selection[0].pseudo_bags[0]: length 6 != 8"
+          },
+          {
+            "id": "gradient_clipping",
+            "case": "defaults_short",
+            "detected": true,
+            "message": "first divergence: forward: step/0000/clip/attention/norm_after: first divergent tensor; max_abs=0.07449796854052693, max_rel=0.9867547863752131, index=()"
+          }
+        ],
+        "resume": {
+          "equal": true,
+          "case": "defaults_short",
+          "boundary_epoch": 2,
+          "detail": "defaults_short: interrupted after epoch 2 of 6, checkpoint restored into a new session; model, both Adam states, both schedulers, history, selection policy, selected weights and every per-step primitive equal the uninterrupted run exactly"
+        },
+        "recorded_differences": []
+      },
+      "declaration": {
+        "tolerances": {
+          "default": {
+            "atol": 0.0,
+            "rtol": 0.0,
+            "reason": "CPU, same operations in the same order"
+          }
+        },
+        "mutations": [
+          {
+            "id": "loss_weight",
+            "description": "tier-1 objective (loss0) weighted 0.5 instead of the original's 1"
+          },
+          {
+            "id": "tier2_weight_decay",
+            "description": "tier-2 Adam (optimizer_adam1) weight_decay 1e-3 instead of the original's 1e-4"
+          },
+          {
+            "id": "tier_update_order",
+            "description": "tier-2 phase (loss1, optimizer_adam1) updated before the tier-1 phase"
+          },
+          {
+            "id": "initialization",
+            "description": "attCls classifier bias initialized 0.01 away from the seeded original"
+          },
+          {
+            "id": "sample_order",
+            "description": "training bags drawn by torch RandomSampler instead of random.shuffle on the Python stream"
+          },
+          {
+            "id": "selection_window",
+            "description": "every epoch eligible for selection instead of only epochs > int(0.8*EPOCH)"
+          },
+          {
+            "id": "label_mapping",
+            "description": "class order reversed, so label 0 becomes the positive (tumor) class"
+          },
+          {
+            "id": "pseudo_bag_groups",
+            "description": "3 pseudo-bags per training slide instead of numGroup 4"
+          },
+          {
+            "id": "gradient_clipping",
+            "description": "per-module gradient norm clipped to 1e-3 instead of 5"
+          }
+        ],
+        "recorded_differences": []
+      }
+    }
+  },
+  "report": {
+    "schema": "wsip.parity/v1",
+    "method": "dtfd_mil",
+    "cases": [
+      {
+        "name": "defaults_short",
+        "status": "passed",
+        "tensors_compared": 11965,
+        "compared_categories": [
+          "initial",
+          "forward",
+          "loss",
+          "gradients",
+          "update",
+          "lr",
+          "sample_order",
+          "selection",
+          "final",
+          "instance_selection",
+          "phase"
+        ],
+        "max_abs": 0.0,
+        "atol": 0.0,
+        "rtol": 0.0,
+        "sample_order_exact": true,
+        "selection_exact": true,
+        "exact_keys_compared": [
+          "epoch_order",
+          "instance_selection",
+          "phases",
+          "sample_trace",
+          "selected_epoch",
+          "selection",
+          "slide_names",
+          "splits",
+          "val_metrics",
+          "val_pseudo_bags",
+          "val_thresholds"
+        ]
+      },
+      {
+        "name": "milestone_selection",
+        "status": "passed",
+        "tensors_compared": 15953,
+        "compared_categories": [
+          "initial",
+          "forward",
+          "loss",
+          "gradients",
+          "update",
+          "lr",
+          "sample_order",
+          "selection",
+          "final",
+          "instance_selection",
+          "phase"
+        ],
+        "max_abs": 0.0,
+        "atol": 0.0,
+        "rtol": 0.0,
+        "sample_order_exact": true,
+        "selection_exact": true,
+        "exact_keys_compared": [
+          "epoch_order",
+          "instance_selection",
+          "phases",
+          "sample_trace",
+          "selected_epoch",
+          "selection",
+          "slide_names",
+          "splits",
+          "val_metrics",
+          "val_pseudo_bags",
+          "val_thresholds"
+        ]
+      }
+    ],
+    "mutations": [
+      {
+        "id": "loss_weight",
+        "case": "defaults_short",
+        "detected": true,
+        "message": "first divergence: forward: step/0000/clip/attention/norm_after: first divergent tensor; max_abs=0.03774897754192352, max_rel=0.5, index=()"
+      },
+      {
+        "id": "tier2_weight_decay",
+        "case": "defaults_short",
+        "detected": true,
+        "message": "first divergence: forward: step/0001/logits/tier2_slide: first divergent tensor; max_abs=2.956390380859375e-05, max_rel=0.00020073401468231718, index=(np.int64(0), np.int64(0))"
+      },
+      {
+        "id": "tier_update_order",
+        "case": "defaults_short",
+        "detected": true,
+        "message": "first divergence: phase: exact.phases[0].phase: expected 'tier1', candidate 'tier2'"
+      },
+      {
+        "id": "initialization",
+        "case": "defaults_short",
+        "detected": true,
+        "message": "first divergence: initial: initial/attCls.classifier.fc.bias: first divergent tensor; max_abs=0.010000001639127731, max_rel=1.0890890247185285, index=(np.int64(1),)"
+      },
+      {
+        "id": "sample_order",
+        "case": "defaults_short",
+        "detected": true,
+        "message": "first divergence: sample_order: exact.sample_trace[0]: expected 'bag_016', candidate 'bag_012'"
+      },
+      {
+        "id": "selection_window",
+        "case": "defaults_short",
+        "detected": true,
+        "message": "first divergence: selection: exact.selection[0].eligible: expected False, candidate True"
+      },
+      {
+        "id": "label_mapping",
+        "case": "defaults_short",
+        "detected": true,
+        "message": "first divergence: sample_order: exact.slide_names.bag_000: expected 'normal_bag_000', candidate 'tumor_bag_000'"
+      },
+      {
+        "id": "pseudo_bag_groups",
+        "case": "defaults_short",
+        "detected": true,
+        "message": "first divergence: instance_selection: exact.instance_selection[0].pseudo_bags[0]: length 6 != 8"
+      },
+      {
+        "id": "gradient_clipping",
+        "case": "defaults_short",
+        "detected": true,
+        "message": "first divergence: forward: step/0000/clip/attention/norm_after: first divergent tensor; max_abs=0.07449796854052693, max_rel=0.9867547863752131, index=()"
+      }
+    ],
+    "resume": {
+      "equal": true,
+      "case": "defaults_short",
+      "boundary_epoch": 2,
+      "detail": "defaults_short: interrupted after epoch 2 of 6, checkpoint restored into a new session; model, both Adam states, both schedulers, history, selection policy, selected weights and every per-step primitive equal the uninterrupted run exactly"
+    },
+    "recorded_differences": []
+  },
+  "declaration": {
+    "tolerances": {
+      "default": {
+        "atol": 0.0,
+        "rtol": 0.0,
+        "reason": "CPU, same operations in the same order"
+      }
+    },
+    "mutations": [
+      {
+        "id": "loss_weight",
+        "description": "tier-1 objective (loss0) weighted 0.5 instead of the original's 1"
+      },
+      {
+        "id": "tier2_weight_decay",
+        "description": "tier-2 Adam (optimizer_adam1) weight_decay 1e-3 instead of the original's 1e-4"
+      },
+      {
+        "id": "tier_update_order",
+        "description": "tier-2 phase (loss1, optimizer_adam1) updated before the tier-1 phase"
+      },
+      {
+        "id": "initialization",
+        "description": "attCls classifier bias initialized 0.01 away from the seeded original"
+      },
+      {
+        "id": "sample_order",
+        "description": "training bags drawn by torch RandomSampler instead of random.shuffle on the Python stream"
+      },
+      {
+        "id": "selection_window",
+        "description": "every epoch eligible for selection instead of only epochs > int(0.8*EPOCH)"
+      },
+      {
+        "id": "label_mapping",
+        "description": "class order reversed, so label 0 becomes the positive (tumor) class"
+      },
+      {
+        "id": "pseudo_bag_groups",
+        "description": "3 pseudo-bags per training slide instead of numGroup 4"
+      },
+      {
+        "id": "gradient_clipping",
+        "description": "per-module gradient norm clipped to 1e-3 instead of 5"
+      }
+    ],
+    "recorded_differences": []
+  }
+}

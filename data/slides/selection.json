@@ -1,0 +1,72 @@
+[
+ {
+  "organ": "brain",
+  "file_id": "f28f9596-07bf-4f51-8959-1ee9e0a0b424",
+  "file_name": "TCGA-12-0620-01Z-00-DX1.5d4cc50f-9b78-4b8b-8e8e-1c20ae415d71.svs",
+  "file_size": 6464167,
+  "md5sum": "4ce18bd60bb81318262d9b40d17cd402",
+  "case_id": "1dbfbff7-d048-4770-ae02-e6a287256210",
+  "case_submitter_id": "TCGA-12-0620",
+  "project": "TCGA-GBM",
+  "primary_site": "Brain",
+  "sample_type": "Primary Tumor",
+  "access": "open",
+  "experimental_strategy": "Diagnostic Slide"
+ },
+ {
+  "organ": "liver",
+  "file_id": "7fe08fdc-f28b-4306-a99e-651f3af76638",
+  "file_name": "TCGA-MR-A520-01Z-00-DX1.2F323BAC-56C9-4A0C-9C1B-2B4F776056B4.svs",
+  "file_size": 83649153,
+  "md5sum": "10d6eec5251d55f062fe81d0a1b08ed0",
+  "case_id": "25e893ad-a0fd-45ae-9aa9-9bcd7c2ec8e5",
+  "case_submitter_id": "TCGA-MR-A520",
+  "project": "TCGA-LIHC",
+  "primary_site": "Liver and intrahepatic bile ducts",
+  "sample_type": "Primary Tumor",
+  "access": "open",
+  "experimental_strategy": "Diagnostic Slide"
+ },
+ {
+  "organ": "lung",
+  "file_id": "5965ab59-8a43-4a84-a07a-fd0b0c3fab7a",
+  "file_name": "TCGA-05-4425-01Z-00-DX1.82B093EE-49BC-4FD9-91AC-4CC89944309D.svs",
+  "file_size": 6382442,
+  "md5sum": "7a54cb0d7765ca46a94314ac009088ca",
+  "case_id": "69b23036-add9-42c9-941f-02fb74d9b08c",
+  "case_submitter_id": "TCGA-05-4425",
+  "project": "TCGA-LUAD",
+  "primary_site": "Bronchus and lung",
+  "sample_type": "Primary Tumor",
+  "access": "open",
+  "experimental_strategy": "Diagnostic Slide"
+ },
+ {
+  "organ": "breast",
+  "file_id": "f2d5aa37-d9ce-4264-a447-fc69dd0d7d85",
+  "file_name": "TCGA-OL-A5RW-01Z-00-DX1.E16DE8EE-31AF-4EAF-A85F-DB3E3E2C3BFF.svs",
+  "file_size": 25565706,
+  "md5sum": "1a169f76fc7d21e767a93225968b9531",
+  "case_id": "a82d0a57-4383-473d-b334-d13b278404b1",
+  "case_submitter_id": "TCGA-OL-A5RW",
+  "project": "TCGA-BRCA",
+  "primary_site": "Breast",
+  "sample_type": "Primary Tumor",
+  "access": "open",
+  "experimental_strategy": "Diagnostic Slide"
+ },
+ {
+  "organ": "colon",
+  "file_id": "35c1e23c-8adb-4a7f-865f-be1d6e10b3ef",
+  "file_name": "TCGA-AA-3489-01Z-00-DX1.AE299B70-B14C-4FFE-B1F9-38B2EB267FA9.svs",
+  "file_size": 7610002,
+  "md5sum": "4d0517059a282253dd048d176eb40e32",
+  "case_id": "b95720b1-aa00-4c6a-b202-3350d035829f",
+  "case_submitter_id": "TCGA-AA-3489",
+  "project": "TCGA-COAD",
+  "primary_site": "Colon",
+  "sample_type": "Primary Tumor",
+  "access": "open",
+  "experimental_strategy": "Diagnostic Slide"
+ }
+]

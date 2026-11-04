@@ -1,0 +1,11 @@
+{"patches": [
+  {"id": "abmil-feature-input-linear-v1", "kind": "runtime_shim",
+   "targets": ["model.Attention.__init__", "model.Attention.forward"],
+   "reason": "Scientific change chosen by the lab (feature_input_adapter = linear_relu_to_500): the fixture bags are [K, D] feature vectors, not 1x28x28 images. Attention.__init__ and Attention.forward are recompiled at runtime from the upstream model.py source (same file name and line numbers) with three literal substitutions: feature_extractor_part1 (LeNet conv block) becomes nn.Identity(), nn.Linear(50 * 4 * 4, self.M) becomes nn.Linear(D, self.M), and H.view(-1, 50 * 4 * 4) becomes H.view(-1, D). Attention (M=500, L=128), softmax, Z = A.H, classifier, the >= 0.5 rule, calculate_objective and calculate_classification_error are unchanged."},
+  {"id": "abmil-fixture-bags-v1", "kind": "input_adapter",
+   "targets": ["dataloader.MnistBags"],
+   "reason": "MnistBags downloads MNIST through torchvision and builds image bags. It is replaced by a dataset with the same constructor and item format, (bag, [bag_label, instance_labels]), that serves the fixture's train bags (train=True) and test bags (train=False) from OUT_DIR/bag_lists. Instance labels are unknown and given as -1; the original only prints them. It draws no random numbers."},
+  {"id": "abmil-cli-argv-v1", "kind": "environment",
+   "targets": ["sys.argv"],
+   "reason": "main.py parses its settings from sys.argv at import time. The runner sets --epochs, --lr, --reg, --seed, --model, --num_bags_train/--num_bags_test (fixture counts) and --no-cuda before executing main.py as __main__."}
+]}

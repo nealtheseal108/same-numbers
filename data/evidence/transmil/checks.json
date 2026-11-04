@@ -1,0 +1,378 @@
+{
+  "passed": true,
+  "problems": [],
+  "warnings": [],
+  "checks": [
+    {
+      "name": "reply_json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "files_present",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "declaration_valid",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "compares_stored_evidence",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "parity_tests_pass",
+      "passed": true,
+      "detail": {
+        "passed": 12,
+        "failed": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "report_valid",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tamper_detected",
+      "passed": true,
+      "detail": {
+        "initial": {
+          "changed": "initial/_fc1.0.bias",
+          "caught": true
+        },
+        "forward": {
+          "changed": "step/0000/logits",
+          "caught": true
+        },
+        "loss": {
+          "changed": "step/0000/loss",
+          "caught": true
+        },
+        "gradients": {
+          "changed": "optstep/0000/gradients/_fc1.0.bias",
+          "caught": true
+        },
+        "update": {
+          "changed": "optstep/0000/updated/exp_avg/_fc1.0.bias",
+          "caught": true
+        },
+        "lr": {
+          "changed": "epoch/000/lr_start",
+          "caught": true
+        },
+        "sample_order": {
+          "changed": "exact.sample_trace",
+          "caught": true
+        },
+        "selection": {
+          "changed": "exact.selection",
+          "caught": true
+        },
+        "final": {
+          "changed": "final/last_epoch",
+          "caught": true
+        },
+        "positions": {
+          "changed": "step/0000/positions/add_length",
+          "caught": true
+        }
+      }
+    },
+    {
+      "name": "regression_0",
+      "passed": true,
+      "detail": {
+        "counts": {
+          "passed": 111,
+          "failed": 0,
+          "error": 0,
+          "skipped": 0
+        },
+        "command": [
+          "-q",
+          "-m",
+          "not worker and not reference and not container and not gpu and not service and not research"
+        ]
+      }
+    },
+    {
+      "name": "regression_1",
+      "passed": true,
+      "detail": {
+        "counts": {
+          "passed": 10,
+          "failed": 0,
+          "error": 0,
+          "skipped": 0
+        },
+        "command": [
+          "-q",
+          "tests/training/test_parity.py"
+        ]
+      }
+    },
+    {
+      "name": "import_boundary",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tests_not_weakened",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "allowed_paths",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "no_stray_files",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "reference_runner_unchanged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "extra": {
+    "report": {
+      "schema": "wsip.parity/v1",
+      "method": "transmil",
+      "cases": [
+        {
+          "name": "defaults_long_bags",
+          "status": "passed",
+          "tensors_compared": 2598,
+          "compared_categories": [
+            "initial",
+            "forward",
+            "loss",
+            "gradients",
+            "update",
+            "lr",
+            "sample_order",
+            "selection",
+            "final",
+            "positions"
+          ],
+          "max_abs": 0.0,
+          "atol": 0.0,
+          "rtol": 0.0,
+          "sample_order_exact": true,
+          "selection_exact": true
+        },
+        {
+          "name": "early_stop_short_bags",
+          "status": "passed",
+          "tensors_compared": 6491,
+          "compared_categories": [
+            "initial",
+            "forward",
+            "loss",
+            "gradients",
+            "update",
+            "lr",
+            "sample_order",
+            "selection",
+            "final",
+            "positions"
+          ],
+          "max_abs": 0.0,
+          "atol": 0.0,
+          "rtol": 0.0,
+          "sample_order_exact": true,
+          "selection_exact": true
+        }
+      ],
+      "mutations": [
+        {
+          "id": "accumulation",
+          "detected": true,
+          "message": "early_stop_short_bags: first divergence: names: missing ['epoch/003/lr_end', 'epoch/003/lr_start', 'epoch/003/val/Y_hat', 'epoch/003/val/Y_prob'], extra ['optstep/0030/bag_steps', 'optstep/0030/gradients/_fc1.0.bias', 'optstep/0030/gradients/_fc1.0.weight/sample', 'optstep/0030/gradients/_fc1.0.weight/stats']; forward: candidate lacks ['step/0033/Y_prob', 'step/0033/logits', 'step/0034/Y_prob']; loss: candidate lacks ['step/0033/loss', 'step/0034/loss', 'step/0035/loss']; gradients: optstep/0000/gradients/_fc1.0.bias: first divergent tensor; max_abs=0.004733053967356682, max_rel=452.13686032673377, index=(np.int64(47),); update: optstep/0000/updated/exp_avg/_fc1.0.bias: first divergent tensor; max_abs=0.00047330539382528514, max_rel=452.13687980854917, index=(np.int64(47),); lr: candidate lacks ['epoch/003/lr_end', 'epoch/003/lr_start', 'epoch/004/lr_end']; sample_order: exact.sample_trace: length 33 != 55; selection: exact.selection: length 3 != 5; final: final/last_epoch: first divergent tensor; max_abs=2.0, max_rel=0.5, index=(); positions: candidate lacks ['step/0033/positions/add_length', 'step/0033/positions/grid', 'step/0033/positions/padded_rows']; other: candidate lacks ['epoch/003/val/Y_hat', 'epoch/003/val/Y_prob', 'epoch/003/val/label']"
+        },
+        {
+          "id": "initialization",
+          "detected": true,
+          "message": "early_stop_short_bags: first divergence: initial: initial/_fc2.weight: first divergent tensor; max_abs=0.04418550804257393, max_rel=1.0, index=(np.int64(0), np.int64(334)); forward: step/0000/Y_prob: first divergent tensor; max_abs=0.07631433010101318, max_rel=0.18256456514220584, index=(np.int64(0), np.int64(0)); loss: step/0000/loss: first divergent tensor; max_abs=0.12321463227272034, max_rel=0.22762434644115925, index=(); gradients: optstep/0000/gradients/_fc1.0.bias: first divergent tensor; max_abs=0.003709631972014904, max_rel=140.96034837174076, index=(np.int64(47),); update: optstep/0000/updated/exp_avg/_fc1.0.bias: first divergent tensor; max_abs=0.0003709631855599582, max_rel=140.96035362751755, index=(np.int64(47),); selection: exact.selection[0].val_loss: expected 0.6464038491249084, got 0.6290570497512817; final: final/selected/model._fc1.0.bias: first divergent tensor; max_abs=4.806928336620331e-05, max_rel=0.16974900910149243, index=(np.int64(201),); other: epoch/000/val/metrics/val_loss: beyond recorded difference validation_loss_float64_mean (expected array(0.64640385), got array(0.62905705))"
+        },
+        {
+          "id": "instance_order",
+          "detected": true,
+          "message": "early_stop_short_bags: first divergence: forward: step/0000/Y_prob: first divergent tensor; max_abs=5.906820297241211e-05, max_rel=0.00014123585867944257, index=(np.int64(0), np.int64(0)); loss: step/0000/loss: first divergent tensor; max_abs=0.00010144710540771484, max_rel=0.00018741143515867153, index=(); gradients: optstep/0000/gradients/_fc1.0.bias: first divergent tensor; max_abs=0.0007613872876390815, max_rel=24.72722600887158, index=(np.int64(97),); update: optstep/0000/updated/exp_avg/_fc1.0.bias: first divergent tensor; max_abs=7.613872730871662e-05, max_rel=24.727227193879763, index=(np.int64(97),); selection: exact.selection[0].val_loss: expected 0.6464038491249084, got 0.6439046263694763; final: final/selected/model._fc1.0.bias: first divergent tensor; max_abs=0.00018078461289405823, max_rel=0.5601047503480472, index=(np.int64(259),); positions: step/0000/positions/padded_rows: first divergent tensor; max_abs=18.0, max_rel=inf, index=(np.int64(0),); other: epoch/000/val/metrics/val_loss: beyond recorded difference validation_loss_float64_mean (expected array(0.64640385), got array(0.64390463))"
+        },
+        {
+          "id": "label_mapping",
+          "detected": true,
+          "message": "early_stop_short_bags: first divergence: names: missing [], extra ['epoch/005/lr_end', 'epoch/005/lr_start', 'epoch/005/val/Y_hat', 'epoch/005/val/Y_prob']; forward: step/0002/Y_prob: first divergent tensor; max_abs=0.00014024972915649414, max_rel=0.0003027390226225691, index=(np.int64(0), np.int64(0)); loss: step/0000/loss: first divergent tensor; max_abs=0.3309362530708313, max_rel=0.6113652812938832, index=(); gradients: optstep/0000/gradients/_fc1.0.bias: first divergent tensor; max_abs=0.0033214385621249676, max_rel=148.15925565292653, index=(np.int64(47),); update: optstep/0000/updated/exp_avg/_fc1.0.bias: first divergent tensor; max_abs=0.00033214385621249676, max_rel=148.1592643847147, index=(np.int64(47),); sample_order: exact.sample_trace: length 110 != 55; selection: exact.selection: length 10 != 5; final: final/last_epoch: first divergent tensor; max_abs=5.0, max_rel=1.25, index=(); other: epoch/000/val/metrics/val_loss: beyond recorded difference validation_loss_float64_mean (expected array(0.64640385), got array(0.68984658))"
+        },
+        {
+          "id": "learning_rate",
+          "detected": true,
+          "message": "early_stop_short_bags: first divergence: forward: step/0002/Y_prob: first divergent tensor; max_abs=0.33021198213100433, max_rel=0.7127859696867275, index=(np.int64(0), np.int64(0)); loss: step/0002/loss: first divergent tensor; max_abs=0.5381213277578354, max_rel=0.6993615430456379, index=(); gradients: optstep/0001/gradients/_fc1.0.bias: first divergent tensor; max_abs=0.003607622580602765, max_rel=312.40225583864117, index=(np.int64(47),); update: optstep/0000/updated/params/_fc1.0.bias: first divergent tensor; max_abs=4.2762141674757004e-05, max_rel=4.030565394943879, index=(np.int64(47),); lr: epoch/000/lr_end: first divergent tensor; max_abs=0.018000000000000002, max_rel=9.0, index=(np.int64(0),); selection: exact.selection[0].val_Accuracy: expected 0.6666666865348816, got 0.3333333432674408; final: final/selected/model._fc1.0.bias: first divergent tensor; max_abs=0.0045689730904996395, max_rel=9.107951925732188, index=(np.int64(362),); other: epoch/000/val/metrics/val_loss: beyond recorded difference validation_loss_float64_mean (expected array(0.64640385), got array(1.57413399))"
+        },
+        {
+          "id": "loss_weight",
+          "detected": true,
+          "message": "early_stop_short_bags: first divergence: forward: step/0002/Y_prob: first divergent tensor; max_abs=0.02055293321609497, max_rel=0.04436490486622422, index=(np.int64(0), np.int64(0)); loss: step/0002/loss: first divergent tensor; max_abs=0.04537922143936157, max_rel=0.05897644395600616, index=(); gradients: optstep/0000/gradients/_fc1.0.bias: first divergent tensor; max_abs=0.0011878367513418198, max_rel=0.5, index=(np.int64(47),); update: optstep/0000/updated/exp_avg/_fc1.0.bias: first divergent tensor; max_abs=0.00011878367513418198, max_rel=0.5, index=(np.int64(47),); selection: exact.selection[0].val_loss: expected 0.6464038491249084, got 0.6679730415344238; final: final/selected/model._fc1.0.bias: first divergent tensor; max_abs=8.69380310177803e-05, max_rel=0.40830143142508896, index=(np.int64(336),); other: epoch/000/val/metrics/val_loss: beyond recorded difference validation_loss_float64_mean (expected array(0.64640385), got array(0.66797304))"
+        },
+        {
+          "id": "sample_order",
+          "detected": true,
+          "message": "early_stop_short_bags: first divergence: forward: step/0000/Y_prob: first divergent tensor; max_abs=0.0035483241081237793, max_rel=0.00848841056757922, index=(np.int64(0), np.int64(0)); loss: step/0000/loss: first divergent tensor; max_abs=0.006078362464904785, max_rel=0.011229050137844305, index=(); gradients: optstep/0000/gradients/_fc1.0.bias: first divergent tensor; max_abs=0.0015189503319561481, max_rel=81.17597100508493, index=(np.int64(102),); update: optstep/0000/updated/exp_avg/_fc1.0.bias: first divergent tensor; max_abs=0.00015189503756118938, max_rel=81.17597037348325, index=(np.int64(102),); sample_order: exact.sample_trace[0]: expected 'bag_002', got 'bag_012'; selection: exact.selection[0].val_loss: expected 0.6464038491249084, got 0.6463090181350708; final: final/selected/model._fc1.0.bias: first divergent tensor; max_abs=0.00029565393924713135, max_rel=0.7620239831269165, index=(np.int64(101),); positions: step/0000/positions/add_length: first divergent tensor; max_abs=3.0, max_rel=0.5, index=(); other: epoch/000/val/metrics/val_loss: beyond recorded difference validation_loss_float64_mean (expected array(0.64640385), got array(0.64630902))"
+        },
+        {
+          "id": "selection_rule",
+          "detected": true,
+          "message": "early_stop_short_bags: first divergence: names: missing [], extra ['epoch/005/lr_end', 'epoch/005/lr_start', 'epoch/005/val/Y_hat', 'epoch/005/val/Y_prob']; sample_order: exact.sample_trace: length 132 != 55; selection: exact.selection: length 12 != 5; final: final/last_epoch: first divergent tensor; max_abs=7.0, max_rel=1.75, index=(); other: test/000/Y_prob: first divergent tensor; max_abs=0.17330250144004822, max_rel=0.3860178190144943, index=(np.int64(0), np.int64(0))"
+        },
+        {
+          "id": "weight_decay",
+          "detected": true,
+          "message": "early_stop_short_bags: first divergence: initial: initial/optimizer/group_weight_decay: first divergent tensor; max_abs=0.00099, max_rel=98.99999999999999, index=(np.int64(1),); forward: step/0002/Y_prob: first divergent tensor; max_abs=2.384185791015625e-07, max_rel=5.146434723715582e-07, index=(np.int64(0), np.int64(0)); loss: step/0002/loss: first divergent tensor; max_abs=5.960464477539062e-07, max_rel=7.746430812637001e-07, index=(); gradients: optstep/0001/gradients/_fc1.0.bias: first divergent tensor; max_abs=1.0710209608078003e-08, max_rel=0.0015495225590471194, index=(np.int64(70),); update: optstep/0000/updated/params/_fc1.0.weight/sample: first divergent tensor; max_abs=6.332993507385254e-08, max_rel=2.0362320872271705e-06, index=(np.int64(59),); selection: exact.selection[0].val_loss: expected 0.6464038491249084, got 0.6464042067527771; final: final/selected/model._fc1.0.bias: first divergent tensor; max_abs=9.313225746154785e-09, max_rel=2.0968329852410038e-05, index=(np.int64(141),); other: epoch/000/val/metrics/val_loss: beyond recorded difference validation_loss_float64_mean (expected array(0.64640385), got array(0.64640421))"
+        }
+      ],
+      "resume": {
+        "equal": true,
+        "detail": "defaults_long_bags: interrupted after epoch 0 (lookahead_step 3, early-stopping wait 0), restored in a new session and finished; 2566 tensors, exact values, final model/optimizer/policy/history identical to the uninterrupted run and to the reference; early_stop_short_bags: interrupted after epoch 1 (lookahead_step 12, early-stopping wait 1), restored in a new session and finished; 6428 tensors, exact values, final model/optimizer/policy/history identical to the uninterrupted run and to the reference"
+      },
+      "recorded_differences": [
+        {
+          "id": "validation_loss_float64_mean",
+          "description": "The epoch validation loss (the early-stopping and checkpoint monitor) is the mean of the per-slide -log softmax[label]. The original stacks the per-slide float32 logs and sums and divides in float32 (utils/utils.py:cross_entropy_torch, logged by models/model_interface.py:validation_epoch_end); WSIP's shared evaluator averages the per-slide float32 losses in float64 (wsip/evaluation/evaluator.py:39). The per-slide losses are identical; only the final rounding of the mean differs.",
+          "reason": "The aggregation lives in the shared evaluator, not in the TransMIL adapter; changing it would change CLAM's validation loss. Whether to add an opt-in float32 aggregation is a framework decision (validation_loss_aggregation).",
+          "arrays": [
+            "epoch/*/val/metrics/val_loss"
+          ],
+          "exact": [
+            "exact.selection[*].val_loss",
+            "exact.selection[*].early_stopping.best_score",
+            "exact.selection[*].checkpoint.best_model_score"
+          ],
+          "bound": {
+            "float32_ulps": 1,
+            "rule": "the candidate's value, rounded to float32 as Lightning logs it, is at most one float32 ulp from the reference value; every selection decision (best, wait_count, should_stop, stopped_epoch, selected checkpoint) is still compared exactly"
+          },
+          "measured": {
+            "defaults_long_bags": {
+              "max_abs": 0.0,
+              "epochs_differing": []
+            },
+            "early_stop_short_bags": {
+              "max_abs": 5.960464477539063e-08,
+              "epochs_differing": [
+                4
+              ],
+              "reference": 0.6612253785133362,
+              "candidate": 0.661225438117981
+            }
+          },
+          "evidence": [
+            "upstream utils/utils.py:66-70",
+            "upstream models/model_interface.py:131",
+            "wsip/evaluation/evaluator.py:39"
+          ],
+          "status": "pending lab approval",
+          "measured_this_run": {
+            "defaults_long_bags": 0.0,
+            "early_stop_short_bags": 5.960464477539063e-08
+          }
+        }
+      ]
+    },
+    "declaration": {
+      "tolerances": {
+        "default": {
+          "atol": 0.0,
+          "rtol": 0.0,
+          "reason": "CPU, FP32, one thread, deterministic algorithms; same operations in the same order as the original"
+        }
+      },
+      "mutations": [
+        {
+          "id": "loss_weight",
+          "description": "training objective multiplied by 0.5 instead of the original's unweighted cross-entropy"
+        },
+        {
+          "id": "learning_rate",
+          "description": "Optimizer.lr multiplied by 10"
+        },
+        {
+          "id": "weight_decay",
+          "description": "Optimizer.weight_decay raised from the case's value to 1e-3"
+        },
+        {
+          "id": "initialization",
+          "description": "classifier head weights (_fc2.weight) doubled after the seeded construction"
+        },
+        {
+          "id": "sample_order",
+          "description": "training bags listed in reverse order, so the seeded permutation visits them in a different order"
+        },
+        {
+          "id": "selection_rule",
+          "description": "early-stopping patience raised by 5 epochs"
+        },
+        {
+          "id": "label_mapping",
+          "description": "class order reversed, so every bag's target index flips"
+        },
+        {
+          "id": "accumulation",
+          "description": "General.grad_acc 1 instead of the case's 2 (one optimizer step per bag)"
+        },
+        {
+          "id": "instance_order",
+          "description": "rows of every bag reversed, which changes the order-dependent square padding and positional convolution"
+        }
+      ],
+      "recorded_differences": [
+        {
+          "id": "validation_loss_float64_mean",
+          "description": "The epoch validation loss (the early-stopping and checkpoint monitor) is the mean of the per-slide -log softmax[label]. The original stacks the per-slide float32 logs and sums and divides in float32 (utils/utils.py:cross_entropy_torch, logged by models/model_interface.py:validation_epoch_end); WSIP's shared evaluator averages the per-slide float32 losses in float64 (wsip/evaluation/evaluator.py:39). The per-slide losses are identical; only the final rounding of the mean differs.",
+          "reason": "The aggregation lives in the shared evaluator, not in the TransMIL adapter; changing it would change CLAM's validation loss. Whether to add an opt-in float32 aggregation is a framework decision (validation_loss_aggregation).",
+          "arrays": [
+            "epoch/*/val/metrics/val_loss"
+          ],
+          "exact": [
+            "exact.selection[*].val_loss",
+            "exact.selection[*].early_stopping.best_score",
+            "exact.selection[*].checkpoint.best_model_score"
+          ],
+          "bound": {
+            "float32_ulps": 1,
+            "rule": "the candidate's value, rounded to float32 as Lightning logs it, is at most one float32 ulp from the reference value; every selection decision (best, wait_count, should_stop, stopped_epoch, selected checkpoint) is still compared exactly"
+          },
+          "measured": {
+            "defaults_long_bags": {
+              "max_abs": 0.0,
+              "epochs_differing": []
+            },
+            "early_stop_short_bags": {
+              "max_abs": 5.960464477539063e-08,
+              "epochs_differing": [
+                4
+              ],
+              "reference": 0.6612253785133362,
+              "candidate": 0.661225438117981
+            }
+          },
+          "evidence": [
+            "upstream utils/utils.py:66-70",
+            "upstream models/model_interface.py:131",
+            "wsip/evaluation/evaluator.py:39"
+          ],
+          "status": "pending lab approval"
+        }
+      ]
+    }
+  }
+}

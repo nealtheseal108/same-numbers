@@ -1,0 +1,834 @@
+{
+ "method": "DTFD-MIL",
+ "run": "20261026-dtfd-mil-binary-01",
+ "classifier": "wsip/integration/changes.py",
+ "commit": "a2dc88d",
+ "counts": {
+  "addon": 12,
+  "framework": 26
+ },
+ "files": [
+  {
+   "path": "CHANGELOG.md",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 7,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 7,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds a changelog entry for the draft DTFD-MIL integration."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "docs/shared-engine.md",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 26,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 26,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds a section describing the opt-in lifecycle extensions."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "pyproject.toml",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 1,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 1,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds a package-data line for `wsip.methods.dtfd_mil`."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "tests/contract/cases/dtfd_mil.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 43,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 43,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/contract/test_adapter_contract.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 123,
+   "removed": 29,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 123,
+     "removed": 29
+    }
+   ],
+   "notes": [
+    "Extends the generic contract suite to step named-optimizer and phase-mode adapters, and reseeds all three random streams."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "tests/contract/test_contract_catches_bugs.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 28,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 28,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds a negative control: swapped phases and a falsely declared deterministic evaluation must fail the suite."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "tests/methods/test_dtfd_mil_integration.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 422,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 422,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New unit tests of the DTFD-MIL resolver, dispatch, tier updates and mutations."
+   ],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/parity/dtfd_mil_parity.json",
+   "category": "A",
+   "stages": [
+    "Compare"
+   ],
+   "added": 17,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage5.accepted.patch",
+     "stage": "Compare",
+     "added": 17,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/parity/test_dtfd_mil_parity.py",
+   "category": "A",
+   "stages": [
+    "Compare"
+   ],
+   "added": 620,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage5.accepted.patch",
+     "stage": "Compare",
+     "added": 620,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/conftest.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 3,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 3,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Lets the shared test fixture build an integration class other than CLAM."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "tests/training/lifecycle_toy.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 240,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 240,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New test helper: a toy two-tier integration and hand-written reference loops."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/test_epoch_schedule.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 79,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 79,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: epoch learning rates and resume; `ReduceLROnPlateau` and foreign schedulers are refused."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/test_final_validation.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 80,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 80,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: selected-epoch predictions equal the selection evaluation; random evaluation with a plain re-evaluation is refused."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/test_gradient_clipping.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 105,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 105,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: per-group norm clipping matches a torch reference; invalid groups are refused."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/test_lifecycle_defaults.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 140,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 140,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: every default keeps the single-optimizer lifecycle unchanged."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/test_metric_selection.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 112,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 112,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: the metric policy's eligibility window, ties and resume; unknown metrics are refused."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/test_named_optimizers.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 63,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 63,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: every named optimizer's state survives resume; overlapping parameter sets are refused."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/test_python_shuffle.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 57,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 57,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: the `python_shuffle` order matches the standard library and survives resume."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/test_update_phases.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 98,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 98,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: phases run in declared order with lazy objectives; a backward reaching another optimizer is refused."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/test_zero_grad_timing.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 45,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 45,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: `before_backward` and `after_step` give identical updates; unknown timings are refused."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/core/jobs.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 7,
+   "removed": 5,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 7,
+     "removed": 5
+    }
+   ],
+   "notes": [
+    "Replaces the `method != 'clam'` check and the direct `resolve_clam` call with `RESOLVERS` imported from config."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/data/manifest.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 10,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 10,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds `require_data`: an opt-in check that every record has a patient ID."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/methods/base.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 58,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 58,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Adds `UpdatePhase`, `SelectionRecipe`, the optional `build_selection` hook, and `OptimizationRecipe` fields for named optimizers, phases, clipping groups and LR step timing."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/methods/dtfd_mil/__init__.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 4,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 4,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/dtfd_mil/convert.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 97,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 97,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/dtfd_mil/defaults/upstream_cli.json",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 67,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 67,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/dtfd_mil/integration.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 276,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 276,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/dtfd_mil/provenance.json",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 43,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 43,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/dtfd_mil/upstream/LICENSE",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 21,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 21,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/dtfd_mil/upstream/__init__.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 1,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 1,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/dtfd_mil/upstream/network.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 61,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 61,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the dtfd_mil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/registry.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 6,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 6,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Adds the DTFD-MIL descriptor and a `DESCRIPTORS` table, and rewrites `describe()` to look methods up in it."
+   ],
+   "reason": "edits the registration point beyond adding entries: line 19: a new top-level name may only hold a MethodDescriptor(...) call; line 22: adds a FunctionDef statement (registration adds entries only, no code); changes or removes the existing statement at line 18",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/orchestration/config.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 111,
+   "removed": 9,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 111,
+     "removed": 9
+    }
+   ],
+   "notes": [
+    "Moves task validation and override layering out of `resolve_clam`, then adds `resolve_dtfd_mil`, `RESOLVERS` and `resolve_method` to the shared file."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/orchestration/control.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 4,
+   "removed": 3,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 4,
+     "removed": 3
+    }
+   ],
+   "notes": [
+    "Calls `require_data` during materialization, so a resolved profile can require patient IDs."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/tasks/classification.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 3,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 3,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds `SELECTABLE_METRICS`, the metrics allowed to drive selection."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/training/policies.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 52,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 52,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds `MetricSelectionPolicy`: best named validation metric after an eligibility epoch, with no early stopping."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/training/session.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 368,
+   "removed": 21,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 368,
+     "removed": 21
+    }
+   ],
+   "notes": [
+    "Replaces the fixed update loop with validated recipes: named optimizers, sequential phases, per-group clipping, per-epoch schedulers, `python_shuffle`, metric selection, selected-epoch predictions, and checkpoint layouts."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/worker/run.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework",
+    "Write the add-on"
+   ],
+   "added": 32,
+   "removed": 11,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 17,
+     "removed": 8
+    },
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 15,
+     "removed": 3
+    }
+   ],
+   "notes": [
+    "Adds `validation_record` and `prediction_source`, and takes the final validation predictions from the session; refuses to publish when no epoch was selected.",
+    "Adds `integration_class` for dispatch on the method name, and calls `require_data`."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  }
+ ]
+}

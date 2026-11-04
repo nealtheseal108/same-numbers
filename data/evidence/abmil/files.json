@@ -1,0 +1,348 @@
+{
+ "method": "ABMIL",
+ "run": "20261026-abmil-binary-01",
+ "classifier": "wsip/integration/changes.py",
+ "commit": "a2dc88d",
+ "counts": {
+  "addon": 9,
+  "framework": 7
+ },
+ "files": [
+  {
+   "path": "pyproject.toml",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 1,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 1,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds a package-data line for `wsip.methods.abmil`."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "tests/contract/cases/abmil.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 28,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 28,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the abmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/methods/test_abmil.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 157,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 157,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New unit tests of the ABMIL resolver, dispatch, adapter and session behavior."
+   ],
+   "reason": "inside the abmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/parity/abmil_parity.json",
+   "category": "A",
+   "stages": [
+    "Compare"
+   ],
+   "added": 16,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage5.accepted.patch",
+     "stage": "Compare",
+     "added": 16,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the abmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/parity/test_abmil_parity.py",
+   "category": "A",
+   "stages": [
+    "Compare"
+   ],
+   "added": 523,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage5.accepted.patch",
+     "stage": "Compare",
+     "added": 523,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the abmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/core/jobs.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 8,
+   "removed": 5,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 8,
+     "removed": 5
+    }
+   ],
+   "notes": [
+    "Replaces the `method != 'clam'` check and the direct `resolve_clam` call with a `RESOLVERS` table."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/methods/abmil/LICENSE",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 21,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 21,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the abmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/abmil/__init__.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 1,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 1,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the abmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/abmil/defaults/upstream_cli.json",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 51,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 51,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the abmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/abmil/integration.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 196,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 196,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the abmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/abmil/provenance.json",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 29,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 29,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the abmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/base.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 4,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 4,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds `LoaderRecipe.validation_rng`: `shared` or `isolated` random streams around per-epoch validation."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/methods/registry.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 16,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 16,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Adds a `declared_behaviors` field to `MethodDescriptor`, the ABMIL descriptor and a `_DESCRIPTORS` table, and rewrites `describe()`."
+   ],
+   "reason": "edits the registration point beyond adding entries: line 6: adds a ClassDef statement (registration adds entries only, no code); line 16: rebinds the existing name 'CLAM'; line 29: a new top-level name may only hold a MethodDescriptor(...) call",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/orchestration/config.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 75,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 75,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds `resolve_abmil` and its validator to the shared file, repeating the task checks instead of sharing them."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/training/session.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 12,
+   "removed": 1,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 12,
+     "removed": 1
+    }
+   ],
+   "notes": [
+    "Saves and restores the torch, NumPy and Python random states around validation when `validation_rng` is `isolated`."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/worker/run.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 12,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 12,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Adds `integration_for`, replacing the hard-coded `ClamIntegration` with dispatch on the method name."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  }
+ ]
+}

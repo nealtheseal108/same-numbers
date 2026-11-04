@@ -1,0 +1,633 @@
+{
+ "_doc": "Held-out run 2026-10-26 (prompt tag v2): stage 1-2 metrics, per-stage attempts/checks/cost, parity tables, post-fix recheck. Run folders are git-ignored under integration-runs/.",
+ "stage12": {
+  "abmil": {
+   "attempts": {
+    "analyst": [
+     {
+      "passed": true,
+      "problems": 0,
+      "citations": 166,
+      "broken": 0,
+      "cost": 0.61
+     }
+    ],
+    "reviewer": [
+     {
+      "passed": true,
+      "problems": 0,
+      "citations": 154,
+      "broken": 0,
+      "cost": 1.01
+     }
+    ]
+   },
+   "fields_unknown": 0,
+   "fields_not_found": 3,
+   "profile_dims": 52,
+   "profile_other": [
+    "features.file_format",
+    "splits.unit"
+   ],
+   "profile_unknown": [],
+   "family": [
+    "single_stage_bag_classifier"
+   ],
+   "other_texts": {
+    "features.file_format": "MNIST IDX binary files, downloaded and read by torchvision.datasets.MNIST into memory",
+    "splits.unit": "Synthetic bags drawn separately from the official MNIST train and test image pools. Patients and slides do not exist."
+   },
+   "decisions": 12,
+   "score": 93.7,
+   "components": {
+    "R": 0.9577464788732394,
+    "C": 0.9285714285714286,
+    "P": 0.9
+   },
+   "critical_missed": [
+    "raw_image_input"
+   ],
+   "gap_true": 9,
+   "gap_false": 1,
+   "selected_profile": {
+    "model.instance_order": [
+     "invariant"
+    ],
+    "features.dimension_binding": [
+     "hard_coded"
+    ],
+    "features.source": [
+     "end_to_end"
+    ],
+    "input.unit": [
+     "raw_tiles"
+    ],
+    "optim.count": [
+     "1"
+    ],
+    "batching.accumulation_steps": [
+     "1"
+    ],
+    "batching.zero_grad": [
+     "before_forward"
+    ],
+    "model.family": [
+     "attention",
+     "gated_attention"
+    ],
+    "pseudo_bag.split": null,
+    "pseudo_bag.tier_coupling": null,
+    "sequence.positional_encoding": null,
+    "sequence.length_handling": null,
+    "sampling.eval_randomness": [
+     "deterministic"
+    ],
+    "license.type": [
+     "permissive"
+    ]
+   }
+  },
+  "dtfd-mil": {
+   "attempts": {
+    "analyst": [
+     {
+      "passed": false,
+      "problems": 2,
+      "citations": 174,
+      "broken": 2,
+      "cost": 0.76
+     },
+     {
+      "passed": true,
+      "problems": 0,
+      "citations": 174,
+      "broken": 0,
+      "cost": 0.65
+     }
+    ],
+    "reviewer": [
+     {
+      "passed": true,
+      "problems": 0,
+      "citations": 159,
+      "broken": 0,
+      "cost": 1.1
+     }
+    ]
+   },
+   "fields_unknown": 0,
+   "fields_not_found": 0,
+   "profile_dims": 55,
+   "profile_other": [
+    "features.file_format"
+   ],
+   "profile_unknown": [],
+   "family": [
+    "pseudo_bag_two_tier"
+   ],
+   "other_texts": {
+    "features.file_format": "Python pickle (.pkl): one dict per split of slide -> list of {'feature': ndarray, 'file_name'}"
+   },
+   "decisions": 15,
+   "score": 89.9,
+   "components": {
+    "R": 0.9,
+    "C": 0.875,
+    "P": 0.9333333333333333
+   },
+   "critical_missed": [
+    "batch_size",
+    "method_selection",
+    "selection_rule"
+   ],
+   "gap_true": 14,
+   "gap_false": 1,
+   "selected_profile": {
+    "model.instance_order": [
+     "invariant"
+    ],
+    "features.dimension_binding": [
+     "hard_coded"
+    ],
+    "features.source": [
+     "imagenet_cnn"
+    ],
+    "input.unit": [
+     "patch_features"
+    ],
+    "optim.count": [
+     "2"
+    ],
+    "batching.accumulation_steps": [
+     "1"
+    ],
+    "batching.zero_grad": [
+     "before_backward"
+    ],
+    "model.family": [
+     "gated_attention"
+    ],
+    "pseudo_bag.split": [
+     "random_each_step"
+    ],
+    "pseudo_bag.tier_coupling": [
+     "separate_optimizers"
+    ],
+    "sequence.positional_encoding": null,
+    "sequence.length_handling": null,
+    "sampling.eval_randomness": [
+     "random"
+    ],
+    "license.type": [
+     "permissive"
+    ]
+   }
+  },
+  "transmil": {
+   "attempts": {
+    "analyst": [
+     {
+      "passed": false,
+      "problems": 7,
+      "citations": 185,
+      "broken": 7,
+      "cost": 0.86
+     },
+     {
+      "passed": true,
+      "problems": 0,
+      "citations": 183,
+      "broken": 0,
+      "cost": 0.6
+     }
+    ],
+    "reviewer": [
+     {
+      "passed": true,
+      "problems": 0,
+      "citations": 172,
+      "broken": 0,
+      "cost": 1.23
+     }
+    ]
+   },
+   "fields_unknown": 0,
+   "fields_not_found": 1,
+   "profile_dims": 53,
+   "profile_other": [],
+   "profile_unknown": [
+    "features.precision"
+   ],
+   "family": [
+    "single_stage_bag_classifier",
+    "sequence_transformer"
+   ],
+   "other_texts": {},
+   "decisions": 14,
+   "score": 92.8,
+   "components": {
+    "R": 0.9342105263157895,
+    "C": 0.9642857142857143,
+    "P": 0.8571428571428571
+   },
+   "critical_missed": [
+    "method_selection"
+   ],
+   "gap_true": 12,
+   "gap_false": 2,
+   "selected_profile": {
+    "model.instance_order": [
+     "order_dependent"
+    ],
+    "features.dimension_binding": [
+     "hard_coded"
+    ],
+    "features.source": [
+     "imagenet_cnn"
+    ],
+    "input.unit": [
+     "patch_features"
+    ],
+    "optim.count": [
+     "1"
+    ],
+    "batching.accumulation_steps": [
+     "2"
+    ],
+    "batching.zero_grad": [
+     "after_step"
+    ],
+    "model.family": [
+     "transformer"
+    ],
+    "pseudo_bag.split": null,
+    "pseudo_bag.tier_coupling": null,
+    "sequence.positional_encoding": [
+     "conv_on_grid"
+    ],
+    "sequence.length_handling": [
+     "pad_to_square"
+    ],
+    "sampling.eval_randomness": [
+     "deterministic"
+    ],
+    "license.type": [
+     "noncommercial"
+    ]
+   }
+  }
+ },
+ "pipeline": {
+  "20261026-abmil-binary-01": {
+   "state": "final",
+   "pipeline": {
+    "step": "final",
+    "stop_kind": null,
+    "stop_reason": null,
+    "skipped": {
+     "extension_building": "no proposal approved"
+    }
+   },
+   "stages": {
+    "analyst": [
+     {
+      "attempt": "attempt-1",
+      "cost": 0.61,
+      "passed": true,
+      "problems": 0,
+      "checks": null,
+      "env_stop": false
+     }
+    ],
+    "reviewer": [
+     {
+      "attempt": "attempt-1",
+      "cost": 1.01,
+      "passed": true,
+      "problems": 0,
+      "checks": null,
+      "env_stop": false
+     }
+    ],
+    "reference_runner": [
+     {
+      "attempt": "attempt-1",
+      "cost": 0.94,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       23,
+       23
+      ],
+      "env_stop": false
+     }
+    ],
+    "extension_planner": [
+     {
+      "attempt": "attempt-1",
+      "cost": 0.21,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       3,
+       3
+      ],
+      "env_stop": false
+     }
+    ],
+    "extension_builder": [],
+    "adapter_author": [
+     {
+      "attempt": "attempt-1",
+      "cost": 1.9,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       16,
+       16
+      ],
+      "env_stop": false
+     }
+    ],
+    "parity_checker": [
+     {
+      "attempt": "attempt-1",
+      "cost": 1.52,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       14,
+       14
+      ],
+      "env_stop": false
+     }
+    ]
+   },
+   "parity_checks": null
+  },
+  "20261026-dtfd-mil-binary-01": {
+   "state": "final",
+   "pipeline": {
+    "step": "final",
+    "stop_kind": null,
+    "stop_reason": null,
+    "skipped": {}
+   },
+   "stages": {
+    "analyst": [
+     {
+      "attempt": "attempt-1",
+      "cost": 0.76,
+      "passed": false,
+      "problems": 2,
+      "checks": null,
+      "env_stop": false
+     },
+     {
+      "attempt": "attempt-2",
+      "cost": 0.65,
+      "passed": true,
+      "problems": 0,
+      "checks": null,
+      "env_stop": false
+     }
+    ],
+    "reviewer": [
+     {
+      "attempt": "attempt-1",
+      "cost": 1.1,
+      "passed": true,
+      "problems": 0,
+      "checks": null,
+      "env_stop": false
+     }
+    ],
+    "reference_runner": [
+     {
+      "attempt": "attempt-1",
+      "cost": 1.13,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       23,
+       23
+      ],
+      "env_stop": false
+     }
+    ],
+    "extension_planner": [
+     {
+      "attempt": "attempt-1",
+      "cost": 0.7,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       3,
+       3
+      ],
+      "env_stop": false
+     }
+    ],
+    "extension_builder": [
+     {
+      "attempt": "attempt-1",
+      "cost": 3.61,
+      "passed": false,
+      "problems": 1,
+      "checks": [
+       17,
+       18
+      ],
+      "env_stop": false
+     },
+     {
+      "attempt": "attempt-2",
+      "cost": 0.24,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       17,
+       17
+      ],
+      "env_stop": false
+     }
+    ],
+    "adapter_author": [
+     {
+      "attempt": "attempt-1",
+      "cost": 4.71,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       16,
+       16
+      ],
+      "env_stop": false
+     }
+    ],
+    "parity_checker": [
+     {
+      "attempt": "attempt-1",
+      "cost": 2.32,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       14,
+       14
+      ],
+      "env_stop": false
+     }
+    ]
+   },
+   "parity_checks": null
+  },
+  "20261026-transmil-binary-01": {
+   "state": "final",
+   "pipeline": {
+    "step": "final",
+    "stop_kind": null,
+    "stop_reason": null,
+    "skipped": {}
+   },
+   "stages": {
+    "analyst": [
+     {
+      "attempt": "attempt-1",
+      "cost": 0.86,
+      "passed": false,
+      "problems": 7,
+      "checks": null,
+      "env_stop": false
+     },
+     {
+      "attempt": "attempt-2",
+      "cost": 0.6,
+      "passed": true,
+      "problems": 0,
+      "checks": null,
+      "env_stop": false
+     }
+    ],
+    "reviewer": [
+     {
+      "attempt": "attempt-1",
+      "cost": 1.23,
+      "passed": true,
+      "problems": 0,
+      "checks": null,
+      "env_stop": false
+     }
+    ],
+    "reference_runner": [
+     {
+      "attempt": "attempt-1",
+      "cost": 2.35,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       23,
+       23
+      ],
+      "env_stop": false
+     }
+    ],
+    "extension_planner": [
+     {
+      "attempt": "attempt-1",
+      "cost": 0.32,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       3,
+       3
+      ],
+      "env_stop": false
+     }
+    ],
+    "extension_builder": [
+     {
+      "attempt": "attempt-1",
+      "cost": 0.79,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       10,
+       10
+      ],
+      "env_stop": false
+     }
+    ],
+    "adapter_author": [
+     {
+      "attempt": "attempt-1",
+      "cost": 3.54,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       16,
+       16
+      ],
+      "env_stop": false
+     }
+    ],
+    "parity_checker": [
+     {
+      "attempt": "attempt-1",
+      "cost": 3.65,
+      "passed": true,
+      "problems": 0,
+      "checks": [
+       14,
+       14
+      ],
+      "env_stop": false
+     }
+    ]
+   },
+   "parity_checks": null
+  }
+ },
+ "parity_md": {
+  "transmil": "# Parity report: TransMIL (run 20261026-transmil-binary-01)\n\nCandidate (WSIP adapter from stage 4) versus the stored evidence of the original code (stage 3), on the tool's synthetic CPU bags.\n\n| Case | Status | Tensors | Max abs | atol / rtol | Sample order | Selection |\n|---|---|---|---|---|---|---|\n| defaults_long_bags | passed | 2598 | 0.0 | 0.0 / 0.0 | True | True |\n| early_stop_short_bags | passed | 6491 | 0.0 | 0.0 / 0.0 | True | True |\n\n## Mutations\n\n| Mutation | Detected | Message |\n|---|---|---|\n| accumulation | True | early_stop_short_bags: first divergence: names: missing ['epoch/003/lr_end', 'epoch/003/lr_start', 'epoch/003/val/Y_hat', 'epoch/003/val/Y_prob'], extra ['op... |\n| initialization | True | early_stop_short_bags: first divergence: initial: initial/_fc2.weight: first divergent tensor; max_abs=0.04418550804257393, max_rel=1.0, index=(np.int64(0), ... |\n| instance_order | True | early_stop_short_bags: first divergence: forward: step/0000/Y_prob: first divergent tensor; max_abs=5.906820297241211e-05, max_rel=0.00014123585867944257, in... |\n| label_mapping | True | early_stop_short_bags: first divergence: names: missing [], extra ['epoch/005/lr_end', 'epoch/005/lr_start', 'epoch/005/val/Y_hat', 'epoch/005/val/Y_prob']; ... |\n| learning_rate | True | early_stop_short_bags: first divergence: forward: step/0002/Y_prob: first divergent tensor; max_abs=0.33021198213100433, max_rel=0.7127859696867275, index=(n... |\n| loss_weight | True | early_stop_short_bags: first divergence: forward: step/0002/Y_prob: first divergent tensor; max_abs=0.02055293321609497, max_rel=0.04436490486622422, index=(... |\n| sample_order | True | early_stop_short_bags: first divergence: forward: step/0000/Y_prob: first divergent tensor; max_abs=0.0035483241081237793, max_rel=0.00848841056757922, index... |\n| selection_rule | True | early_stop_short_bags: first divergence: names: missing [], extra ['epoch/005/lr_end', 'epoch/005/lr_start', 'epoch/005/val/Y_hat', 'epoch/005/val/Y_prob']; ... |\n| weight_decay | True | early_stop_short_bags: first divergence: initial: initial/optimizer/group_weight_decay: first divergent tensor; max_abs=0.00099, max_rel=98.99999999999999, i... |\n\nResume equals uninterrupted: True\n\n",
+  "abmil": "# Parity report: ABMIL (run 20261026-abmil-binary-01)\n\nCandidate (WSIP adapter from stage 4) versus the stored evidence of the original code (stage 3), on the tool's synthetic CPU bags.\n\n| Case | Status | Tensors | Max abs | atol / rtol | Sample order | Selection |\n|---|---|---|---|---|---|---|\n| defaults_short | passed | 923 | 0.0 | 0.0 / 0.0 | True | True |\n| tiny_bags_wider_embed | passed | 624 | 0.0 | 0.0 / 0.0 | True | True |\n\n## Mutations\n\n| Mutation | Detected | Message |\n|---|---|---|\n| loss_weight | True | first divergence: defaults_short: forward (step/*/y_prob): step/0002/y_prob: first divergent tensor; max_abs=1.5079975128173828e-05, max_rel=2.82258680821102... |\n| optimizer_lr | True | first divergence: defaults_short: forward (step/*/y_prob): step/0002/y_prob: first divergent tensor; max_abs=0.016125917434692383, max_rel=0.0301836053671097... |\n| weight_decay | True | first divergence: defaults_short: forward (step/*/y_prob): step/0002/y_prob: first divergent tensor; max_abs=5.0961971282958984e-05, max_rel=9.5387815060096e... |\n| initialization | True | first divergence: defaults_short: forward (step/*/y_prob): step/0001/y_prob: first divergent tensor; max_abs=0.0003838539123535156, max_rel=0.000734644475992... |\n| sample_order | True | first divergence: defaults_short: sample_order: exact.sample_trace[0]: 'bag_007' in the reference, 'bag_000' in the candidate \\| tiny_bags_wider_embed: sampl... |\n| selection_rule | True | first divergence: defaults_short: selection: exact.selection[0].selected: False in the reference, True in the candidate \\| tiny_bags_wider_embed: selection: ... |\n| threshold | True | first divergence: defaults_short: forward (step/*/y_hat): step/0001/y_hat: first divergent tensor; max_abs=1.0, max_rel=1.0, index=(np.int64(0), np.int64(0))... |\n| label_mapping | True | first divergence: defaults_short: forward (step/*/y_prob): step/0002/y_prob: first divergent tensor; max_abs=0.033346593379974365, max_rel=0.0624163195052239... |\n\nResume equals uninterrupted: True\n\n",
+  "dtfd-mil": "# Parity report: DTFD-MIL (run 20261026-dtfd-mil-binary-01)\n\nCandidate (WSIP adapter from stage 4) versus the stored evidence of the original code (stage 3), on the tool's synthetic CPU bags.\n\n| Case | Status | Tensors | Max abs | atol / rtol | Sample order | Selection |\n|---|---|---|---|---|---|---|\n| defaults_short | passed | 11965 | 0.0 | 0.0 / 0.0 | True | True |\n| milestone_selection | passed | 15953 | 0.0 | 0.0 / 0.0 | True | True |\n\n## Mutations\n\n| Mutation | Detected | Message |\n|---|---|---|\n| loss_weight | True | first divergence: forward: step/0000/clip/attention/norm_after: first divergent tensor; max_abs=0.03774897754192352, max_rel=0.5, index=() |\n| tier2_weight_decay | True | first divergence: forward: step/0001/logits/tier2_slide: first divergent tensor; max_abs=2.956390380859375e-05, max_rel=0.00020073401468231718, index=(np.int... |\n| tier_update_order | True | first divergence: phase: exact.phases[0].phase: expected 'tier1', candidate 'tier2' |\n| initialization | True | first divergence: initial: initial/attCls.classifier.fc.bias: first divergent tensor; max_abs=0.010000001639127731, max_rel=1.0890890247185285, index=(np.int... |\n| sample_order | True | first divergence: sample_order: exact.sample_trace[0]: expected 'bag_016', candidate 'bag_012' |\n| selection_window | True | first divergence: selection: exact.selection[0].eligible: expected False, candidate True |\n| label_mapping | True | first divergence: sample_order: exact.slide_names.bag_000: expected 'normal_bag_000', candidate 'tumor_bag_000' |\n| pseudo_bag_groups | True | first divergence: instance_selection: exact.instance_selection[0].pseudo_bags[0]: length 6 != 8 |\n| gradient_clipping | True | first divergence: forward: step/0000/clip/attention/norm_after: first divergent tensor; max_abs=0.07449796854052693, max_rel=0.9867547863752131, index=() |\n\nResume equals uninterrupted: True\n\n"
+ },
+ "spend": [
+  "20261026-abmil-binary-01: USD 6.18  analyst 0.61 (1 att), extension/planner 0.21 (1 att), reviewer 1.01 (1 att), stage3 0.94 (1 att), stage4 1.90 (1 att), stage5 1.52 (1 att)",
+  "20261026-dtfd-mil-binary-01: USD 15.21  analyst 1.41 (2 att), extension/builder 3.85 (2 att), extension/planner 0.70 (1 att), reviewer 1.10 (1 att), stage3 1.13 (1 att), stage4 4.71 (1 att), stage5 2.32 (1 att)",
+  "20261026-transmil-binary-01: USD 13.33  analyst 1.45 (2 att), extension/builder 0.79 (1 att), extension/planner 0.32 (1 att), reviewer 1.23 (1 att), stage3 2.35 (1 att), stage4 3.54 (1 att), stage5 3.65 (1 att)",
+  "TOTAL USD 34.71"
+ ],
+ "postfix_recheck_not_heldout": {
+  "20261026-abmil-binary-01": {
+   "pre_fix_passed": true,
+   "pre_fix_problems": 0,
+   "post_fix_passed": true,
+   "post_fix_problems": []
+  },
+  "20261026-dtfd-mil-binary-01": {
+   "pre_fix_passed": false,
+   "pre_fix_problems": 2,
+   "post_fix_passed": true,
+   "post_fix_problems": []
+  },
+  "20261026-transmil-binary-01": {
+   "pre_fix_passed": false,
+   "pre_fix_problems": 7,
+   "post_fix_passed": true,
+   "post_fix_problems": []
+  }
+ },
+ "regression_after_fix": [
+  "......................................                                   [100%]",
+  "325 passed, 1 skipped, 103 deselected in 175.38s (0:02:55)",
+  "--contract",
+  "39 passed in 4.98s",
+  "--lint",
+  "23 passed in 0.15s",
+  "--clam parity",
+  "10 passed in 68.47s (0:01:08)",
+  "--integration all",
+  "276 passed, 1 skipped in 286.57s (0:04:46)"
+ ]
+}

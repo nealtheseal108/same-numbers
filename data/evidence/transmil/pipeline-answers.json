@@ -1,0 +1,159 @@
+{
+  "schema": "wsip.integration.answers/v1",
+  "instructions": "Answer with `python -m wsip.integration pipeline answer 20261026-transmil-binary-01 DECISION --choice N --by NAME`, then `pipeline resume`.",
+  "decisions": {
+    "parity_validation_loss_aggregation": {
+      "question": "WSIP's shared evaluator averages per-slide validation losses in float64, while the original TransMIL sums the per-slide float32 logs and divides in float32. This makes val_loss (the early-stopping and checkpoint monitor) differ by up to one float32 ulp (measured 6e-8, at 1 of 9 epochs). Approve this as a recorded difference, or make the aggregation exact?",
+      "required": true,
+      "options": [
+        {
+          "id": "approve_recorded_difference",
+          "label": "Approve the 1-ulp recorded difference",
+          "consequence": "Parity stays as checked, with the val_loss-derived values allowed at most 1 float32 ulp; selection decisions are still compared exactly."
+        },
+        {
+          "id": "opt_in_float32_aggregation",
+          "label": "Add opt-in float32 val-loss aggregation to the shared evaluator",
+          "consequence": "A shared-engine extension (default unchanged for CLAM/DSMIL) lets TransMIL reproduce the original's value exactly; the recorded difference is then removed and parity becomes fully exact."
+        },
+        {
+          "id": "reject_require_exact",
+          "label": "Reject; require exact parity before certification",
+          "consequence": "TransMIL parity stays incomplete until the evaluator change is made."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "wsip/evaluation/evaluator.py:39",
+        "tests/parity/transmil_parity.json:16",
+        "tests/parity/test_transmil_parity.py:398"
+      ],
+      "choice": "approve_recorded_difference",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T18:02:28Z",
+      "note": "PROVISIONAL: 1 float32 ulp (6e-8) in the epoch val_loss mean only; per-slide losses and selection decisions are compared exactly. To be confirmed by Van."
+    },
+    "parity_difference_validation_loss_float64_mean": {
+      "question": "Accept recorded difference `validation_loss_float64_mean`: The epoch validation loss (the early-stopping and checkpoint monitor) is the mean of the per-slide -log softmax[label]. The original stacks the per-slide float32 logs and sums and divides in float32 (utils/utils.py:cross_entropy_torch, logged by models/model_interface.py:validation_epoch_end); WSIP's shared evaluator averages the per-slide float32 losses in float64 (wsip/evaluation/evaluator.py:39). The per-slide losses are identical; only the final rounding of the mean differs. (evidence: ['upstream utils/utils.py:66-70', 'upstream models/model_interface.py:131', 'wsip/evaluation/evaluator.py:39'])",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Accept and record it",
+          "consequence": "The difference is part of the integration's documented deviations."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "The pipeline stops; WSIP must match the original here."
+        }
+      ],
+      "recommended": null,
+      "evidence": [],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T18:02:28Z",
+      "note": "PROVISIONAL: 1 float32 ulp (6e-8) in the epoch val_loss mean only; per-slide losses and selection decisions are compared exactly. To be confirmed by Van."
+    },
+    "adapter_transmil_test_split_evaluation": {
+      "question": "The lab chose the shipped fold0.csv with the official Camelyon16 test set as the reference, but WSIP control withholds test records from fit jobs and the worker scores only the validation split. How should TransMIL's test metrics be produced?",
+      "required": true,
+      "options": [
+        {
+          "id": "test_evaluation_job",
+          "label": "Add a separate test-evaluation job",
+          "consequence": "Framework extension: control releases test records only to a scoring job that loads selected.pt and writes test predictions outside selection."
+        },
+        {
+          "id": "offline_scoring",
+          "label": "Score the test set offline from selected.pt",
+          "consequence": "No framework change; the test numbers come from outside WSIP's provenance records."
+        },
+        {
+          "id": "validation_only",
+          "label": "Report validation metrics only for now",
+          "consequence": "No change; results cannot yet be compared with the original's reported test metrics."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "wsip/orchestration/control.py:41",
+        "wsip/worker/run.py:117",
+        "upstream/train.py:72"
+      ],
+      "choice": "validation_only",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:36:33Z",
+      "note": "PROVISIONAL: test-set scoring is outside the parity test; a test-evaluation job is later framework work for Van to decide."
+    },
+    "extension_accumulation_tail_rule": {
+      "question": "When an epoch's bag count is not a multiple of the accumulation factor, what should the shared session do with the last, incomplete group?",
+      "required": true,
+      "options": [
+        {
+          "id": "step_partial_scaled_by_n",
+          "label": "Step on the partial group, objective still divided by N",
+          "consequence": "Matches the usual trainer behavior of stepping on the last batch with constant scaling. Each epoch ends with no gradients pending, so epoch-boundary checkpoints stay simple."
+        },
+        {
+          "id": "step_partial_scaled_by_group_size",
+          "label": "Step on the partial group, rescaled by its actual size",
+          "consequence": "The last update is an unbiased mean, but this may differ from the reference trainer and break exact parity."
+        },
+        {
+          "id": "drop_partial",
+          "label": "Discard gradients of the partial group",
+          "consequence": "The last bags of each epoch never update the model. Simple, but trains on different data than the reference."
+        },
+        {
+          "id": "refuse_partial",
+          "label": "Refuse runs whose train split is not divisible by N",
+          "consequence": "Never ambiguous, but blocks most real splits unless the data is padded or trimmed."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "M:train.py:63",
+        "M:Camelyon/TransMIL.yaml:10",
+        "W:wsip/training/session.py:81-87"
+      ],
+      "choice": "step_partial_scaled_by_n",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:12:46Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in with default 1, so CLAM/DSMIL behavior is unchanged; to be confirmed by Van. (Lightning 1.9 steps on the last batch of an epoch and divides every loss by accumulate_grad_batches.)"
+    },
+    "extension_session_gradient_accumulation": {
+      "question": "Approve WSIP extension proposal `session_gradient_accumulation`: Opt-in gradient accumulation over N single-bag steps in the shared session (setting `accumulation`, default `1`; closes batching.accumulation_steps=2). Details: extension/proposals/session_gradient_accumulation.md",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve as proposed",
+          "consequence": "The builder implements it behind its setting; defaults keep current behavior."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "Not built; the gap stays open and the adapter must cope without it."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "W:wsip/training/session.py:49-53",
+        "W:wsip/training/session.py:76-93",
+        "W:wsip/training/session.py:111-117",
+        "W:wsip/training/session.py:119-131",
+        "W:tests/training/test_parity.py:36-52"
+      ],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:12:46Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in with default 1, so CLAM/DSMIL behavior is unchanged; to be confirmed by Van."
+    }
+  }
+}

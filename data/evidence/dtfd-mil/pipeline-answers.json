@@ -1,0 +1,349 @@
+{
+  "schema": "wsip.integration.answers/v1",
+  "instructions": "Answer with `python -m wsip.integration pipeline answer 20261026-dtfd-mil-binary-01 DECISION --choice N --by NAME`, then `pipeline resume`.",
+  "decisions": {
+    "adapter_dtfd_threshold_metrics_reporting": {
+      "question": "Should WSIP also report the original's threshold-based metrics (precision, recall, specificity, positive-class F1) and the tier-1 pseudo-bag AUC for DTFD-MIL runs, given that labels stay argmax?",
+      "required": false,
+      "options": [
+        {
+          "id": "argmax_only",
+          "label": "Keep argmax metrics only",
+          "consequence": "Results show WSIP accuracy and macro F1 at 0.5; the original's threshold metrics and tier-1 AUC are not reported (current behavior)."
+        },
+        {
+          "id": "diagnostic_threshold_metrics",
+          "label": "Add them as clearly labeled diagnostics",
+          "consequence": "Results also show the metrics at 0.5 and the tier-1 AUC, marked as not equal to the original's values from a threshold fitted on the scored data."
+        },
+        {
+          "id": "validation_fitted_threshold",
+          "label": "Fit a threshold on validation and store it",
+          "consequence": "Needs a framework extension: a Youden threshold fitted on validation is stored with the selected weights and applied unchanged to later data."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "upstream:utils.py:21-38",
+        "upstream:Main_DTFD_MIL.py:256-264",
+        "wsip/tasks/classification.py:19-31"
+      ],
+      "choice": null,
+      "other_text": null,
+      "answered_by": null,
+      "answered_at": null,
+      "note": ""
+    },
+    "extension_building_contract_suite_named_optimizers": {
+      "question": "The adapter contract suite assumes one OptimizationRecipe.optimizer and a single training_step objective, so an adapter that uses named optimizers and sequential update phases (DTFD-MIL) cannot pass it unchanged. How should the contract treat such adapters?",
+      "required": true,
+      "options": [
+        {
+          "id": "extend_contract_for_named",
+          "label": "Extend the contract suite to named/phase mode",
+          "consequence": "The contract tests step every named optimizer through its phases and round-trip each optimizer and scheduler state; single-mode adapters are checked exactly as today."
+        },
+        {
+          "id": "adapter_exposes_single_view",
+          "label": "Adapter also exposes a single-optimizer view",
+          "consequence": "The suite stays unchanged, but the adapter must provide an extra combined optimizer and objective that the session never uses, so the contract tests code that does not run in training."
+        },
+        {
+          "id": "adapter_declares_exemption",
+          "label": "Adapter declares an exemption from the optimizer tests",
+          "consequence": "The optimizer, resume and step contract checks are skipped for named-mode adapters, so their optimizer behavior is checked only by session tests."
+        }
+      ],
+      "recommended": {
+        "option": "extend_contract_for_named",
+        "reason": "It keeps the contract checking the code path the session actually runs, it is generic for any multi-optimizer method, and single-mode adapters (CLAM) are checked exactly as today."
+      },
+      "evidence": [
+        "tests/contract/test_adapter_contract.py:115",
+        "tests/contract/test_adapter_contract.py:120",
+        "tests/contract/test_adapter_contract.py:168",
+        "tests/contract/test_adapter_contract.py:172",
+        "wsip/methods/base.py:44",
+        "wsip/methods/base.py:50"
+      ],
+      "choice": "extend_contract_for_named",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:45:16Z",
+      "note": "PROVISIONAL: single-mode adapters (CLAM) must be checked exactly as today; to be confirmed by Van."
+    },
+    "extension_no_selected_epoch_behavior": {
+      "question": "With strict '>' against an initial best of 0 inside the late-epoch window, the original can finish with no selected epoch (best_epoch -1, no saved model). What should a WSIP run do then?",
+      "required": true,
+      "options": [
+        {
+          "id": "fail_run",
+          "label": "Fail the run loudly",
+          "consequence": "No selected.pt is published; the run is marked failed with a clear reason."
+        },
+        {
+          "id": "select_last_eligible_recorded",
+          "label": "Select the last eligible epoch and record it",
+          "consequence": "A model is always exported, but the rule differs from the original and appears in reference_diff."
+        },
+        {
+          "id": "initial_best_minus_infinity",
+          "label": "Use initial best -inf instead of 0",
+          "consequence": "Some eligible epoch is always selected; this is a recorded scientific change to the selection rule."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "M:Main_DTFD_MIL.py:110-145",
+        "W:wsip/worker/run.py:104-108"
+      ],
+      "choice": "fail_run",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:18Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    },
+    "extension_final_validation_predictions_policy": {
+      "question": "Evaluation draws random pseudo-bag splits from the shared Python stream, so re-evaluating the selected weights after training gives different predictions from those used for selection. Which validation predictions should the run export?",
+      "required": true,
+      "options": [
+        {
+          "id": "selected_epoch",
+          "label": "Export the selected epoch's stored predictions",
+          "consequence": "Exported predictions and metrics equal the ones that drove selection; checkpoints store one validation result."
+        },
+        {
+          "id": "reevaluate_and_record",
+          "label": "Re-evaluate and mark as redrawn",
+          "consequence": "Predictions come from a fresh draw after training and may differ from the selected-epoch metrics; the difference is recorded."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "M:Main_DTFD_MIL.py:192-196",
+        "W:wsip/worker/run.py:108-113"
+      ],
+      "choice": "selected_epoch",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:18Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    },
+    "extension_named_optimizers": {
+      "question": "Approve WSIP extension proposal `named_optimizers`: Optional named optimizers over disjoint parameter sets (setting `optimizers`, default `single`; closes optim.count=2, optim.param_groups=by_module). Details: extension/proposals/named_optimizers.md",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve as proposed",
+          "consequence": "The builder implements it behind its setting; defaults keep current behavior."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "Not built; the gap stays open and the adapter must cope without it."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "W:wsip/training/session.py:49-53",
+        "W:wsip/training/session.py:111-117",
+        "W:wsip/training/session.py:119-124"
+      ],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:18Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    },
+    "extension_ordered_update_phases": {
+      "question": "Approve WSIP extension proposal `ordered_update_phases`: Optional ordered update phases, each with its own objective and named optimizer (setting `update_phases`, default `single`; closes optim.update_order=sequential, pseudo_bag.tier_coupling=separate_optimizers, training.phases=custom_update). Details: extension/proposals/ordered_update_phases.md",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve as proposed",
+          "consequence": "The builder implements it behind its setting; defaults keep current behavior."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "Not built; the gap stays open and the adapter must cope without it."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "W:wsip/training/session.py:81-93",
+        "W:wsip/training/session.py:99-105"
+      ],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:18Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    },
+    "extension_gradient_clipping_groups": {
+      "question": "Approve WSIP extension proposal `gradient_clipping_groups`: Optional per-parameter-group gradient norm clipping between backward and step (setting `gradient_clipping_mode`, default `none`; closes optim.gradient_clipping=norm). Details: extension/proposals/gradient_clipping_groups.md",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve as proposed",
+          "consequence": "The builder implements it behind its setting; defaults keep current behavior."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "Not built; the gap stays open and the adapter must cope without it."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "W:wsip/training/session.py:49-52",
+        "W:wsip/training/session.py:82-87"
+      ],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:18Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    },
+    "extension_zero_grad_timing": {
+      "question": "Approve WSIP extension proposal `zero_grad_timing`: Optional gradient zeroing right before backward (setting `zero_grad_timing`, default `after_step`; closes batching.zero_grad=before_backward). Details: extension/proposals/zero_grad_timing.md",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve as proposed",
+          "consequence": "The builder implements it behind its setting; defaults keep current behavior."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "Not built; the gap stays open and the adapter must cope without it."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "W:wsip/training/session.py:50-52",
+        "W:wsip/training/session.py:82-87"
+      ],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:18Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    },
+    "extension_epoch_lr_schedule": {
+      "question": "Approve WSIP extension proposal `epoch_lr_schedule`: Optional per-epoch learning-rate schedulers stepped after validation and selection (setting `lr_schedule_step`, default `none`; closes lr_schedule.type=step, lr_schedule.step_unit=per_epoch). Details: extension/proposals/epoch_lr_schedule.md",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve as proposed",
+          "consequence": "The builder implements it behind its setting; defaults keep current behavior."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "Not built; the gap stays open and the adapter must cope without it."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "W:wsip/training/session.py:49-52",
+        "W:wsip/training/session.py:94-109",
+        "W:wsip/training/session.py:111-117",
+        "W:wsip/training/session.py:119-124"
+      ],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:19Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    },
+    "extension_validation_metric_selection": {
+      "question": "Approve WSIP extension proposal `validation_metric_selection`: Optional checkpoint selection on a named validation metric with an eligibility window (setting `selection_metric`, default `validation_loss`; closes selection.checkpoint=best_val_metric). Details: extension/proposals/validation_metric_selection.md",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve as proposed",
+          "consequence": "The builder implements it behind its setting; defaults keep current behavior."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "Not built; the gap stays open and the adapter must cope without it."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "W:wsip/training/policies.py:5-27",
+        "W:wsip/training/session.py:65",
+        "W:wsip/training/session.py:94-98",
+        "W:wsip/training/session.py:111-125",
+        "W:wsip/worker/run.py:104-108"
+      ],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:19Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    },
+    "extension_python_shuffle_sampler": {
+      "question": "Approve WSIP extension proposal `python_shuffle_sampler`: Optional bag-order sampler drawn from the seeded Python random stream (setting `loader_sampling`, default `random`; closes sampling.bag_order=shuffled_custom). Details: extension/proposals/python_shuffle_sampler.md",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve as proposed",
+          "consequence": "The builder implements it behind its setting; defaults keep current behavior."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "Not built; the gap stays open and the adapter must cope without it."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "W:wsip/training/session.py:29-30",
+        "W:wsip/training/session.py:54-63"
+      ],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:19Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    },
+    "extension_selected_epoch_validation_predictions": {
+      "question": "Approve WSIP extension proposal `selected_epoch_validation_predictions`: Optional export of the selected epoch's validation predictions instead of a redrawn re-evaluation (setting `final_validation_predictions`, default `reevaluate`; closes sampling.eval_randomness=random). Details: extension/proposals/selected_epoch_validation_predictions.md",
+      "required": true,
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve as proposed",
+          "consequence": "The builder implements it behind its setting; defaults keep current behavior."
+        },
+        {
+          "id": "reject",
+          "label": "Reject",
+          "consequence": "Not built; the gap stays open and the adapter must cope without it."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "W:wsip/training/session.py:94-98",
+        "W:wsip/training/session.py:111-117",
+        "W:wsip/training/session.py:119-127",
+        "W:wsip/worker/run.py:104-113"
+      ],
+      "choice": "approve",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:20:19Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; opt-in, default keeps current behavior (CLAM/DSMIL unchanged); to be confirmed by Van."
+    }
+  }
+}

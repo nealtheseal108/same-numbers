@@ -1,0 +1,435 @@
+{
+  "schema": "wsip.integration.answers/v1",
+  "instructions": "For each decision set 'choice' to an option id (or \"other\" with 'other_text'), or run `python -m wsip.integration answer 20261026-transmil-binary-01 --interactive`; then run `python -m wsip.integration resume 20261026-transmil-binary-01`. Required decisions must be answered before the report can be final.",
+  "decisions": {
+    "reference_output_configuration": {
+      "question": "Which output head defines the binary reference: 2 logits with cross-entropy (original) or a single logit with BCE?",
+      "required": true,
+      "options": [
+        {
+          "id": "two_logit_ce",
+          "label": "2 logits + CrossEntropy (original)",
+          "consequence": "Exact parity with the original is possible; WSIP metrics use the column for positive_class."
+        },
+        {
+          "id": "single_logit_bce",
+          "label": "Single logit + BCE",
+          "consequence": "A scientific change; parity with the original's outputs and gradients is lost and must be recorded as a deviation."
+        }
+      ],
+      "recommended": {
+        "option": "two_logit_ce",
+        "reason": "The original config and loss use n_classes=2 with CrossEntropyLoss, and WSIP supports class_index."
+      },
+      "evidence": [
+        "T:Camelyon/TransMIL.yaml:33-34",
+        "T:models/TransMIL.py:56",
+        "W:wsip/tasks/classification.py:23-25"
+      ],
+      "choice": "two_logit_ce",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:57Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "feature_dimension": {
+      "question": "The original hard-codes Linear(1024, 512). Should the port require 1024-d features or take the width from task embed_dim?",
+      "required": true,
+      "options": [
+        {
+          "id": "require_1024",
+          "label": "Require 1024-d features",
+          "consequence": "Identical to the original; the lab must use a 1024-d extractor such as CLAM ResNet-50."
+        },
+        {
+          "id": "embed_dim_reference_1024",
+          "label": "Width from embed_dim, parity at 1024",
+          "consequence": "Lab encoders of other widths can run; only the 1024 configuration is certified against the original."
+        }
+      ],
+      "recommended": {
+        "option": "embed_dim_reference_1024",
+        "reason": "WSIP already passes embed_dim to the adapter, and parity can still be proven at 1024."
+      },
+      "evidence": [
+        "T:models/TransMIL.py:50",
+        "W:wsip/methods/clam/integration.py:11"
+      ],
+      "choice": "embed_dim_reference_1024",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:57Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "padding_fidelity": {
+      "question": "Should the port reproduce square padding by repeating the first instances (order-dependent), or mask or remove the padded tokens?",
+      "required": true,
+      "options": [
+        {
+          "id": "reproduce_original",
+          "label": "Repeat the first add_length tokens (original)",
+          "consequence": "Exact parity; outputs depend on row order, so feature extraction order becomes part of the experiment."
+        },
+        {
+          "id": "mask_padding",
+          "label": "Mask or remove padded tokens",
+          "consequence": "A scientific change to the method; parity is lost and the result is a TransMIL variant."
+        }
+      ],
+      "recommended": {
+        "option": "reproduce_original",
+        "reason": "WSIP readers preserve row order, so the original behavior can be reproduced exactly."
+      },
+      "evidence": [
+        "T:models/TransMIL.py:65-69",
+        "W:wsip/data/features.py:1"
+      ],
+      "choice": "reproduce_original",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:57Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "cpu_vs_gpu": {
+      "question": "Is a CPU, FP32 run of a patched reference (with .cuda() removed and no AMP) acceptable as the reference, or is GPU AMP parity required?",
+      "required": true,
+      "options": [
+        {
+          "id": "cpu_fp32_patched",
+          "label": "CPU FP32 reference with recorded patches",
+          "consequence": "Works with today's session; exact parity is testable, but the result differs from the published 16-bit GPU runs."
+        },
+        {
+          "id": "gpu_amp_extension",
+          "label": "Extend WSIP with GPU + AMP",
+          "consequence": "Matches the original's numerics; needs GPU workers, GradScaler state and tolerance-based parity, which is substantial work."
+        },
+        {
+          "id": "cpu_parity_plus_gpu_check",
+          "label": "CPU parity, plus a one-off GPU AMP comparison",
+          "consequence": "Exact CPU parity for the port, plus a recorded estimate of the AMP effect on metrics from the original."
+        }
+      ],
+      "recommended": {
+        "option": "cpu_fp32_patched",
+        "reason": "WSIP is CPU/FP32 only today, and the precision change can be recorded explicitly."
+      },
+      "evidence": [
+        "T:models/TransMIL.py:73",
+        "T:Camelyon/TransMIL.yaml:4-6",
+        "W:wsip/training/session.py:50-52",
+        "W:docs/integrating-methods.md:43-45"
+      ],
+      "choice": "cpu_fp32_patched",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:57Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "gradient_accumulation": {
+      "question": "Extend the WSIP session for accumulate_grad_batches=2, or train with one bag per optimizer step and record the difference?",
+      "required": true,
+      "options": [
+        {
+          "id": "extend_session",
+          "label": "Add accumulation support to the session",
+          "consequence": "Faithful RAdam/Lookahead step counts; needs a session change, a tail-batch rule and resumable accumulation state."
+        },
+        {
+          "id": "accumulation_one",
+          "label": "Run with accumulation 1, record as deviation",
+          "consequence": "No session change; doubles the optimizer steps and shifts Lookahead sync, so the trajectory no longer matches the original."
+        }
+      ],
+      "recommended": {
+        "option": "extend_session",
+        "reason": "The original's optimizer schedule depends on 2-bag steps."
+      },
+      "evidence": [
+        "T:Camelyon/TransMIL.yaml:10",
+        "T:train.py:63",
+        "W:wsip/methods/base.py:25"
+      ],
+      "choice": "extend_session",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:57Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "optimizer_fidelity": {
+      "question": "How should the port obtain Lookahead(RAdam) with lr 2e-4 and weight decay 1e-5 (no decay on biases and 1-D params)?",
+      "required": true,
+      "options": [
+        {
+          "id": "clean_reimplementation",
+          "label": "Reimplement RAdam + Lookahead",
+          "consequence": "Avoids license problems; must reproduce the shared step buffer, lazy slow buffers and decay order, proven by a parity test."
+        },
+        {
+          "id": "timm_apache",
+          "label": "Use timm's Apache-2.0 RAdam/Lookahead (timm 0.9.8 already pinned)",
+          "consequence": "No copying of TransMIL code; timm's newer versions may differ (e.g. slow-buffer initialization), so they must pass the same parity test."
+        },
+        {
+          "id": "substitute_adamw",
+          "label": "Substitute AdamW",
+          "consequence": "Simplest; a scientific change that breaks optimizer parity and must be reported as a variant."
+        }
+      ],
+      "recommended": {
+        "option": "clean_reimplementation",
+        "reason": "It gives exact control over the behaviors that parity depends on, without license exposure."
+      },
+      "evidence": [
+        "T:MyOptimizer/optim_factory.py:25-37",
+        "T:MyOptimizer/radam.py:54-74",
+        "T:MyOptimizer/lookahead.py:34-39",
+        "W:environments/clam-baseline.txt:12"
+      ],
+      "choice": "clean_reimplementation",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:57Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "selection_rule": {
+      "question": "Keep the original's early stopping (val_loss, patience 10, strict improvement, no minimum epoch, max 200), or use WSIP's current rule (patience 20, stop only after epoch 50, ties go to the later epoch)?",
+      "required": true,
+      "options": [
+        {
+          "id": "original_rule",
+          "label": "Patience 10, strict, no minimum epoch (original)",
+          "consequence": "Needs SelectionPolicy to be parameterized; the selected and stopping epochs can match the original."
+        },
+        {
+          "id": "wsip_default",
+          "label": "WSIP's current SelectionPolicy",
+          "consequence": "No change needed; training runs longer and may select a different epoch, recorded as a deviation."
+        }
+      ],
+      "recommended": {
+        "option": "original_rule",
+        "reason": "Checkpoint selection is a scientific setting that AGENTS.md forbids silently altering."
+      },
+      "evidence": [
+        "T:utils/utils.py:43-60",
+        "W:wsip/training/policies.py:8-9",
+        "W:wsip/training/policies.py:20-26"
+      ],
+      "choice": "original_rule",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:57Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "kappa_metric": {
+      "question": "Cohen's kappa (and macro recall/precision) are reported by the original but not computed by WSIP. Add them, or omit them and record the omission?",
+      "required": false,
+      "options": [
+        {
+          "id": "add_metrics",
+          "label": "Add kappa, macro recall and macro precision",
+          "consequence": "The full set of original metrics can be compared; needs a classification.py change with undefined-case handling."
+        },
+        {
+          "id": "omit_record",
+          "label": "Omit them and record the gap",
+          "consequence": "No WSIP change; comparisons use only AUROC, accuracy and F1."
+        }
+      ],
+      "recommended": {
+        "option": "add_metrics",
+        "reason": "Kappa is one of the original's reported metrics and is cheap to add."
+      },
+      "evidence": [
+        "T:models/model_interface.py:54-62",
+        "W:wsip/tasks/classification.py:16-19"
+      ],
+      "choice": "omit_record",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:57Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "feature_precision": {
+      "question": "The stored dtype of the feature files is unknown, and WSIP accepts only FP32 PT tensors. How should non-FP32 features be handled?",
+      "required": true,
+      "options": [
+        {
+          "id": "require_fp32",
+          "label": "Require FP32 files; fail otherwise",
+          "consequence": "No converter; runs fail loudly if the lab's .pt files are FP16."
+        },
+        {
+          "id": "offline_convert",
+          "label": "Convert offline to FP32 with recorded digests",
+          "consequence": "Matches the original's .float() cast exactly; adds a converter and new feature digests."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "T:models/TransMIL.py:61",
+        "W:wsip/data/features.py:77-78"
+      ],
+      "choice": "require_fp32",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:58Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "reference_scheme": {
+      "question": "Which evaluation scheme defines the reference result?",
+      "required": true,
+      "options": [
+        {
+          "id": "fold0_official_test",
+          "label": "Shipped fold0.csv with the official Camelyon16 test set",
+          "consequence": "Directly comparable with the original; needs the new test-evaluation job and Camelyon16 features."
+        },
+        {
+          "id": "lab_single_split",
+          "label": "One lab split, validation and test only",
+          "consequence": "Runs on lab data with today's single-fold control; not comparable with published numbers."
+        },
+        {
+          "id": "lab_kfold",
+          "label": "Lab k-fold cross-validation",
+          "consequence": "Better estimates; needs Ray CV, which is later work in WSIP. The original never used nfold."
+        }
+      ],
+      "recommended": {
+        "option": "fold0_official_test",
+        "reason": "It is the only scheme the original actually ran."
+      },
+      "evidence": [
+        "T:datasets/camel_data.py:21",
+        "T:Camelyon/TransMIL.yaml:22",
+        "W:wsip/worker/run.py:109-113"
+      ],
+      "choice": "fold0_official_test",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:58Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "patient_level_folds": {
+      "question": "Are patient-level splits required for the lab's dataset?",
+      "required": true,
+      "options": [
+        {
+          "id": "patient_grouped",
+          "label": "Require patient_id on every record",
+          "consequence": "WSIP enforces no patient leakage and marks isolation as verified; patient IDs are needed."
+        },
+        {
+          "id": "slide_level",
+          "label": "Slide-level splits as in the original",
+          "consequence": "Matches the original; leakage risk if patients have several slides; isolation stays unverified."
+        }
+      ],
+      "recommended": {
+        "option": "patient_grouped",
+        "reason": "The manifest already enforces patient isolation when patient_id is supplied."
+      },
+      "evidence": [
+        "T:datasets/camel_data.py:27-36",
+        "W:wsip/data/manifest.py:59-67"
+      ],
+      "choice": "patient_grouped",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:58Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "license_use": {
+      "question": "The README states GPLv3 plus a non-commercial restriction and there is no LICENSE file. How may WSIP use the code?",
+      "required": true,
+      "options": [
+        {
+          "id": "reimplement",
+          "label": "Reimplement; use the original only as an external oracle",
+          "consequence": "No license contamination; parity tests carry the fidelity burden."
+        },
+        {
+          "id": "ask_authors",
+          "label": "Ask the authors to clarify before deciding",
+          "consequence": "Delays copying decisions; reimplementation work can proceed meanwhile."
+        },
+        {
+          "id": "copy_gplv3",
+          "label": "Copy under GPLv3",
+          "consequence": "Copyleft is unsupported for vendoring in WSIP and conflicts with the non-commercial clause; this needs a project-level license decision."
+        }
+      ],
+      "recommended": {
+        "option": "reimplement",
+        "reason": "The license statement is contradictory and WSIP cannot vendor copyleft code."
+      },
+      "evidence": [
+        "T:README.md:90",
+        "W:AGENTS.md:16"
+      ],
+      "choice": "reimplement",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:58Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "reference_versions": {
+      "question": "Which library versions define the reference run?",
+      "required": true,
+      "options": [
+        {
+          "id": "requirements_pins",
+          "label": "requirements.txt (Lightning 1.2.3, torch 1.7.1)",
+          "consequence": "Follows the declared pins; accumulation, AMP and EarlyStopping internals follow 1.2.3."
+        },
+        {
+          "id": "readme_tested",
+          "label": "README tested versions (Lightning 1.5.10, torch 1.10.1)",
+          "consequence": "Follows what the authors say they ran; conflicts with requirements.txt and may change deterministic=True semantics."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "T:requirements.txt:12",
+        "T:README.md:41",
+        "T:README.md:52"
+      ],
+      "choice": "other",
+      "other_text": "Neither pinned set installs beside WSIP's Python 3.11 / torch 2.11. The reference runs with torch 2.11.0, pytorch-lightning 1.9.5, torchmetrics 0.7.3, nystrom-attention 0.0.9, einops 0.3.0 (pinned in .reference-work/venvs/transmil); record the version difference as a known deviation.",
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:58Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "evaluation_randomness": {
+      "question": "The reference config uses data_shuffle False, so evaluation is deterministic. Should the port also support data_shuffle True, which permutes instances randomly in evaluation as well?",
+      "required": false,
+      "options": [
+        {
+          "id": "deterministic_only",
+          "label": "Support only data_shuffle False",
+          "consequence": "Matches the reference config; evaluation is deterministic."
+        },
+        {
+          "id": "support_shuffle",
+          "label": "Also support data_shuffle True",
+          "consequence": "Needs eval_randomness support and Python random reseeding (count*50) to be reproduced; random evaluation changes predictions."
+        }
+      ],
+      "recommended": {
+        "option": "deterministic_only",
+        "reason": "The shipped config disables shuffling."
+      },
+      "evidence": [
+        "T:Camelyon/TransMIL.yaml:18",
+        "T:models/model_interface.py:147-150"
+      ],
+      "choice": "deterministic_only",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T16:56:58Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    }
+  }
+}

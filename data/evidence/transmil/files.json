@@ -1,0 +1,464 @@
+{
+ "method": "TransMIL",
+ "run": "20261026-transmil-binary-01",
+ "classifier": "wsip/integration/changes.py",
+ "commit": "a2dc88d",
+ "counts": {
+  "addon": 10,
+  "framework": 11
+ },
+ "files": [
+  {
+   "path": "docs/shared-engine.md",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 2,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 2,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Rewrites two paragraphs to describe opt-in gradient accumulation and its checkpoint rules."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "pyproject.toml",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 1,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 1,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "Adds a package-data line for `wsip.methods.transmil`."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "tests/contract/cases/transmil.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 32,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 32,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/methods/test_transmil.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 166,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 166,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New unit tests of the TransMIL descriptor, resolver, dispatch and optimizer."
+   ],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/parity/test_transmil_parity.py",
+   "category": "A",
+   "stages": [
+    "Compare"
+   ],
+   "added": 684,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage5.accepted.patch",
+     "stage": "Compare",
+     "added": 684,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/parity/transmil_parity.json",
+   "category": "A",
+   "stages": [
+    "Compare"
+   ],
+   "added": 32,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage5.accepted.patch",
+     "stage": "Compare",
+     "added": 32,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "tests/training/conftest.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 2,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 2,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Lets the shared test fixture build an integration class other than CLAM."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "tests/training/test_accumulation.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework"
+   ],
+   "added": 277,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 277,
+     "removed": 0
+    }
+   ],
+   "notes": [
+    "New tests: accumulated steps equal the mean-gradient update, the partial last group follows the declared rule, and resume matches an uninterrupted run."
+   ],
+   "reason": "a new file outside the method's adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/core/jobs.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 9,
+   "removed": 5,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 9,
+     "removed": 5
+    }
+   ],
+   "notes": [
+    "Replaces the `method != 'clam'` check and the direct `resolve_clam` call with a `RESOLVERS` table that also holds each method's default seed."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/methods/registry.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 6,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 6,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Adds the TransMIL descriptor and a `_DESCRIPTORS` table, and rewrites `describe()` to look methods up in it."
+   ],
+   "reason": "edits the registration point beyond adding entries: line 19: a new top-level name may only hold a MethodDescriptor(...) call; line 22: adds a FunctionDef statement (registration adds entries only, no code); changes or removes the existing statement at line 18",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/methods/transmil/__init__.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 1,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 1,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/transmil/defaults/reference.json",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 52,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 52,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/transmil/integration.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 106,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 106,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/transmil/model.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 162,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 162,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/transmil/optim.py",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 109,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 109,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/methods/transmil/provenance.json",
+   "category": "A",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 26,
+   "removed": 0,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 26,
+     "removed": 0
+    }
+   ],
+   "notes": [],
+   "reason": "inside the transmil adapter area",
+   "status": "added"
+  },
+  {
+   "path": "wsip/orchestration/config.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 102,
+   "removed": 6,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 102,
+     "removed": 6
+    }
+   ],
+   "notes": [
+    "Moves task validation out of `resolve_clam` into `_validate_task`, then adds `resolve_transmil` and its validator to the shared file."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/orchestration/control.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 4,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 4,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Refuses a manifest without patient IDs when the resolved profile sets `require_patient_ids`."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/training/policies.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 25,
+   "removed": 3,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 25,
+     "removed": 3
+    }
+   ],
+   "notes": [
+    "Adds `SelectionPolicy.from_config` and a `strict_improvement` option, and allows `stop_epoch=None`, to match Lightning early stopping."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/training/session.py",
+   "category": "B",
+   "stages": [
+    "Extend the framework",
+    "Write the add-on"
+   ],
+   "added": 42,
+   "removed": 8,
+   "parts": [
+    {
+     "patch": "extension.accepted.patch",
+     "stage": "Extend the framework",
+     "added": 41,
+     "removed": 7
+    },
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 1,
+     "removed": 1
+    }
+   ],
+   "notes": [
+    "Implements gradient accumulation: objectives divided by N, a step every N bags, the partial last group, an `after_backward` observer event, and a checkpoint field.",
+    "One line: builds the policy with `SelectionPolicy.from_config` so a profile can set its options."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  },
+  {
+   "path": "wsip/worker/run.py",
+   "category": "B",
+   "stages": [
+    "Write the add-on"
+   ],
+   "added": 14,
+   "removed": 2,
+   "parts": [
+    {
+     "patch": "stage4.accepted.patch",
+     "stage": "Write the add-on",
+     "added": 14,
+     "removed": 2
+    }
+   ],
+   "notes": [
+    "Adds `integration_class` for dispatch on the method name, and the same patient-ID check as control."
+   ],
+   "reason": "edits an existing framework file",
+   "status": "modified"
+  }
+ ]
+}

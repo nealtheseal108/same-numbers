@@ -1,0 +1,17 @@
+{
+ "schema": "wsip.reviewed_harnesses/v1",
+ "description": "Methods with a reviewed candidate harness, upstream runner and comparison specification. Pipeline stage 5 reads this file from the reviewed WSIP base commit (never from the candidate's scratch tree). A method listed here has its stage-5 acceptance decided by the protected verifier; a method not listed is recorded as unverified (no reviewed harness). Adding an entry needs the same human review as the harness, runner and specification it names.",
+ "methods": {
+  "clam": {
+   "method": "CLAM",
+   "runner": "clam_slice",
+   "spec": "references/comparison-specs/clam_sb_binary.json",
+   "candidate_harness": "tools/clam_candidate_harness.py",
+   "reference_runner": "tools/clam_reference.py",
+   "notes": [
+    "single-branch binary CLAM on the synthetic CPU fixture (wsip.integration.verification)",
+    "the reference review record must be approved by a person before the verdict can be accepted"
+   ]
+  }
+ }
+}

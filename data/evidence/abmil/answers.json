@@ -1,0 +1,403 @@
+{
+  "schema": "wsip.integration.answers/v1",
+  "instructions": "For each decision set 'choice' to an option id (or \"other\" with 'other_text'), or run `python -m wsip.integration answer 20261026-abmil-binary-01 --interactive`; then run `python -m wsip.integration resume 20261026-abmil-binary-01`. Required decisions must be answered before the report can be final.",
+  "decisions": {
+    "feature_input_adapter": {
+      "question": "The original trains a LeNet image encoder from scratch on raw 28x28 images; the lab has precomputed feature bags. What replaces feature_extractor_part1/part2 in both the port and the reference?",
+      "required": true,
+      "options": [
+        {
+          "id": "linear_relu_to_500",
+          "label": "Linear(D,500)+ReLU, then attention (M=500, L=128)",
+          "consequence": "Keeps the original attention/classifier widths and the trainable part2 shape; part1 is dropped and recorded as a scientific change."
+        },
+        {
+          "id": "identity_m_equals_d",
+          "label": "Feed features directly with M=D",
+          "consequence": "No trainable instance embedding; attention and classifier widths follow the encoder dimension, departing further from the original."
+        },
+        {
+          "id": "lab_chosen_width",
+          "label": "Linear(D,M)+ReLU with a lab-chosen M",
+          "consequence": "Adds a resolver parameter; the reference must be patched with the same M."
+        },
+        {
+          "id": "extend_wsip_raw_tiles",
+          "label": "Extend WSIP to train end-to-end on raw tiles",
+          "consequence": "Faithful to the original CNN but needs raw-input, tile I/O and encoder-training contract extensions WSIP lists as unsupported."
+        }
+      ],
+      "recommended": {
+        "option": "linear_relu_to_500",
+        "reason": "It keeps everything after the CNN identical to A:model.py:22-36 and fits the feature-bag contract."
+      },
+      "evidence": [
+        "A:model.py:13-25",
+        "A:model.py:9-10",
+        "W:wsip/data/features.py:89-90",
+        "W:docs/integrating-methods.md:5-7"
+      ],
+      "choice": "linear_relu_to_500",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:15Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "reference_output_configuration": {
+      "question": "Which model variant defines the reference: plain attention (main.py default) or gated attention?",
+      "required": true,
+      "options": [
+        {
+          "id": "attention",
+          "label": "Plain attention (default)",
+          "consequence": "Matches main.py defaults; one parity case."
+        },
+        {
+          "id": "gated_attention",
+          "label": "Gated attention",
+          "consequence": "Matches the paper's gated variant; a non-default reference that must be recorded in reference_diff."
+        },
+        {
+          "id": "both_selectable",
+          "label": "Both, selectable via config",
+          "consequence": "Two parity cases and a 'model' enum in the resolver; default stays attention."
+        }
+      ],
+      "recommended": {
+        "option": "both_selectable",
+        "reason": "Both share the encoder, head and loss in A:model.py, so the extra parity case is cheap and the default stays faithful."
+      },
+      "evidence": [
+        "A:main.py:36",
+        "A:main.py:70-73",
+        "A:model.py:93-103"
+      ],
+      "choice": "attention",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "loss_form": {
+      "question": "Copy the clamped-probability Bernoulli NLL exactly, or use BCEWithLogits on a logit output?",
+      "required": false,
+      "options": [
+        {
+          "id": "copy_clamped_nll",
+          "label": "Copy clamped-probability NLL",
+          "consequence": "Exact parity, including zero gradients for saturated predictions."
+        },
+        {
+          "id": "bce_with_logits",
+          "label": "BCEWithLogits on the pre-sigmoid logit",
+          "consequence": "More numerically stable; diverges from the reference whenever p leaves [1e-5, 1-1e-5], so it is a recorded scientific change."
+        }
+      ],
+      "recommended": {
+        "option": "copy_clamped_nll",
+        "reason": "AGENTS.md forbids silently altering losses, and parity needs the original operations."
+      },
+      "evidence": [
+        "A:model.py:64-70",
+        "W:AGENTS.md:33"
+      ],
+      "choice": "copy_clamped_nll",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "validation_and_selection": {
+      "question": "The original trains a fixed 20 epochs with no validation split and scores the last-epoch weights. What selection rule should WSIP use?",
+      "required": true,
+      "options": [
+        {
+          "id": "last_epoch_fixed",
+          "label": "Last epoch after fixed max_epochs (early_stopping off)",
+          "consequence": "Matches the original; validation is computed but does not select."
+        },
+        {
+          "id": "best_val_loss",
+          "label": "Best validation loss with patience",
+          "consequence": "Supported by SelectionPolicy today; departs from the original and must be recorded."
+        },
+        {
+          "id": "best_val_auroc",
+          "label": "Best validation AUROC",
+          "consequence": "Needs a SelectionPolicy extension (metric-based selection)."
+        }
+      ],
+      "recommended": {
+        "option": "last_epoch_fixed",
+        "reason": "It is the original behaviour, and SelectionPolicy with early_stopping False already reproduces it."
+      },
+      "evidence": [
+        "A:main.py:140-145",
+        "A:README.md:27",
+        "W:wsip/training/policies.py:20-27"
+      ],
+      "choice": "last_epoch_fixed",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "hyperparameters": {
+      "question": "Keep the MNIST defaults (Adam lr 5e-4, weight_decay 1e-4, 20 epochs) as the reference profile for pathology features?",
+      "required": true,
+      "options": [
+        {
+          "id": "repo_defaults",
+          "label": "Keep repository defaults",
+          "consequence": "Faithful reference profile; may underfit or overfit pathology features."
+        },
+        {
+          "id": "paper_histopathology",
+          "label": "Paper's histopathology settings (confirm from the paper)",
+          "consequence": "Not in this repository; the values must be sourced and recorded as overrides."
+        },
+        {
+          "id": "lab_chosen",
+          "label": "Lab-chosen settings as recorded overrides",
+          "consequence": "Reference stays repo defaults; the lab run carries an explicit reference_diff."
+        }
+      ],
+      "recommended": {
+        "option": "lab_chosen",
+        "reason": "Pin the repo defaults as the reference and apply lab values as visible overrides, as the resolver's reference_diff does."
+      },
+      "evidence": [
+        "A:main.py:16-21",
+        "A:README.md:29",
+        "W:wsip/orchestration/config.py:83-84"
+      ],
+      "choice": "repo_defaults",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "threshold_location": {
+      "question": "Keep the fixed p >= 0.5 rule inside the adapter, or change the decision rule?",
+      "required": false,
+      "options": [
+        {
+          "id": "fixed_ge_half",
+          "label": "Fixed p >= 0.5 (as original)",
+          "consequence": "Exact parity; implemented in the adapter's predicted output."
+        },
+        {
+          "id": "argmax_two_column",
+          "label": "Argmax over the two-column probabilities",
+          "consequence": "Differs only at p == 0.5 (tie goes to column 0); a recorded difference."
+        },
+        {
+          "id": "fit_on_validation",
+          "label": "Fit a threshold on validation",
+          "consequence": "Needs a threshold extension; a scientific change from the original."
+        }
+      ],
+      "recommended": {
+        "option": "fixed_ge_half",
+        "reason": "The original fixes 0.5 at A:model.py:52 and the adapter can reproduce it today."
+      },
+      "evidence": [
+        "A:model.py:52",
+        "W:wsip/evaluation/evaluator.py:28"
+      ],
+      "choice": "fixed_ge_half",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "patient_level_folds": {
+      "question": "The original's split unit is the MNIST image pool. How should the lab's data be split?",
+      "required": true,
+      "options": [
+        {
+          "id": "patient_grouped_single",
+          "label": "Patient-grouped train/val/test split",
+          "consequence": "WSIP checks leakage when patient_id is present; one fold."
+        },
+        {
+          "id": "slide_level_single",
+          "label": "Slide-level split without patient_id",
+          "consequence": "Runs today, but patient_isolation_verified is False and leakage is possible."
+        },
+        {
+          "id": "patient_grouped_kfold",
+          "label": "Patient-grouped k-fold CV",
+          "consequence": "Needs Ray/CV orchestration, which is later work; control runs one fold today."
+        }
+      ],
+      "recommended": {
+        "option": "patient_grouped_single",
+        "reason": "WSIP supports it today and its manifest leakage check depends on patient_id."
+      },
+      "evidence": [
+        "A:dataloader.py:28-45",
+        "W:wsip/data/manifest.py:59-67"
+      ],
+      "choice": "patient_grouped_single",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "reference_scheme": {
+      "question": "What defines the reference result, given that the original only runs MNIST-bags train/test?",
+      "required": true,
+      "options": [
+        {
+          "id": "fixture_parity_only",
+          "label": "Patched original on WSIP synthetic feature fixtures",
+          "consequence": "Proves the port matches the original operations; makes no claim about MNIST or pathology accuracy."
+        },
+        {
+          "id": "fixture_parity_plus_mnist",
+          "label": "Fixture parity, plus an unmodified MNIST-bags run outside WSIP",
+          "consequence": "Also checks that the pinned original reproduces its own published behaviour; extra environment work for torchvision MNIST."
+        },
+        {
+          "id": "lab_dataset_only",
+          "label": "Compare only on the lab dataset",
+          "consequence": "No independent oracle for the patched encoder; weaker fidelity evidence."
+        }
+      ],
+      "recommended": {
+        "option": "fixture_parity_only",
+        "reason": "This matches the CLAM fidelity pattern; the image path cannot run in WSIP anyway."
+      },
+      "evidence": [
+        "A:main.py:49-67",
+        "W:tests/training/test_parity.py:56-70",
+        "W:docs/integrating-methods.md:13-16"
+      ],
+      "choice": "fixture_parity_only",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "zero_grad_timing": {
+      "question": "The original zeroes gradients before the forward pass; WSIP only accepts after_step. How should this be handled?",
+      "required": false,
+      "options": [
+        {
+          "id": "record_equivalence",
+          "label": "Declare after_step and record the equivalence",
+          "consequence": "No session change; per-step gradients are identical because nothing accumulates between steps."
+        },
+        {
+          "id": "extend_recipe",
+          "label": "Extend OptimizationRecipe to accept before_forward",
+          "consequence": "Session change and new tests for a behaviour that does not change results here."
+        }
+      ],
+      "recommended": {
+        "option": "record_equivalence",
+        "reason": "There is one backward per step and no accumulation, so the timing does not affect gradients."
+      },
+      "evidence": [
+        "A:main.py:90-100",
+        "W:wsip/training/session.py:50-52"
+      ],
+      "choice": "record_equivalence",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "dependency_environment": {
+      "question": "The original pins nothing (README says PyTorch 0.3.1 and Python 2.7). Which environment runs the reference?",
+      "required": true,
+      "options": [
+        {
+          "id": "modern_pinned_with_patches",
+          "label": "New pinned lock on current torch/numpy, with recorded compatibility patches",
+          "consequence": "Matches the candidate runtime; np.int and Variable patches are listed separately from scientific changes."
+        },
+        {
+          "id": "legacy_torch_031",
+          "label": "Legacy Python 2.7 / torch 0.3.1 environment",
+          "consequence": "Closest to the authors' setup, but numerics differ from the candidate's torch, so exact parity is impossible."
+        }
+      ],
+      "recommended": {
+        "option": "modern_pinned_with_patches",
+        "reason": "Exact parity needs the same torch kernels, and only the dataloader needs a compatibility patch."
+      },
+      "evidence": [
+        "A:README.md:16-17",
+        "A:dataloader.py:55",
+        "W:environments/clam-cpu.lock:24"
+      ],
+      "choice": "modern_pinned_with_patches",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "cpu_vs_gpu": {
+      "question": "Is a CPU reference run acceptable, or is GPU parity required?",
+      "required": false,
+      "options": [
+        {
+          "id": "cpu_only",
+          "label": "CPU reference (--no-cuda)",
+          "consequence": "Supported today with deterministic algorithms; original CPU path runs unchanged."
+        },
+        {
+          "id": "gpu_parity",
+          "label": "Require GPU parity",
+          "consequence": "Needs GPU worker support, which WSIP lists as later work."
+        }
+      ],
+      "recommended": {
+        "option": "cpu_only",
+        "reason": "The original's CPU path is first-class (--no-cuda) and WSIP is CPU-only."
+      },
+      "evidence": [
+        "A:main.py:34-39",
+        "W:wsip/training/session.py:18"
+      ],
+      "choice": "cpu_only",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    },
+    "evaluation_metrics": {
+      "question": "The original reports only mean error and NLL loss. Which metric is primary for the lab comparison?",
+      "required": false,
+      "options": [
+        {
+          "id": "error_and_loss",
+          "label": "Error (1 - accuracy) and loss, as in the original",
+          "consequence": "Direct comparison with the original; WSIP still computes the others."
+        },
+        {
+          "id": "auroc_primary",
+          "label": "AUROC primary, plus error and loss",
+          "consequence": "Standard for pathology; undefined when a split lacks a class (WSIP marks it invalid)."
+        },
+        {
+          "id": "balanced_accuracy_primary",
+          "label": "Balanced accuracy primary",
+          "consequence": "Robust to class imbalance; not reported by the original."
+        }
+      ],
+      "recommended": null,
+      "evidence": [
+        "A:model.py:57-62",
+        "W:wsip/tasks/classification.py:16-28"
+      ],
+      "choice": "error_and_loss",
+      "other_text": null,
+      "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+      "answered_at": "2026-10-26T17:01:16Z",
+      "note": "PROVISIONAL: answered by the agent running the held-out test at Neal's request; to be confirmed by Neal/Van."
+    }
+  }
+}

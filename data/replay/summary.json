@@ -1,0 +1,10 @@
+{
+ "total_usd": 34.71,
+ "budget_usd": 45,
+ "source": "deliverables/2026-10-26/eval-scripts/heldout_results.json (spend)",
+ "methods": {
+  "transmil": "TransMIL",
+  "abmil": "ABMIL",
+  "dtfd-mil": "DTFD-MIL"
+ }
+}

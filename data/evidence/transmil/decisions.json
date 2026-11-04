@@ -1,0 +1,158 @@
+{
+ "method": "TransMIL",
+ "count": 19,
+ "decisions": [
+  {
+   "id": "reference_output_configuration",
+   "step": "Before any code was written",
+   "question": "Which output head defines the binary reference: 2 logits with cross-entropy (original) or a single logit with BCE?",
+   "choice": "2 logits + CrossEntropy (original)",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:57Z"
+  },
+  {
+   "id": "feature_dimension",
+   "step": "Before any code was written",
+   "question": "The original hard-codes Linear(1024, 512). Should the port require 1024-d features or take the width from task embed_dim?",
+   "choice": "Width from embed_dim, parity at 1024",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:57Z"
+  },
+  {
+   "id": "padding_fidelity",
+   "step": "Before any code was written",
+   "question": "Should the port reproduce square padding by repeating the first instances (order-dependent), or mask or remove the padded tokens?",
+   "choice": "Repeat the first add_length tokens (original)",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:57Z"
+  },
+  {
+   "id": "cpu_vs_gpu",
+   "step": "Before any code was written",
+   "question": "Is a CPU, FP32 run of a patched reference (with .cuda() removed and no AMP) acceptable as the reference, or is GPU AMP parity required?",
+   "choice": "CPU FP32 reference with recorded patches",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:57Z"
+  },
+  {
+   "id": "gradient_accumulation",
+   "step": "Before any code was written",
+   "question": "Extend the WSIP session for accumulate_grad_batches=2, or train with one bag per optimizer step and record the difference?",
+   "choice": "Add accumulation support to the session",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:57Z"
+  },
+  {
+   "id": "optimizer_fidelity",
+   "step": "Before any code was written",
+   "question": "How should the port obtain Lookahead(RAdam) with lr 2e-4 and weight decay 1e-5 (no decay on biases and 1-D params)?",
+   "choice": "Reimplement RAdam + Lookahead",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:57Z"
+  },
+  {
+   "id": "selection_rule",
+   "step": "Before any code was written",
+   "question": "Keep the original's early stopping (val_loss, patience 10, strict improvement, no minimum epoch, max 200), or use WSIP's current rule (patience 20, stop only after epoch 50, ties go to the later epoch)?",
+   "choice": "Patience 10, strict, no minimum epoch (original)",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:57Z"
+  },
+  {
+   "id": "kappa_metric",
+   "step": "Before any code was written",
+   "question": "Cohen's kappa (and macro recall/precision) are reported by the original but not computed by WSIP. Add them, or omit them and record the omission?",
+   "choice": "Omit them and record the gap",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:57Z"
+  },
+  {
+   "id": "feature_precision",
+   "step": "Before any code was written",
+   "question": "The stored dtype of the feature files is unknown, and WSIP accepts only FP32 PT tensors. How should non-FP32 features be handled?",
+   "choice": "Require FP32 files; fail otherwise",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:58Z"
+  },
+  {
+   "id": "reference_scheme",
+   "step": "Before any code was written",
+   "question": "Which evaluation scheme defines the reference result?",
+   "choice": "Shipped fold0.csv with the official Camelyon16 test set",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:58Z"
+  },
+  {
+   "id": "patient_level_folds",
+   "step": "Before any code was written",
+   "question": "Are patient-level splits required for the lab's dataset?",
+   "choice": "Require patient_id on every record",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:58Z"
+  },
+  {
+   "id": "license_use",
+   "step": "Before any code was written",
+   "question": "The README states GPLv3 plus a non-commercial restriction and there is no LICENSE file. How may WSIP use the code?",
+   "choice": "Reimplement; use the original only as an external oracle",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:58Z"
+  },
+  {
+   "id": "reference_versions",
+   "step": "Before any code was written",
+   "question": "Which library versions define the reference run?",
+   "choice": "Neither pinned set installs beside WSIP's Python 3.11 / torch 2.11. The reference runs with torch 2.11.0, pytorch-lightning 1.9.5, torchmetrics 0.7.3, nystrom-attention 0.0.9, einops 0.3.0 (pinned in .reference-work/venvs/transmil); record the version difference as a known deviation.",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:58Z"
+  },
+  {
+   "id": "evaluation_randomness",
+   "step": "Before any code was written",
+   "question": "The reference config uses data_shuffle False, so evaluation is deterministic. Should the port also support data_shuffle True, which permutes instances randomly in evaluation as well?",
+   "choice": "Support only data_shuffle False",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T16:56:58Z"
+  },
+  {
+   "id": "parity_validation_loss_aggregation",
+   "step": "During the build",
+   "question": "WSIP's shared evaluator averages per-slide validation losses in float64, while the original TransMIL sums the per-slide float32 logs and divides in float32. This makes val_loss (the early-stopping and checkpoint monitor) differ by up to one float32 ulp (measured 6e-8, at 1 of 9 epochs). Approve this as a recorded difference, or make the aggregation exact?",
+   "choice": "Approve the 1-ulp recorded difference",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T18:02:28Z"
+  },
+  {
+   "id": "parity_difference_validation_loss_float64_mean",
+   "step": "During the build",
+   "question": "Accept recorded difference `validation_loss_float64_mean`: The epoch validation loss (the early-stopping and checkpoint monitor) is the mean of the per-slide -log softmax[label]. The original stacks the per-slide float32 logs and sums and divides in float32 (utils/utils.py:cross_entropy_torch, logged by models/model_interface.py:validation_epoch_end); WSIP's shared evaluator averages the per-slide float32 losses in float64 (wsip/evaluation/evaluator.py:39). The per-slide losses are identical; only the final rounding of the mean differs. (evidence: ['upstream utils/utils.py:66-70', 'upstream models/model_interface.py:131', 'wsip/evaluation/evaluator.py:39'])",
+   "choice": "Accept and record it",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T18:02:28Z"
+  },
+  {
+   "id": "adapter_transmil_test_split_evaluation",
+   "step": "During the build",
+   "question": "The lab chose the shipped fold0.csv with the official Camelyon16 test set as the reference, but WSIP control withholds test records from fit jobs and the worker scores only the validation split. How should TransMIL's test metrics be produced?",
+   "choice": "Report validation metrics only for now",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:36:33Z"
+  },
+  {
+   "id": "extension_accumulation_tail_rule",
+   "step": "During the build",
+   "question": "When an epoch's bag count is not a multiple of the accumulation factor, what should the shared session do with the last, incomplete group?",
+   "choice": "Step on the partial group, objective still divided by N",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:12:46Z"
+  },
+  {
+   "id": "extension_session_gradient_accumulation",
+   "step": "During the build",
+   "question": "Approve WSIP extension proposal `session_gradient_accumulation`: Opt-in gradient accumulation over N single-bag steps in the shared session (setting `accumulation`, default `1`; closes batching.accumulation_steps=2). Details: extension/proposals/session_gradient_accumulation.md",
+   "choice": "Approve as proposed",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:12:46Z"
+  }
+ ]
+}

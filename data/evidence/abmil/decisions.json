@@ -1,0 +1,102 @@
+{
+ "method": "ABMIL",
+ "count": 12,
+ "decisions": [
+  {
+   "id": "feature_input_adapter",
+   "step": "Before any code was written",
+   "question": "The original trains a LeNet image encoder from scratch on raw 28x28 images; the lab has precomputed feature bags. What replaces feature_extractor_part1/part2 in both the port and the reference?",
+   "choice": "Linear(D,500)+ReLU, then attention (M=500, L=128)",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:15Z"
+  },
+  {
+   "id": "reference_output_configuration",
+   "step": "Before any code was written",
+   "question": "Which model variant defines the reference: plain attention (main.py default) or gated attention?",
+   "choice": "Plain attention (default)",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "loss_form",
+   "step": "Before any code was written",
+   "question": "Copy the clamped-probability Bernoulli NLL exactly, or use BCEWithLogits on a logit output?",
+   "choice": "Copy clamped-probability NLL",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "validation_and_selection",
+   "step": "Before any code was written",
+   "question": "The original trains a fixed 20 epochs with no validation split and scores the last-epoch weights. What selection rule should WSIP use?",
+   "choice": "Last epoch after fixed max_epochs (early_stopping off)",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "hyperparameters",
+   "step": "Before any code was written",
+   "question": "Keep the MNIST defaults (Adam lr 5e-4, weight_decay 1e-4, 20 epochs) as the reference profile for pathology features?",
+   "choice": "Keep repository defaults",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "threshold_location",
+   "step": "Before any code was written",
+   "question": "Keep the fixed p >= 0.5 rule inside the adapter, or change the decision rule?",
+   "choice": "Fixed p >= 0.5 (as original)",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "patient_level_folds",
+   "step": "Before any code was written",
+   "question": "The original's split unit is the MNIST image pool. How should the lab's data be split?",
+   "choice": "Patient-grouped train/val/test split",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "reference_scheme",
+   "step": "Before any code was written",
+   "question": "What defines the reference result, given that the original only runs MNIST-bags train/test?",
+   "choice": "Patched original on WSIP synthetic feature fixtures",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "zero_grad_timing",
+   "step": "Before any code was written",
+   "question": "The original zeroes gradients before the forward pass; WSIP only accepts after_step. How should this be handled?",
+   "choice": "Declare after_step and record the equivalence",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "dependency_environment",
+   "step": "Before any code was written",
+   "question": "The original pins nothing (README says PyTorch 0.3.1 and Python 2.7). Which environment runs the reference?",
+   "choice": "New pinned lock on current torch/numpy, with recorded compatibility patches",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "cpu_vs_gpu",
+   "step": "Before any code was written",
+   "question": "Is a CPU reference run acceptable, or is GPU parity required?",
+   "choice": "CPU reference (--no-cuda)",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  },
+  {
+   "id": "evaluation_metrics",
+   "step": "Before any code was written",
+   "question": "The original reports only mean error and NLL loss. Which metric is primary for the lab comparison?",
+   "choice": "Error (1 - accuracy) and loss, as in the original",
+   "answered_by": "Claude Opus 5.5 (PROVISIONAL, for Neal Parekh / Van Hovenga review)",
+   "answered_at": "2026-10-26T17:01:16Z"
+  }
+ ]
+}
