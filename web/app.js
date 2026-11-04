@@ -265,7 +265,7 @@ function renderAdd() {
     return `<li class="stage" data-id="${st.id}"><div><b>${c.name}</b><small>${c.roles}</small></div><div class="bar"><i></i></div><div class="res"></div></li>`; }).join('');
   $('#panel2').innerHTML = `
     <div class="topline"><h2><span class="stepn">2</span>AI adds it</h2><span>Five stages, seven agent roles.</span></div>
-    <p class="replay">Replay of a recorded run from ${shortDate(d.date)}, sped up ${ev('speed', `${speedOf(d)}x`)}. No AI is running now.</p>
+    <p class="replay">My agents built this on ${shortDate(d.date)}. This is their real run, sped up ${ev('speed', `${speedOf(d)}x`)}.</p>
     <p class="now" id="now" aria-live="polite">The run starts.</p>
     <ol class="stages">${rows}</ol>
     <div class="sofar">
