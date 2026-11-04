@@ -34,6 +34,12 @@ const METHODS = [
     why: 'Each slide becomes several training examples instead of one. That helps most when a lab has only a few hundred slides, which is common for rare cancers.',
     instead: 'Pick ABMIL when the lab has plenty of slides and wants the simplest method. DTFD-MIL has more settings to get right.' },
 ];
+const DATASETS = {
+  'CAMELYON16': { name: 'Lymph nodes from breast cancer patients', ask: 'Has the breast cancer spread to the lymph nodes?', why: 'Spread to the lymph nodes means a more advanced stage, and it changes the treatment.' },
+  'TCGA-NSCLC': { name: 'Non-small cell lung cancer', ask: 'Is it adenocarcinoma or squamous cell carcinoma, the two main types?', why: 'Doctors choose different drugs for the two types.' },
+  'TCGA lung': { name: 'Non-small cell lung cancer', ask: 'Is it adenocarcinoma or squamous cell carcinoma, the two main types?', why: 'Doctors choose different drugs for the two types.' },
+  'TCGA-RCC': { name: 'Kidney cancer', ask: 'Which of three types is it: clear cell, papillary or chromophobe?', why: 'The type changes the outlook and the treatment.' },
+};
 const STAGE_COPY = {
   s12: { name: 'Read the method', roles: 'Analyst, Reviewer', does: 'Reads the published code, cites each fact, and plans every change as add-on or shared.' },
   s3: { name: 'Run the original', roles: 'Reference runner', does: 'Runs the authors’ own code and saves its numbers as the answer key.' },
@@ -749,10 +755,11 @@ function renderSignoff() {
       <h3>Next: ${esc(d.name)} runs on the lab’s slides</h3>
       <p class="adds-lede">In the real tool, a lab member merges these changes. From then on, ${esc(d.name)} runs on the lab’s slides like any other method, and its results sit next to theirs.</p>
       <h4 class="pub-h">What ${esc(d.name)} found on real slides, in published work</h4>
-      <table class="pub"><thead><tr><th>Slide set</th><th>Task</th><th>Accuracy</th><th>AUC</th></tr></thead><tbody>
-        ${curMethod().published.rows.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td class="n">${r[2]}</td><td class="n"><span class="aucbar" style="--v:${Math.max(0, (Number(r[3]) - 0.5) * 2)}"></span>${r[3]}</td></tr>`).join('')}
+      <table class="pub"><thead><tr><th>Slides</th><th>What the model decides, and why it matters</th><th>Accuracy</th><th>AUC</th></tr></thead><tbody>
+        ${curMethod().published.rows.map(r => { const k = DATASETS[r[0]] || { name: r[1], ask: '', why: '' };
+          return `<tr><td><b>${esc(k.name)}</b><small>${esc(r[0])}</small></td><td>${esc(k.ask)}<small>${esc(k.why)}</small></td><td class="n">${r[2]}<small>about ${Math.round(Number(r[2]) * 100)} of 100 slides right</small></td><td class="n"><span class="aucbar" style="--v:${Math.max(0, (Number(r[3]) - 0.5) * 2)}"></span>${r[3]}</td></tr>`; }).join('')}
       </tbody></table>
-      <p class="adds-foot">Source: ${esc(curMethod().published.source)}. These are the authors' results on held-out slides. AUC is 1.0 for a perfect split and 0.5 for a guess. The lab's copy has not been tested on these slide sets yet. That benchmark is the next step.</p>
+      <p class="adds-foot"><b>How to read AUC:</b> take one slide that has the condition and one that does not. AUC is how often the model scores the first one higher. 1.0 is perfect, and 0.5 is a coin flip. Source: ${esc(curMethod().published.source)}. These are the authors' results on slides the model never saw in training. The lab's copy has not been tested on these slide sets yet. That benchmark is the next step.</p>
       <div class="actions"><button class="btn" id="seeRun">See ${esc(d.name)} on a real slide</button></div>
       <p class="adds-foot">The slides are real cancer slides from TCGA, a public archive. The model in this demo is barely trained, so its map shows the code runs. It is not a diagnosis.</p>
     </section>` : ''}
