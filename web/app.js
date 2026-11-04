@@ -35,11 +35,11 @@ const METHODS = [
     instead: 'Pick ABMIL when the lab has plenty of slides and wants the simplest method. DTFD-MIL has more settings to get right.' },
 ];
 const STAGE_COPY = {
-  s12: { name: 'Read the method', roles: 'Analyst, Reviewer' },
-  s3: { name: 'Run the original', roles: 'Reference runner' },
-  sx: { name: 'Extend the framework', roles: 'Planner, Builder' },
-  s4: { name: 'Write the add-on', roles: 'Adapter author' },
-  s5: { name: 'Compare', roles: 'Parity checker' },
+  s12: { name: 'Read the method', roles: 'Analyst, Reviewer', does: 'Reads the published code, cites each fact, and plans every change as add-on or shared.' },
+  s3: { name: 'Run the original', roles: 'Reference runner', does: 'Runs the authors’ own code and saves its numbers as the answer key.' },
+  sx: { name: 'Extend the framework', roles: 'Planner, Builder', does: 'Asks for a shared-code change only when an add-on cannot do the job.' },
+  s4: { name: 'Write the add-on', roles: 'Adapter author', does: 'Writes the method into the lab’s software as add-on code.' },
+  s5: { name: 'Compare', roles: 'Parity checker', does: 'Writes the test that checks the copy against the answer key, and never loosens it.' },
 };
 const ROLE = {
   analyst: ['The analyst', 'An agent is reading the method’s code and citing what it finds.'],
@@ -262,7 +262,7 @@ function enterAdd() {
 function renderAdd() {
   const d = cur(), m = S.summary;
   const rows = d.stages.map(st => { const c = STAGE_COPY[st.id];
-    return `<li class="stage" data-id="${st.id}"><div><b>${c.name}</b><small>${c.roles}</small></div><div class="bar"><i></i></div><div class="res"></div></li>`; }).join('');
+    return `<li class="stage" data-id="${st.id}"><div><b>${c.name}</b><small>${c.roles}</small><small class="does">${c.does}</small></div><div class="bar"><i></i></div><div class="res"></div></li>`; }).join('');
   $('#panel2').innerHTML = `
     <div class="topline"><h2><span class="stepn">2</span>AI adds it</h2><span>Five stages, seven agent roles.</span></div>
     <p class="replay">My agents built this on ${shortDate(d.date)}. This is their real run, sped up ${ev('speed', `${speedOf(d)}x`)}.</p>

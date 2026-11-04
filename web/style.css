@@ -318,3 +318,4 @@ pre.code.tall { max-height: none; }
 #panel4 table.pub td { padding: .3rem .6rem; border-top: 1px solid var(--hema-tint); }
 #panel4 table.pub td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
 #panel4 .aucbar { display: inline-block; width: 6rem; height: .7rem; margin-right: .5rem; vertical-align: middle; background: linear-gradient(90deg, var(--hema) calc(var(--v) * 100%), var(--hema-tint) 0); }
+.stage small.does { display: block; margin-top: .15rem; color: var(--graphite); font-size: 1.1rem; line-height: 1.25; max-width: 26em; }
